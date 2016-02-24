@@ -1,0 +1,160 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shape_search_drawer_background">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/bu2"
+                android:text="@string/search_title"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/text_size_40px" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/bu2"
+                android:background="@color/greyaa" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bu1"
+                android:layout_marginTop="@dimen/bu1"
+                android:text="@string/hint_location_name"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/text_size_30px" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical">
+
+                <Button
+                    android:id="@+id/search_language_button"
+                    android:layout_width="@dimen/bu6"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/bu1" />
+
+                <EditText
+                    android:id="@+id/location_name_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/bu1"
+                    android:layout_marginRight="@dimen/bu1"
+                    android:layout_toLeftOf="@+id/search_language_button"
+                    android:inputType="textVisiblePassword|textCapSentences"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/text_size_30px" />
+
+
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/bu1"
+                android:background="@color/greyaa" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bu1"
+                android:layout_marginRight="@dimen/bu1"
+                android:layout_marginTop="@dimen/bu1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radius"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/text_size_30px" />
+
+                <TextView
+                    android:id="@+id/radius_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/text_size_30px" />
+            </RelativeLayout>
+
+            <SeekBar
+                android:id="@+id/radius_seek_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/bu0_5"
+                android:max="49" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/bu1"
+                android:background="@color/greyaa" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bu1"
+                android:layout_marginRight="@dimen/bu1"
+                android:layout_marginTop="@dimen/bu1">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="@string/types"
+                    android:textColor="@color/dark_grey"
+                    android:textSize="@dimen/text_size_30px" />
+
+                <ImageButton
+                    android:id="@+id/place_types_button"
+                    android:layout_width="@dimen/bu4"
+                    android:layout_height="@dimen/bu4"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/add_button_selector" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/selected_types_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bu1"
+                android:layout_marginRight="@dimen/bu1"
+                android:orientation="vertical" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="@dimen/bu1"
+                android:background="@color/greyaa" />
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/bu4"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/bu1"
+                android:layout_marginTop="@dimen/bu1"
+                android:paddingLeft="@dimen/bu1"
+                android:paddingRight="@dimen/bu1"
+                android:text="@string/search_button"
+                android:textColor="@color/dark_grey"
+                android:textSize="@dimen/text_size_30px" />
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

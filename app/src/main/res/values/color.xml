@@ -1,0 +1,24 @@
+<resources>
+
+    <color name="apptheme_color">#df2b2a</color>
+
+    <color name="transparent">#00000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="white_50">#80FFFFFF</color>
+    <color name="white_80">#CCFFFFFF</color>
+    <color name="grey_80">#CCDDDDDD</color>
+    <color name="black">#000000</color>
+    <color name="black_50">#80000000</color>
+    <color name="red">#FF0000</color>
+    <color name="greyed">#EDEDED</color>
+    <color name="greyaa">#AAAAAA</color>
+    <color name="orange">#FF9900</color>
+
+    <color name="green_lime">#33CC33</color>
+    <color name="light_green_selected">#49E640</color>
+    <color name="medium_green_selected">#37B330</color>
+    <color name="dark_green_selected">#298524</color>
+    <color name="dark_grey">#2B2B2B</color>
+    <color name="pinky_red">#DF2B2A</color>
+
+</resources>

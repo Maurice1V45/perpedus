@@ -1,0 +1,31 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/bu3"
+        android:layout_marginTop="@dimen/bu3"
+        android:background="@drawable/greyed_rounded_shape">
+
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bu5"
+            android:layout_alignParentBottom="true"
+            android:text="@android:string/ok" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/place_types_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ok_button"
+            android:clipToPadding="false"
+            android:paddingBottom="@dimen/bu0_5"
+            android:paddingLeft="@dimen/bu0_5"
+            android:paddingRight="@dimen/bu0_5"
+            android:paddingTop="@dimen/bu0_5" />
+    </RelativeLayout>
+
+</RelativeLayout>

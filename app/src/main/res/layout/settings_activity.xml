@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsActivity">
+
+    <RelativeLayout
+        android:id="@+id/credits_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bu4"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bu1"
+            android:text="@string/settings_credits"
+            android:layout_centerVertical="true"
+            android:textColor="@color/dark_grey"
+            android:textSize="@dimen/text_size_36px" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/greyaa" />
+    </RelativeLayout>
+
+</RelativeLayout>
