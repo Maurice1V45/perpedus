@@ -15,6 +15,18 @@ public class PlaceDetailsResponse {
 
     }
 
+    public class Review {
+
+        @SerializedName("author_name")
+        public String author;
+
+        @SerializedName("text")
+        public String comment;
+
+        @SerializedName("rating")
+        public int rating;
+    }
+
     public class Result {
 
         @SerializedName("name")
@@ -31,6 +43,9 @@ public class PlaceDetailsResponse {
 
         @SerializedName("photos")
         public Photo[] photos;
+
+        @SerializedName("reviews")
+        public Review[] reviews;
 
     }
 

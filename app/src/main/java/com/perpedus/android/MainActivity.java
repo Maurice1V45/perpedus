@@ -165,6 +165,7 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
     private View topSettingsButton;
     private boolean topBarVisible = false;
     private boolean topBarAnimationLocked = false;
+    private int screenWidth;
     private static final float TOP_BAR_HEIGHT = 48f;
     private static final long TOP_BAR_TIMER_LIMIT = 3000;
 
@@ -545,7 +546,14 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
             public void onClick(View v) {
 
                 if (focusedPlace != null) {
-                    DialogUtils.showPlaceDetailsDialog(getFragmentManager(), MainActivity.this, focusedPlace.getPlaceId());
+
+                    // hide views
+                    placesDisplayView.setAlpha(0f);
+                    placeFocusView.setAlpha(0f);
+                    placeDetailsView.setAlpha(0f);
+
+                    // show place details dialog
+                    DialogUtils.showPlaceDetailsDialog(getFragmentManager(), MainActivity.this, focusedPlace.getPlaceId(), screenWidth);
                 }
             }
         });
@@ -571,6 +579,8 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
 
     @Override
     public void onPlacesDisplayViewCreated(int width, int height) {
+
+        screenWidth = width;
 
         // set focused view size
         ViewGroup.LayoutParams layoutParams = placeFocusView.getLayoutParams();
@@ -678,6 +688,15 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
 
         // update search language button
         drawerContent.updateSearchLanguageButton();
+    }
+
+    @Override
+    public void onPlaceDetailsDialogDismiss() {
+
+        // show views
+        placesDisplayView.setAlpha(1f);
+        placeFocusView.setAlpha(1f);
+        placeDetailsView.setAlpha(1f);
     }
 
     /**

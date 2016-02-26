@@ -28,10 +28,11 @@ public class DialogUtils {
         dialog.show(fm, TAG_SEARCH_LANGUAGE_DIALOG);
     }
 
-    public static void showPlaceDetailsDialog(FragmentManager fm, MainActivityListener mainActivityListener, String placeId) {
+    public static void showPlaceDetailsDialog(FragmentManager fm, MainActivityListener mainActivityListener, String placeId, int screenWidth) {
         PlaceDetailsDialog dialog = new PlaceDetailsDialog();
         dialog.setMainActivityListener(mainActivityListener);
         dialog.setPlaceId(placeId);
+        dialog.setScreenWidth(screenWidth);
         dialog.show(fm, TAG_PLACE_DETAILS_DIALOG);
     }
 

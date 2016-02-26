@@ -1,24 +1,33 @@
 package com.perpedus.android.dialog;
 
 import android.app.DialogFragment;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.perpedus.android.R;
+import com.perpedus.android.adapter.PhotosPagerAdapter;
 import com.perpedus.android.dom.PlaceDetailsResponse;
 import com.perpedus.android.listener.MainActivityListener;
 import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.PreferencesUtils;
 import com.perpedus.android.util.UrlUtils;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Dialog for place details
@@ -52,9 +61,35 @@ public class PlaceDetailsDialog extends DialogFragment {
                 nameText.setText(response.result.name);
                 addressText.setText(response.result.address);
                 phoneText.setText(response.result.phone);
-                if (response.result.photos != null) {
-                    Picasso.with(getActivity()).load(UrlUtils.buildPlacePhotoLink(response.result.photos[0].reference)).into(image);
+
+                if (response.result.photos == null) {
+
+                    // show no photos view
+                    noPhotosView.setVisibility(View.VISIBLE);
+                    photosViewPager.setVisibility(View.GONE);
+
+                } else {
+
+                    // show photos pager
+                    noPhotosView.setVisibility(View.GONE);
+                    photosViewPager.setVisibility(View.VISIBLE);
+
+                    // get all photo references
+                    List<String> photoReferences = new ArrayList<String>();
+                    for (PlaceDetailsResponse.Photo photo : response.result.photos) {
+                        photoReferences.add(photo.reference);
+                    }
+
+                    // set up photos adapter
+                    photosPagerAdapter = new PhotosPagerAdapter(getActivity(), photoReferences, screenWidth);
+                    photosViewPager.setAdapter(photosPagerAdapter);
                 }
+
+                // add reviews
+                if (response.result.reviews != null) {
+                    updateReviewsLayout(response.result.reviews);
+                }
+
             } else {
 
                 // display error toast
@@ -70,6 +105,12 @@ public class PlaceDetailsDialog extends DialogFragment {
     private TextView addressText;
     private TextView phoneText;
     private ImageView image;
+    private ViewPager photosViewPager;
+    private PhotosPagerAdapter photosPagerAdapter;
+    private int screenWidth;
+    private LinearLayout reviewsLayout;
+    private View noPhotosView;
+    private LayoutInflater inflater;
 
 
     /**
@@ -89,6 +130,9 @@ public class PlaceDetailsDialog extends DialogFragment {
         addressText = (TextView) rootView.findViewById(R.id.address_text);
         phoneText = (TextView) rootView.findViewById(R.id.phone_text);
         image = (ImageView) rootView.findViewById(R.id.image);
+        photosViewPager = (ViewPager) rootView.findViewById(R.id.photos_view_pager);
+        reviewsLayout = (LinearLayout) rootView.findViewById(R.id.reviews_layout);
+        noPhotosView = rootView.findViewById(R.id.no_photos_view);
     }
 
 
@@ -103,6 +147,8 @@ public class PlaceDetailsDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.place_details_dialog, container);
+        this.inflater = inflater;
+        //this.inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         initViews(view);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0));
         return view;
@@ -125,5 +171,37 @@ public class PlaceDetailsDialog extends DialogFragment {
 
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+
+        // notify activity
+        mainActivityListener.onPlaceDetailsDialogDismiss();
+
+        super.onDismiss(dialog);
+    }
+
+    public void setScreenWidth(int screenWidth) {
+        this.screenWidth = screenWidth;
+    }
+
+    public void updateReviewsLayout(PlaceDetailsResponse.Review[] reviews) {
+
+        // remove all views from the layout
+        reviewsLayout.removeAllViews();
+
+        for (PlaceDetailsResponse.Review review : reviews) {
+
+            // create a new view
+            View listItem = inflater.inflate(R.layout.review_list_item, null);
+
+            // set comment
+            TextView commentText = (TextView) listItem.findViewById(R.id.comment_text);
+            commentText.setText(review.author + " - " + review.comment);
+
+            // add the view  to the layout
+            reviewsLayout.addView(listItem);
+        }
     }
 }

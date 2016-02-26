@@ -137,12 +137,12 @@ public class UrlUtils {
         return Constants.PLACE_DETAILS_SEARCH_URL + builder.toString();
     }
 
-    public static String buildPlacePhotoLink(String reference) {
+    public static String buildPlacePhotoLink(String reference, int screenWidth) {
 
         StringBuilder builder = new StringBuilder();
 
         // add max width
-        builder.append("?maxwidth=" + "300");
+        builder.append("?maxwidth=" + screenWidth);
 
         // add language
         builder.append("&photoreference=" + reference);

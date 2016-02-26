@@ -46,4 +46,9 @@ public interface MainActivityListener {
      * @param language
      */
     void onSearchLanguageSelected(String language);
+
+    /**
+     * Triggered when place details dialog was dismissed
+     */
+    void onPlaceDetailsDialogDismiss();
 }
