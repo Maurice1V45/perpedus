@@ -5,7 +5,7 @@
     <string name="places_found" formatted="false">%number% places found!</string>
     <string name="visible_places" formatted="false">%visible%/%all% places</string>
     <string name="search_button">Search</string>
-    <string name="hint_location_name">Keyword</string>
+    <string name="hint_location_name">What are you looking for?</string>
     <string name="radius">Radius</string>
     <string name="types">Categories</string>
     <string name="search_title">Search for places</string>
@@ -207,4 +207,10 @@
     <string name="language_vietnamese">Vietnamese</string>
     <string name="language_chinese_simplified">Chinese (Simplified)</string>
     <string name="language_chinese_traditional">Chinese (Traditional)</string>
+    <string name="title_activity_nav">NavActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>

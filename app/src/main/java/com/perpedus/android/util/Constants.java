@@ -23,8 +23,12 @@ public class Constants {
     public static final String EXTRA_LATITUDE = "extra_latitude";
     public static final String EXTRA_LONGITUDE = "extra_longitude";
     public static final String EXTRA_PROVIDER = "extra_provider";
+    public static final String EXTRA_PLACES = "extra_places";
 
     /* Fonts */
     public static final String CUSTOM_FONT = "Matias.ttf";
+
+    /* Other */
+    public static final String DEFAULT_LANGUAGE = "en";
 
 }

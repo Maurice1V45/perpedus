@@ -21,4 +21,9 @@
     <color name="dark_grey">#2B2B2B</color>
     <color name="pinky_red">#DF2B2A</color>
 
+    <color name="yellow_strong">#F8EF64</color>
+    <color name="yellow_light">#FCF394</color>
+    <color name="grey_blue">#3F4F73</color>
+    <color name="grey_light">#56627C</color>
+
 </resources>

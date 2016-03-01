@@ -70,10 +70,10 @@ public class UrlUtils {
      * @param longitude
      * @param radius
      * @param language
-     * @param selectedTypes
+     * @param type
      * @return
      */
-    public static String buildPlacesLink(String keyword, float latitude, float longitude, String radius, String language, List<String> selectedTypes) {
+    public static String buildPlacesLink(String keyword, float latitude, float longitude, String radius, String language, String type) {
 
         StringBuilder builder = new StringBuilder();
 
@@ -96,19 +96,9 @@ public class UrlUtils {
             }
         }
 
-        // add types
-        if (!selectedTypes.isEmpty()) {
-            builder.append("&types=");
-            for (int i = 0; i < selectedTypes.size(); i++) {
-                builder.append(selectedTypes.get(i));
-                if (i < selectedTypes.size() - 1) {
-                    try {
-                        builder.append(URLEncoder.encode("|", "UTF-8"));
-                    } catch (UnsupportedEncodingException e) {
-                        builder.append("|");
-                    }
-                }
-            }
+        // add type
+        if (type != null) {
+            builder.append("&type=" + type);
         }
 
         // add API key

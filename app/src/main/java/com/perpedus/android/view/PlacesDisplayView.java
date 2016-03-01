@@ -95,6 +95,9 @@ public class PlacesDisplayView extends View {
                 MY_DETAILS_VIEW_POINT = getHeight() - ScreenUtils.fromDpToPixels(context, 144f);
                 MY_FOCUSED_LINE_TICK_SIZE = getHeight() / 30f;
 
+                // set closest and furthest location
+                setClosestAndFurthestLocation();
+
                 // notify Main Activity that this view has been created
                 mainActivityListener.onPlacesDisplayViewCreated(getWidth(), getHeight());
 
@@ -252,7 +255,7 @@ public class PlacesDisplayView extends View {
     /**
      * Sets the closest and furthest location to the coordinate provicer
      */
-    public void setClosestAndFurthestLocation() {
+    private void setClosestAndFurthestLocation() {
         float closest = Float.MAX_VALUE;
         float furthest = Float.MIN_VALUE;
         for (Place place : places) {
@@ -400,31 +403,31 @@ public class PlacesDisplayView extends View {
         place.setFocusLineHeight(focusedLineHeight);
 
         // draw focused line
-        RectF focusedLineRect = new RectF(pivotX - 2f, pivotY + MY_ICON_MARKER_SIZE / 2f - MY_FOCUSED_LINE_NEGATIVE_MARGIN, pivotX, focusedLineHeight);
-        Paint redPaint = new Paint();
-        redPaint.setColor(getResources().getColor(R.color.pinky_red));
-        canvas.drawRect(focusedLineRect, redPaint);
+        RectF focusedLineRect = new RectF(pivotX - 5f, pivotY + MY_ICON_MARKER_SIZE / 2f - MY_FOCUSED_LINE_NEGATIVE_MARGIN, pivotX, focusedLineHeight);
+        Paint yellowPaint = new Paint();
+        yellowPaint.setColor(getResources().getColor(R.color.yellow_light));
+        canvas.drawRect(focusedLineRect, yellowPaint);
 
         // if focused line height has reached its peak, draw a triangle, else draw a circle
         if (focusedLineHeight == MY_DETAILS_VIEW_POINT) {
 
             // draw red triangle
-            Point a = new Point((int) (pivotX - 11f), (int) MY_DETAILS_VIEW_POINT);
-            Point b = new Point((int) (pivotX - 1f), (int) (MY_DETAILS_VIEW_POINT - 20f));
-            Point c = new Point((int) (pivotX + 9f), (int) MY_DETAILS_VIEW_POINT);
+            Point a = new Point((int) (pivotX - 12f), (int) MY_DETAILS_VIEW_POINT);
+            Point b = new Point((int) (pivotX - 2f), (int) (MY_DETAILS_VIEW_POINT - 20f));
+            Point c = new Point((int) (pivotX + 8f), (int) MY_DETAILS_VIEW_POINT);
             Path path = new Path();
             path.setFillType(Path.FillType.EVEN_ODD);
             path.moveTo(b.x, b.y);
             path.lineTo(c.x, c.y);
             path.lineTo(a.x, a.y);
             path.close();
-            canvas.drawPath(path, redPaint);
+            canvas.drawPath(path, yellowPaint);
 
 
         } else if (focusedLineHeight != 0) {
 
             // draw circle
-            canvas.drawCircle(pivotX - 1f, focusedLineHeight, 10f, redPaint);
+            canvas.drawCircle(pivotX - 1f, focusedLineHeight, 10f, yellowPaint);
         }
 
         // draw marker
@@ -432,7 +435,7 @@ public class PlacesDisplayView extends View {
 
         // draw place type icon
         if (!place.getTypes().isEmpty()) {
-            Bitmap smallIcon = PlacesHelper.getInstance().getPlaceBitmap(place.getTypes().get(0), isFocused);
+            Bitmap smallIcon = PlacesHelper.getInstance().getPlaceBitmap(place.getTypes().get(0));
             canvas.drawBitmap(smallIcon, pivotX - MY_PLACE_ICON_SIZE / 2f, pivotY - MY_PLACE_ICON_SIZE, new Paint());
         }
 
@@ -441,7 +444,7 @@ public class PlacesDisplayView extends View {
         String metersText = getDistanceDisplayValue(distance);
         Paint metersPaint = new Paint();
         metersPaint.setTextSize(MY_METERS_TEXT_SIZE);
-        metersPaint.setColor(getResources().getColor(R.color.white));
+        metersPaint.setColor(isFocused ? getResources().getColor(R.color.grey_blue) : getResources().getColor(R.color.white));
         RectF metersAreaRect = new RectF(pivotX - MY_ICON_MARKER_SIZE / 2f, pivotY, pivotX + MY_ICON_MARKER_SIZE / 2f, pivotY + MY_ICON_MARKER_SIZE / 2.5f);
         RectF metersBounds = new RectF(metersAreaRect);
         metersBounds.right = metersPaint.measureText(metersText, 0, metersText.length());

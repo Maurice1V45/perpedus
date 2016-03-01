@@ -14,8 +14,10 @@ public class Place {
     private String name;
     private Location location;
     private List<String> types;
+    private String address;
     private ScreenCoordinate screenCoordinate;
     private float focusLineHeight;
+    private PlaceDetailsResponse details;
 
 
     public String getName() {
@@ -65,5 +67,21 @@ public class Place {
 
     public void setPlaceId(String placeId) {
         this.placeId = placeId;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public PlaceDetailsResponse getDetails() {
+        return details;
+    }
+
+    public void setDetails(PlaceDetailsResponse details) {
+        this.details = details;
     }
 }

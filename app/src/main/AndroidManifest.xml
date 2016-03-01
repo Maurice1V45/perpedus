@@ -18,9 +18,9 @@
         android:allowBackup="true"
         android:icon="@drawable/icon_logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <activity
-            android:name=".MainActivity"
+            android:name=".LoadingActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -33,10 +33,12 @@
             android:name=".SettingsActivity"
             android:label="@string/settings"
             android:screenOrientation="portrait" />
-
         <activity
             android:name=".CreditsActivity"
             android:label="@string/settings_credits"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
             android:screenOrientation="portrait" />
 
         <meta-data

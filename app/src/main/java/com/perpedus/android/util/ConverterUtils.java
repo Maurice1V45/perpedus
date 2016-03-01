@@ -45,6 +45,9 @@ public class ConverterUtils {
             // set the place type
             place.setTypes(Arrays.asList(result.types));
 
+            // set place address
+            place.setAddress(result.address);
+
             // add the place to the list
             places.add(place);
         }

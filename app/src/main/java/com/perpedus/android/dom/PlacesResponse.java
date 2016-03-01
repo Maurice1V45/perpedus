@@ -36,6 +36,9 @@ public class PlacesResponse {
         @SerializedName("vicinity")
         public String address;
 
+        @SerializedName("reference")
+        public String photoReference;
+
         @SerializedName("place_id")
         public String placeId;
 

@@ -2,7 +2,6 @@ package com.perpedus.android;
 
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -17,10 +16,13 @@ import android.location.Location;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.support.v4.app.ActivityCompat;
+import android.os.PersistableBundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +30,7 @@ import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,8 +38,10 @@ import com.google.gson.Gson;
 import com.perpedus.android.comparator.PlacesComparator;
 import com.perpedus.android.dialog.DialogUtils;
 import com.perpedus.android.dom.Place;
+import com.perpedus.android.dom.PlaceDetailsResponse;
 import com.perpedus.android.dom.PlacesResponse;
 import com.perpedus.android.listener.MainActivityListener;
+import com.perpedus.android.listener.RetrievePlaceDetailsListener;
 import com.perpedus.android.listener.SmartLocationListener;
 import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.ConverterUtils;
@@ -50,6 +54,7 @@ import com.perpedus.android.util.UrlUtils;
 import com.perpedus.android.view.CameraPreview;
 import com.perpedus.android.view.PlacesDisplayView;
 import com.perpedus.android.view.SearchDrawerLayout;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -58,7 +63,7 @@ import java.util.List;
 /**
  * Main Activity. This is where all the magic happens
  */
-public class MainActivity extends Activity implements SensorEventListener, MainActivityListener {
+public class MainActivity extends AppCompatActivity implements SensorEventListener, MainActivityListener, RetrievePlaceDetailsListener {
 
     /**
      * Async task that retrieves data about places
@@ -76,7 +81,7 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
 
             // build the url to the places web service
             String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, "en");
-            String placesUrl = UrlUtils.buildPlacesLink(name, latitude, longitude, radius, language, types);
+            String placesUrl = UrlUtils.buildPlacesLink(name, latitude, longitude, radius, language, null);
 
             // get the response from the web service
             String placesJson = UrlUtils.getJsonFromUrl(placesUrl);
@@ -104,7 +109,6 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
 
             // send the data to the places display view
             placesDisplayView.setPlaces(places);
-            placesDisplayView.setClosestAndFurthestLocation();
 
             // hide the progress view
             hideProgressView();
@@ -146,13 +150,13 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
     private FrameLayout screenLayout;
     private PlacesDisplayView placesDisplayView;
     private SensorManager sensorManager;
-    private List<Place> places;
+    private List<Place> places = new ArrayList<Place>();
     private Location myLocation;
-    private boolean firstLocationFound = false;
     private View placeFocusView;
     private View placeDetailsView;
     private TextView placeNameText;
-    private TextView placeTypesText;
+    private TextView placeAddressText;
+    private ImageView placeImage;
     private Place focusedPlace;
     private DrawerLayout drawerLayout;
     private View progressView;
@@ -160,17 +164,9 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
     private View noLandscapeLayout;
     private SearchDrawerLayout drawerContent;
     private boolean portraitOrientation = true;
-    private View topBarView;
-    private View topSearchButton;
-    private View topSettingsButton;
-    private boolean topBarVisible = false;
-    private boolean topBarAnimationLocked = false;
     private int screenWidth;
-    private static final float TOP_BAR_HEIGHT = 48f;
-    private static final long TOP_BAR_TIMER_LIMIT = 3000;
-
-    private static final int PERMISSION_REQUEST_CAMERA = 1;
-    private static final int PERMISSION_REQUEST_LOCATION = 2;
+    private ActionBarDrawerToggle drawerToggle;
+    private Toolbar toolbar;
 
     private BroadcastReceiver locationReceiver = new BroadcastReceiver() {
 
@@ -184,6 +180,7 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
                 if (intent.hasExtra(Constants.EXTRA_PROVIDER)) {
                     provider = intent.getStringExtra(Constants.EXTRA_PROVIDER);
                 }
+
                 // set current location
                 Location location = new Location(provider);
                 location.setLatitude(intent.getDoubleExtra(Constants.EXTRA_LATITUDE, 0));
@@ -193,41 +190,6 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
                 if (placesDisplayView != null) {
                     placesDisplayView.setCurrentLocation(myLocation);
                 }
-
-                // if the location is detected for the first time, run a nearby places query
-                if (!firstLocationFound) {
-                    showProgressView(getString(R.string.retrieve_places));
-
-                    // retrieve nearby places
-                    RetrievePlacesAsync async = new RetrievePlacesAsync();
-                    async.setLatitude((float) myLocation.getLatitude());
-                    async.setLongitude((float) myLocation.getLongitude());
-                    async.setRadius("5000");
-                    async.setTypes(new ArrayList<String>());
-                    async.execute();
-
-                    // unlock right drawer
-                    drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-
-                    // allow screen tapping
-                    setScreenTapListener();
-                }
-                firstLocationFound = true;
-            }
-        }
-    };
-
-    private CountDownTimer topBarTimer = new CountDownTimer(TOP_BAR_TIMER_LIMIT, 1000) {
-
-        @Override
-        public void onTick(long millisUntilFinished) {
-            // nothing to do here
-        }
-
-        @Override
-        public void onFinish() {
-            if (topBarVisible) {
-                hideTopBar();
             }
         }
     };
@@ -268,53 +230,6 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
         }
     };
 
-    private Animation.AnimationListener topBarVisibleListener = new Animation.AnimationListener() {
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-            // nothing to do here
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-
-            // set new margins
-            setTopBarTopMargin(0);
-
-            //update topBarLocked flag
-            topBarAnimationLocked = false;
-
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-            // nothing to do here
-        }
-    };
-
-    private Animation.AnimationListener topBarGoneListener = new Animation.AnimationListener() {
-
-        @Override
-        public void onAnimationStart(Animation animation) {
-            // nothing to do here
-        }
-
-        @Override
-        public void onAnimationEnd(Animation animation) {
-
-            // set new margins
-            setTopBarTopMargin(-TOP_BAR_HEIGHT);
-
-            //update topBarLocked flag
-            topBarAnimationLocked = false;
-        }
-
-        @Override
-        public void onAnimationRepeat(Animation animation) {
-            // nothing to do here
-        }
-    };
-
     /**
      * Camera preview initializer
      */
@@ -334,6 +249,7 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
     private void initPlacesDisplayView() {
         placesDisplayView = new PlacesDisplayView(this, camera.getParameters().getVerticalViewAngle(), camera.getParameters().getHorizontalViewAngle(), MainActivity.this);
         placesDisplayView.setCurrentLocation(myLocation);
+        placesDisplayView.setPlaces(places);
         screenLayout.addView(placesDisplayView, 1);
     }
 
@@ -349,36 +265,67 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
 
+        // get extras
+        if (getIntent().hasExtra(Constants.EXTRA_PROVIDER)) {
+            myLocation = new Location(getIntent().getStringExtra(Constants.EXTRA_PROVIDER));
+        }
+        if (getIntent().hasExtra(Constants.EXTRA_LATITUDE)) {
+            myLocation.setLatitude(getIntent().getDoubleExtra(Constants.EXTRA_LATITUDE, 0));
+        }
+        if (getIntent().hasExtra(Constants.EXTRA_LONGITUDE)) {
+            myLocation.setLongitude(getIntent().getDoubleExtra(Constants.EXTRA_LONGITUDE, 0));
+        }
+        if (getIntent().hasExtra(Constants.EXTRA_PLACES)) {
+
+            PlacesResponse response = new Gson().fromJson(getIntent().getStringExtra(Constants.EXTRA_PLACES), PlacesResponse.class);
+            if (Constants.GOOGLE_RESPONSE_OK.equals(response.status)) {
+
+                // save the places
+                places = ConverterUtils.fromResponseToPlaces(response);
+
+                // sort the places by distance
+                Collections.sort(places, new PlacesComparator(myLocation));
+
+            } else {
+
+                // display error toast
+                Toast.makeText(MainActivity.this, R.string.google_error, Toast.LENGTH_SHORT).show();
+            }
+        }
+
         // initialize android device sensor capabilities
         sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
-
-        // init location listener
-        registerReceiver(locationReceiver, new IntentFilter(Constants.INTENT_LOCATION_UPDATED));
-
-        // check if user has the required hardware in order to run this app
-        checkUserHasHardwareRequirements();
 
         // keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 
-        // init places list
-        places = new ArrayList<Place>();
-
-        // init location listeners
-        gpsLocationListener = new SmartLocationListener(MainActivity.this, "gps");
-        networkLocationListener = new SmartLocationListener(MainActivity.this, "network");
-
         // init views and listeners
         initViews();
         initListeners();
-        setTopBarTopMargin(-TOP_BAR_HEIGHT);
+        initToolbar();
 
-        // check for required permissions
-        checkPermissions();
+        // init camera preview
+        initCameraPreview();
 
+        // init places display view
+        initPlacesDisplayView();
+
+        // animate focus view
+        placeFocusView.setVisibility(View.VISIBLE);
+        Animation scaleAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_focus_scale);
+        placeFocusView.startAnimation(scaleAnimation);
 
     }
 
+    /**
+     * Toolbar initializer
+     */
+    private void initToolbar() {
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawerLayout.setDrawerListener(toggle);
+        toggle.syncState();
+    }
 
     @Override
     protected void onStop() {
@@ -400,9 +347,13 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
         // register location receiver
         registerReceiver(locationReceiver, new IntentFilter(Constants.INTENT_LOCATION_UPDATED));
 
+        // init location listeners
+        gpsLocationListener = new SmartLocationListener(MainActivity.this, LocationManager.GPS_PROVIDER);
+        networkLocationListener = new SmartLocationListener(MainActivity.this, LocationManager.NETWORK_PROVIDER);
+
         // scan for new location
-        LocationUtils.scanLocation(MainActivity.this, "gps", gpsLocationListener);
-        LocationUtils.scanLocation(MainActivity.this, "network", networkLocationListener);
+        LocationUtils.scanLocation(MainActivity.this, LocationManager.GPS_PROVIDER, gpsLocationListener);
+        LocationUtils.scanLocation(MainActivity.this, LocationManager.NETWORK_PROVIDER, networkLocationListener);
 
         // Create an instance of Camera
         if (camera == null) {
@@ -469,17 +420,14 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
         placeFocusView = findViewById(R.id.place_focus_view);
         placeDetailsView = findViewById(R.id.place_details_view);
         placeNameText = (TextView) findViewById(R.id.place_name_text);
-        placeTypesText = (TextView) findViewById(R.id.place_types_text);
+        placeAddressText = (TextView) findViewById(R.id.place_address_text);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
         drawerContent = (SearchDrawerLayout) findViewById(R.id.right_drawer);
         progressView = findViewById(R.id.progress_layout);
         progressText = (TextView) findViewById(R.id.progress_text);
         noLandscapeLayout = findViewById(R.id.no_landscape_layout);
-        topBarView = findViewById(R.id.top_bar_view);
-        topSearchButton = findViewById(R.id.top_search_button);
-        topSettingsButton = findViewById(R.id.top_settings_button);
-
+        placeImage = (ImageView) findViewById(R.id.place_image);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
     }
 
     /**
@@ -497,10 +445,6 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
                 placesDisplayView.setAlpha(1f - slideOffset);
                 placeDetailsView.setAlpha(1f - slideOffset);
 
-                // hide top bar if visible
-                if (topBarVisible) {
-                    hideTopBar();
-                }
             }
 
             @Override
@@ -516,28 +460,6 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
             @Override
             public void onDrawerStateChanged(int newState) {
                 // nothing to do here
-            }
-        });
-        topSearchButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                // hide top bar
-                hideTopBar();
-
-                // open search drawer
-                drawerLayout.openDrawer(Gravity.RIGHT);
-            }
-        });
-        topSettingsButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                // open settings activity
-                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
-                startActivity(settingsIntent);
             }
         });
         placeDetailsView.setOnClickListener(new View.OnClickListener() {
@@ -570,8 +492,8 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
     public void onBackPressed() {
 
         // close drawer if opened
-        if (drawerLayout.isDrawerVisible(Gravity.RIGHT)) {
-            drawerLayout.closeDrawer(Gravity.RIGHT);
+        if (drawerLayout.isDrawerVisible(Gravity.LEFT)) {
+            drawerLayout.closeDrawer(Gravity.LEFT);
         } else {
             super.onBackPressed();
         }
@@ -617,7 +539,8 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
 
                 // set details view data
                 setDetailsViewData(focusedPlace);
-            } else {
+
+            } else if (!this.focusedPlace.getPlaceId().equals(focusedPlace.getPlaceId())) {
 
                 // set details view data
                 setDetailsViewData(focusedPlace);
@@ -638,12 +561,41 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
         // set place title
         placeNameText.setText(focusedPlace.getName());
 
-        // set place types
-        String placeTypesString = " - ";
-        for (String placeType : focusedPlace.getTypes()) {
-            placeTypesString += PlacesHelper.getInstance().getPlaceTypeName(placeType) + " - ";
+        // set place address
+        placeAddressText.setText(focusedPlace.getAddress());
+
+        // check for place details
+        if (focusedPlace.getDetails() == null) {
+
+            // no details, attempt to retrieve them
+            String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, Constants.DEFAULT_LANGUAGE);
+            PlacesHelper.getInstance().retrievePlaceDetailsAsync(MainActivity.this, focusedPlace.getPlaceId(), language);
+
+            // set image as loading
+            placeImage.setImageResource(R.drawable.icon_stadium);
+
+        } else {
+
+            // place details exist
+            if (focusedPlace.getDetails().result.photos == null || focusedPlace.getDetails().result.photos.length == 0) {
+
+                // place has no photos, display no photos icon
+                placeImage.setImageResource(R.drawable.icon_no_photo);
+            } else {
+
+                // load first photo
+                String reference = focusedPlace.getDetails().result.photos[0].reference;
+                if (reference != null && !reference.isEmpty()) {
+                    Picasso
+                            .with(MainActivity.this)
+                            .load(UrlUtils.buildPlacePhotoLink(reference, (int) ScreenUtils.fromDpToPixels(MainActivity.this, 84f)))
+                            .placeholder(R.drawable.icon_stadium)
+                            .error(R.drawable.icon_no_photo)
+                            .into(placeImage);
+                }
+            }
         }
-        placeTypesText.setText(placeTypesString);
+
     }
 
     @Override
@@ -651,7 +603,7 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
 
         // close drawer and hide keyboard
         KeyboardUtils.closeKeyboard(MainActivity.this);
-        drawerLayout.closeDrawer(Gravity.RIGHT);
+        drawerLayout.closeDrawer(Gravity.LEFT);
 
         // show progress view
         showProgressView(getString(R.string.retrieve_places));
@@ -700,35 +652,6 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
     }
 
     /**
-     * Checks if user has required hardware features
-     */
-    private void checkUserHasHardwareRequirements() {
-        PackageManager packageManager = getPackageManager();
-
-        // check if user has camera
-        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            Toast.makeText(MainActivity.this, R.string.fatal_error_no_camera, Toast.LENGTH_LONG).show();
-            unregisterReceivers();
-            finish();
-        }
-
-        // check if user has orientation sensor
-        Sensor orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
-        if (orientationSensor == null) {
-            Toast.makeText(MainActivity.this, R.string.fatal_error_no_orientation, Toast.LENGTH_LONG).show();
-            unregisterReceivers();
-            finish();
-        }
-
-        // check if user has gps
-        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
-            Toast.makeText(MainActivity.this, R.string.fatal_error_no_gps, Toast.LENGTH_LONG).show();
-            unregisterReceivers();
-            finish();
-        }
-    }
-
-    /**
      * Unregisters receivers
      */
     private void unregisterReceivers() {
@@ -765,74 +688,6 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
         }
     }
 
-    /**
-     * Checks for permissions and if granted continues initializing views
-     */
-    private void checkPermissions() {
-
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.CAMERA}, PERMISSION_REQUEST_CAMERA);
-            return;
-        } else if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST_LOCATION);
-            return;
-        }
-
-        // init camera preview
-        initCameraPreview();
-
-        // init places display view
-        initPlacesDisplayView();
-
-        // scan for new location
-        LocationUtils.scanLocation(MainActivity.this, "gps", gpsLocationListener);
-        LocationUtils.scanLocation(MainActivity.this, "network", networkLocationListener);
-
-        // display progress view
-        showProgressView(getString(R.string.scan_location));
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case PERMISSION_REQUEST_CAMERA: {
-
-                // If request is cancelled, the result arrays are empty. 
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission granted
-                    checkPermissions();
-
-                } else {
-
-                    // permission denied
-                    Toast.makeText(MainActivity.this, R.string.permission_denied_camera, Toast.LENGTH_LONG).show();
-                    unregisterReceivers();
-                    finish();
-                }
-                return;
-            }
-            case PERMISSION_REQUEST_LOCATION: {
-
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
-                    // permission granted
-                    checkPermissions();
-
-                } else {
-
-                    // permission denied
-                    Toast.makeText(MainActivity.this, R.string.permission_denied_location, Toast.LENGTH_LONG).show();
-                    unregisterReceivers();
-                    finish();
-                }
-                return;
-            }
-            default:
-                break;
-        }
-    }
 
     /**
      * Displays the progress view
@@ -851,71 +706,50 @@ public class MainActivity extends Activity implements SensorEventListener, MainA
         progressView.setVisibility(View.GONE);
     }
 
-    private void setScreenTapListener() {
+    @Override
+    public void onPlaceDetailsRetrieved(String response) {
 
-        // enables tapping on the screen
-        placesDisplayView.setClickable(true);
-        placesDisplayView.setOnClickListener(new View.OnClickListener() {
+        final PlaceDetailsResponse detailsResponse = new Gson().fromJson(response, PlaceDetailsResponse.class);
+        for (Place place : places) {
+            if (place.getPlaceId().equals(detailsResponse.result.placeId)) {
 
-            @Override
-            public void onClick(View v) {
-                if (topBarVisible) {
+                // store place details
+                place.setDetails(detailsResponse);
 
-                    // hide top bar animation
-                    hideTopBar();
-                } else {
+                if (focusedPlace != null) {
 
-                    // display top bar animation
-                    displayTopBar();
+                    // update focused place image
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+                            if (detailsResponse.result.photos == null || detailsResponse.result.photos.length == 0) {
+
+                                // load no photo
+                                placeImage.setImageResource(R.drawable.icon_no_photo);
+
+                            } else {
+
+                                // load photo
+                                String reference = detailsResponse.result.photos[0].reference;
+                                Picasso
+                                        .with(MainActivity.this)
+                                        .load(UrlUtils.buildPlacePhotoLink(reference, (int) ScreenUtils.fromDpToPixels(MainActivity.this, 84f)))
+                                        .placeholder(R.drawable.icon_stadium)
+                                        .error(R.drawable.icon_no_photo)
+                                        .into(placeImage);
+                            }
+                        }
+                    });
                 }
+                break;
             }
-        });
-    }
-
-    private void displayTopBar() {
-
-        if (!topBarAnimationLocked) {
-
-            // update flag
-            topBarVisible = true;
-
-            // play animation
-            Animation topBarVisibleAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_top_bar_visible);
-            topBarVisibleAnimation.setAnimationListener(topBarVisibleListener);
-            topBarView.startAnimation(topBarVisibleAnimation);
-
-            //update topBarLocked flag
-            topBarAnimationLocked = true;
-
-            // start a timer that will hide the top bar if visible for too long
-            topBarTimer.start();
         }
     }
 
-    private void hideTopBar() {
+    @Override
+    public void onPlaceDetailsRetrievedError() {
 
-        if (!topBarAnimationLocked) {
-
-            // update flag
-            topBarVisible = false;
-
-            // play animation
-            Animation topBarGoneAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_top_bar_gone);
-            topBarGoneAnimation.setAnimationListener(topBarGoneListener);
-            topBarView.startAnimation(topBarGoneAnimation);
-
-            //update topBarLocked flag
-            topBarAnimationLocked = true;
-
-            // cancel the currently running timer
-            topBarTimer.cancel();
-        }
-    }
-
-    private void setTopBarTopMargin(float topMarginPx) {
-        RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, (int) ScreenUtils.fromDpToPixels(MainActivity.this, TOP_BAR_HEIGHT));
-        layoutParams.setMargins(0, (int) ScreenUtils.fromDpToPixels(MainActivity.this, topMarginPx), 0, 0);
-        topBarView.setLayoutParams(layoutParams);
     }
 
 }
