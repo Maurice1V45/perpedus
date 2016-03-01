@@ -16,17 +16,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/bu2"
+                android:layout_marginTop="@dimen/bu2_5"
                 android:text="@string/search_title"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_40px" />
+                android:textSize="@dimen/text_size_42px" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/bu1"
                 android:layout_marginRight="@dimen/bu1"
-                android:layout_marginTop="@dimen/bu2"
+                android:layout_marginTop="@dimen/bu2_5"
                 android:background="@drawable/light_grey_rounded_shape"
                 android:orientation="vertical">
 
@@ -56,11 +56,15 @@
                         android:id="@+id/location_name_field"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/bu1"
                         android:layout_marginLeft="@dimen/bu1"
                         android:layout_marginRight="@dimen/bu1"
+                        android:layout_marginTop="@dimen/bu1"
                         android:layout_toLeftOf="@+id/search_language_button"
+                        android:background="@drawable/icon_edittext_background"
                         android:inputType="textVisiblePassword|textCapSentences"
-                        android:textColor="@color/dark_grey"
+                        android:textColor="@color/white"
+                        android:textCursorDrawable="@null"
                         android:textSize="@dimen/text_size_30px" />
 
 
@@ -105,36 +109,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/bu1"
+                    android:layout_marginTop="@dimen/bu1"
+                    android:max="49"
                     android:progressDrawable="@drawable/icon_seekbar_progress"
-                    android:thumb="@drawable/icon_seekbar_thumb"
-                    android:layout_marginTop="@dimen/bu0_5"
-                    android:max="49" />
+                    android:thumb="@drawable/icon_seekbar_thumb" />
 
-                </LinearLayout>
+            </LinearLayout>
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bu1"
+                android:layout_marginRight="@dimen/bu1"
+                android:layout_marginTop="@dimen/bu2"
+                android:background="@drawable/light_grey_rounded_shape">
+
+                <TextView
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/bu1"
-                    android:layout_marginRight="@dimen/bu1"
-                    android:layout_marginTop="@dimen/bu1">
+                    android:text="@string/types"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_30px" />
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:text="@string/types"
-                        android:textColor="@color/dark_grey"
-                        android:textSize="@dimen/text_size_30px" />
-
-                    <ImageButton
-                        android:id="@+id/place_types_button"
-                        android:layout_width="@dimen/bu4"
-                        android:layout_height="@dimen/bu4"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/add_button_selector" />
-                </RelativeLayout>
+                <ImageButton
+                    android:id="@+id/place_types_button"
+                    android:layout_width="@dimen/bu4"
+                    android:layout_height="@dimen/bu4"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/add_button_selector" />
+            </RelativeLayout>
 
             <LinearLayout
                 android:id="@+id/selected_types_layout"
@@ -148,10 +154,10 @@
                 android:id="@+id/search_button"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/bu4"
-                android:background="@drawable/search_button_selector"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/bu1"
-                android:layout_marginTop="@dimen/bu1"
+                android:layout_marginTop="@dimen/bu2"
+                android:background="@drawable/search_button_selector"
                 android:paddingLeft="@dimen/bu2"
                 android:paddingRight="@dimen/bu2"
                 android:text="@string/search_button"

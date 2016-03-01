@@ -53,6 +53,7 @@ import com.perpedus.android.util.ScreenUtils;
 import com.perpedus.android.util.UrlUtils;
 import com.perpedus.android.view.CameraPreview;
 import com.perpedus.android.view.PlacesDisplayView;
+import com.perpedus.android.view.RoundedCornersTransformation;
 import com.perpedus.android.view.SearchDrawerLayout;
 import com.squareup.picasso.Picasso;
 
@@ -572,7 +573,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             PlacesHelper.getInstance().retrievePlaceDetailsAsync(MainActivity.this, focusedPlace.getPlaceId(), language);
 
             // set image as loading
-            placeImage.setImageResource(R.drawable.icon_stadium);
+            placeImage.setImageResource(R.drawable.progress);
 
         } else {
 
@@ -589,7 +590,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     Picasso
                             .with(MainActivity.this)
                             .load(UrlUtils.buildPlacePhotoLink(reference, (int) ScreenUtils.fromDpToPixels(MainActivity.this, 84f)))
-                            .placeholder(R.drawable.icon_stadium)
+                            .placeholder(R.drawable.progress)
+                            .transform(new RoundedCornersTransformation(12, 0))
                             .error(R.drawable.icon_no_photo)
                             .into(placeImage);
                 }
@@ -735,7 +737,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                                 Picasso
                                         .with(MainActivity.this)
                                         .load(UrlUtils.buildPlacePhotoLink(reference, (int) ScreenUtils.fromDpToPixels(MainActivity.this, 84f)))
-                                        .placeholder(R.drawable.icon_stadium)
+                                        .placeholder(R.drawable.progress)
+                                        .transform(new RoundedCornersTransformation(12, 0))
                                         .error(R.drawable.icon_no_photo)
                                         .into(placeImage);
                             }

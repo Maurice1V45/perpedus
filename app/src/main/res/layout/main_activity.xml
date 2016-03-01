@@ -70,13 +70,12 @@
                     android:textColor="@color/grey_blue"
                     android:textSize="@dimen/text_size_36px" />
 
-                <com.makeramen.roundedimageview.RoundedImageView
+                <ImageView
                     android:id="@+id/place_image"
                     android:layout_width="@dimen/bu7"
                     android:layout_height="@dimen/bu5"
                     android:layout_below="@+id/place_name_text"
-                    android:layout_margin="@dimen/bu1"
-                    app:riv_corner_radius="@dimen/bu1" />
+                    android:layout_margin="@dimen/bu1" />
 
                 <TextView
                     android:id="@+id/place_address_text"
@@ -138,7 +137,7 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/icon_stadium" />
+                    android:src="@drawable/progress" />
 
                 <TextView
                     android:layout_width="wrap_content"
