@@ -70,11 +70,11 @@ public class PlacesDisplayView extends View {
     private float focusedEndX;
     private float focusedEndY;
 
-    public PlacesDisplayView(final Context context, final float cameraHorizontalAngle, final float cameraVerticalAngle, final MainActivityListener mainActivityListener) {
+    public PlacesDisplayView(final Context context, final float cameraHorizontalAngle, final float cameraVerticalAngle, final MainActivityListener mainActivityListener, List<Place> places) {
         super(context);
         this.context = context;
         this.mainActivityListener = mainActivityListener;
-        this.places = new ArrayList<Place>();
+        this.places = places;
 
         // initialize Coordinate provider after the view has been created
         getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -95,11 +95,10 @@ public class PlacesDisplayView extends View {
                 MY_DETAILS_VIEW_POINT = getHeight() - ScreenUtils.fromDpToPixels(context, 144f);
                 MY_FOCUSED_LINE_TICK_SIZE = getHeight() / 30f;
 
-                // set closest and furthest location
-                setClosestAndFurthestLocation();
-
                 // notify Main Activity that this view has been created
                 mainActivityListener.onPlacesDisplayViewCreated(getWidth(), getHeight());
+
+                setClosestAndFurthestLocation();
 
                 // remove the view tree observer
                 getViewTreeObserver().removeOnGlobalLayoutListener(this);
@@ -255,7 +254,7 @@ public class PlacesDisplayView extends View {
     /**
      * Sets the closest and furthest location to the coordinate provicer
      */
-    private void setClosestAndFurthestLocation() {
+    public void setClosestAndFurthestLocation() {
         float closest = Float.MAX_VALUE;
         float furthest = Float.MIN_VALUE;
         for (Place place : places) {

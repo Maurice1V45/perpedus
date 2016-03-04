@@ -1,13 +1,17 @@
 package com.perpedus.android.dom;
 
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
+
+import java.io.Serializable;
 
 /**
  * Object data that maps the response from Places API
  */
-public class PlacesResponse {
+public class PlacesResponse implements Serializable {
 
-    public class Location {
+    public class Location implements Serializable {
 
         @SerializedName("lat")
         public double latitude;
@@ -16,13 +20,13 @@ public class PlacesResponse {
         public double longitude;
     }
 
-    public class Geometry {
+    public class Geometry implements Serializable {
 
         @SerializedName("location")
         public Location location;
     }
 
-    public class Result {
+    public class Result implements Serializable {
 
         @SerializedName("geometry")
         public Geometry geometry;

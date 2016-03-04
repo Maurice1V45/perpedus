@@ -15,9 +15,8 @@ public class DialogUtils {
     public static final String TAG_SEARCH_LANGUAGE_DIALOG = "tag_search_language_dialog";
     public static final String TAG_PLACE_DETAILS_DIALOG = "tag_place_details_dialog";
 
-    public static void showPlaceTypesDialog(FragmentManager fm, MainActivityListener mainActivityListener, List<String> selectedTypes) {
+    public static void showPlaceTypesDialog(FragmentManager fm, MainActivityListener mainActivityListener) {
         PlaceTypesDialog dialog = new PlaceTypesDialog();
-        dialog.setSelectedTypes(selectedTypes);
         dialog.setMainActivityListener(mainActivityListener);
         dialog.show(fm, TAG_PLACE_TYPES_DIALOG);
     }

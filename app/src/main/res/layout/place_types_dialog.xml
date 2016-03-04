@@ -10,17 +10,17 @@
         android:background="@drawable/greyed_rounded_shape">
 
         <Button
-            android:id="@+id/ok_button"
+            android:id="@+id/all_button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bu5"
             android:layout_alignParentBottom="true"
-            android:text="@android:string/ok" />
+            android:text="@string/types_all_types" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/place_types_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_above="@+id/ok_button"
+            android:layout_above="@+id/all_button"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/bu0_5"
             android:paddingLeft="@dimen/bu0_5"

@@ -7,10 +7,12 @@ public class Constants {
 
     /* Keys */
     public static final String PLACES_KEY = "AIzaSyCc7oA2cfSln6lorqam-4Jq5WFxzWQkbow";
-    public static final String PLACES_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/nearbysearch/json";
-    public static final String PLACE_DETAILS_SEARCH_URL = "https://maps.googleapis.com/maps/api/place/details/json";
+    public static final String PLACES_BASE_URL = "https://maps.googleapis.com/maps/api/place";
+    public static final String PLACES_SEARCH_URL = "/nearbysearch/json";
+    public static final String PLACE_DETAILS_SEARCH_URL = "/details/json";
     public static final String PLACE_PHOTO_URL = "https://maps.googleapis.com/maps/api/place/photo";
     public static final String GOOGLE_RESPONSE_OK = "OK";
+    public static final String GOOGLE_RESPONSE_NO_RESULTS = "ZERO_RESULTS";
 
     /* Preferences */
     public static final String PREFERENCES = "prefs";

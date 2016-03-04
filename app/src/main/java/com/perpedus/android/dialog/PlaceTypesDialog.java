@@ -26,10 +26,10 @@ public class PlaceTypesDialog extends DialogFragment implements PlaceTypesDialog
 
     private RecyclerView placeTypesRecycler;
     private List<String> placeTypes;
-    private List<String> selectedTypes;
+    private String selectedType;
     private MainActivityListener mainActivityListener;
     private PlaceTypesGridAdapter adapter;
-    private Button okButton;
+    private Button allButton;
 
 
     /**
@@ -46,7 +46,7 @@ public class PlaceTypesDialog extends DialogFragment implements PlaceTypesDialog
      */
     private void initViews(View rootView) {
         placeTypesRecycler = (RecyclerView) rootView.findViewById(R.id.place_types_recycler_view);
-        okButton = (Button) rootView.findViewById(R.id.ok_button);
+        allButton = (Button) rootView.findViewById(R.id.all_button);
     }
 
 
@@ -73,18 +73,18 @@ public class PlaceTypesDialog extends DialogFragment implements PlaceTypesDialog
         placeTypes = PlacesHelper.getInstance().getSearchablePlaceTypes(getActivity());
 
         // set adapter
-        adapter = new PlaceTypesGridAdapter(getActivity(), placeTypes, selectedTypes, PlaceTypesDialog.this);
+        adapter = new PlaceTypesGridAdapter(getActivity(), placeTypes, PlaceTypesDialog.this);
         placeTypesRecycler.setLayoutManager(new GridLayoutManager(getActivity(), PerpedusApplication.getInstance().isTabletVersion() ? 8 : 4));
         placeTypesRecycler.setAdapter(adapter);
 
         // set on button click listener
-        okButton.setOnClickListener(new View.OnClickListener() {
+        allButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
                 // notify activity
-                mainActivityListener.onPlaceTypesUpdated(selectedTypes);
+                mainActivityListener.onPlaceTypeUpdated(null);
 
                 // dismiss dialog
                 dismiss();
@@ -94,23 +94,17 @@ public class PlaceTypesDialog extends DialogFragment implements PlaceTypesDialog
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public void setSelectedTypes(List<String> selectedTypes) {
-        this.selectedTypes = selectedTypes;
-    }
-
     public void setMainActivityListener(MainActivityListener mainActivityListener) {
         this.mainActivityListener = mainActivityListener;
     }
 
     @Override
-    public void onPlaceTypeAdded(String placeType) {
-        selectedTypes.add(placeType);
-        adapter.notifyDataSetChanged();
-    }
+    public void onPlaceTypeSelected(String placeType) {
 
-    @Override
-    public void onPlaceTypeRemoved(String placeType) {
-        selectedTypes.remove(placeType);
-        adapter.notifyDataSetChanged();
+        // notify activity
+        mainActivityListener.onPlaceTypeUpdated(placeType);
+
+        // dismiss dialog
+        dismiss();
     }
 }

@@ -3,6 +3,13 @@
     android:layout_height="match_parent"
     android:background="@color/grey_blue">
 
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_alignParentBottom="true"
+        android:src="@drawable/background_tit_big"
+        android:scaleType="center"
+        android:layout_height="match_parent" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -17,7 +24,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/bu2_5"
-                android:text="@string/search_title"
+                android:text="@string/drawer_title_text"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_42px" />
 
@@ -35,7 +42,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/bu1"
                     android:layout_marginTop="@dimen/bu1"
-                    android:text="@string/hint_location_name"
+                    android:text="@string/drawer_keyword_text"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_30px" />
 
@@ -91,7 +98,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/radius"
+                        android:text="@string/drawer_radius_text"
                         android:textColor="@color/white"
                         android:textSize="@dimen/text_size_30px" />
 
@@ -125,21 +132,57 @@
                 android:background="@drawable/light_grey_rounded_shape">
 
                 <TextView
+                    android:id="@+id/category_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
                     android:layout_marginLeft="@dimen/bu1"
-                    android:text="@string/types"
+                    android:layout_marginTop="@dimen/bu1"
+                    android:text="@string/drawer_type_text"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_30px" />
 
-                <ImageButton
-                    android:id="@+id/place_types_button"
-                    android:layout_width="@dimen/bu4"
-                    android:layout_height="@dimen/bu4"
+                <RelativeLayout
+                    android:id="@+id/edit_category_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_centerVertical="true"
-                    android:src="@drawable/add_button_selector" />
+                    android:layout_alignParentTop="true"
+                    android:clickable="true">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="@dimen/bu1"
+                        android:text="@string/drawer_edit_type_text"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_30px" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/category_label"
+                    android:layout_marginBottom="@dimen/bu1"
+                    android:layout_marginLeft="@dimen/bu1"
+                    android:layout_marginTop="@dimen/bu1"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/category_icon"
+                        android:layout_width="@dimen/bu2"
+                        android:layout_height="@dimen/bu2"
+                        android:scaleType="fitXY" />
+
+                    <TextView
+                        android:id="@+id/category_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/bu1"
+                        android:textColor="@color/white"
+                        android:textSize="@dimen/text_size_30px" />
+                </LinearLayout>
+
             </RelativeLayout>
 
             <LinearLayout
@@ -160,9 +203,10 @@
                 android:background="@drawable/search_button_selector"
                 android:paddingLeft="@dimen/bu2"
                 android:paddingRight="@dimen/bu2"
-                android:text="@string/search_button"
+                android:text="@string/drawer_search_button"
                 android:textColor="@color/grey_blue"
                 android:textSize="@dimen/text_size_36px" />
         </LinearLayout>
     </ScrollView>
+
 </RelativeLayout>

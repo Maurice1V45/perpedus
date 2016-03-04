@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -21,9 +20,6 @@ import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.PlacesHelper;
 import com.perpedus.android.util.PreferencesUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Drawer layout that displays search options
  */
@@ -34,11 +30,12 @@ public class SearchDrawerLayout extends RelativeLayout {
     private SeekBar radiusSeekBar;
     private Button searchButton;
     private TextView radiusText;
-    private View placeTypesButton;
-    private List<String> selectedTypes;
-    private LinearLayout selectedTypesLayout;
+    private String selectedType;
     private LayoutInflater inflater;
+    private View editCategoryButton;
     private Button searchLanguageButton;
+    private ImageView categoryIcon;
+    private TextView categoryText;
 
     // set to 4 so that initial search will be on 5 km
     private static final int RADIUS_SEEK_BAR_INITIAL_POSITION = 4;
@@ -85,9 +82,10 @@ public class SearchDrawerLayout extends RelativeLayout {
         radiusSeekBar = (SeekBar) findViewById(R.id.radius_seek_bar);
         searchButton = (Button) findViewById(R.id.search_button);
         radiusText = (TextView) findViewById(R.id.radius_text);
-        placeTypesButton = findViewById(R.id.place_types_button);
-        selectedTypesLayout = (LinearLayout) findViewById(R.id.selected_types_layout);
         searchLanguageButton = (Button) findViewById(R.id.search_language_button);
+        editCategoryButton = findViewById(R.id.edit_category_button);
+        categoryIcon = (ImageView) findViewById(R.id.category_icon);
+        categoryText = (TextView) findViewById(R.id.category_text);
     }
 
     /**
@@ -101,7 +99,7 @@ public class SearchDrawerLayout extends RelativeLayout {
             public void onClick(View v) {
                 String name = nameField.getText().toString();
                 String radius = String.valueOf((long) (radiusSeekBar.getProgress() + 1) * 1000);
-                mainActivityListener.onSearchButtonPressed(name, radius, selectedTypes);
+                mainActivityListener.onSearchButtonPressed(name, radius, selectedType);
             }
         });
 
@@ -146,19 +144,13 @@ public class SearchDrawerLayout extends RelativeLayout {
             }
         });
 
-        placeTypesButton.setOnClickListener(new OnClickListener() {
+        editCategoryButton.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
 
-                // create a copy of selectedTypes, because it will get modified
-                List<String> selectedTypesCopy = new ArrayList<String>();
-                for (String type : selectedTypes) {
-                    selectedTypesCopy.add(type);
-                }
-
                 // open dialog
-                DialogUtils.showPlaceTypesDialog(((Activity) getContext()).getFragmentManager(), mainActivityListener, selectedTypesCopy);
+                DialogUtils.showPlaceTypesDialog(((Activity) getContext()).getFragmentManager(), mainActivityListener);
             }
         });
 
@@ -175,12 +167,12 @@ public class SearchDrawerLayout extends RelativeLayout {
      * Initializes everything
      */
     private void initAll() {
+        inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         initViews();
         initListeners();
         initRadiusSeekBar();
         updateSearchLanguageButton();
-        selectedTypes = new ArrayList<String>();
-        inflater = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        updateSelectedType();
     }
 
     public void setMainActivityListener(MainActivityListener mainActivityListener) {
@@ -193,7 +185,7 @@ public class SearchDrawerLayout extends RelativeLayout {
      * @param progress
      */
     private void updateRadiusText(int progress) {
-        radiusText.setText((progress + 1) + " " + getContext().getString(R.string.km));
+        radiusText.setText((progress + 1) + " " + getContext().getString(R.string.drawer_km_text));
     }
 
     /**
@@ -205,33 +197,27 @@ public class SearchDrawerLayout extends RelativeLayout {
     }
 
     /**
-     * Updates selected types layout
+     * Updates selected type
      */
-    public void updateSelectedTypes() {
+    public void updateSelectedType() {
 
-        // remove all views from the layout
-        selectedTypesLayout.removeAllViews();
+        if (selectedType == null) {
 
-        for (String selectedType : selectedTypes) {
+            // set all place types icon and text
+            categoryIcon.setImageResource(R.drawable.icon_stadium_white);
+            categoryText.setText(R.string.types_all_types);
 
-            // create a new view
-            View listItem = inflater.inflate(R.layout.selected_type_list_item, null);
+        } else {
 
-            // set icon
-            ImageView icon = (ImageView) listItem.findViewById(R.id.icon);
-            icon.setImageResource(PlacesHelper.getInstance().getPlaceIcon(selectedType));
+            // set specific icon and text
+            categoryIcon.setImageResource(PlacesHelper.getInstance().getWhitePlaceIcon(selectedType));
+            categoryText.setText(PlacesHelper.getInstance().getPlaceTypeName(selectedType));
 
-            // set title
-            TextView title = (TextView) listItem.findViewById(R.id.title);
-            title.setText(PlacesHelper.getInstance().getPlaceTypeName(selectedType));
-
-            // add the view  to the layout
-            selectedTypesLayout.addView(listItem);
         }
     }
 
-    public void setSelectedTypes(List<String> selectedTypes) {
-        this.selectedTypes = selectedTypes;
+    public void setSelectedType(String selectedType) {
+        this.selectedType = selectedType;
     }
 
     public void updateSearchLanguageButton() {

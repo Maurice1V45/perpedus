@@ -29,16 +29,16 @@ public interface MainActivityListener {
      *
      * @param name
      * @param radius
-     * @param types
+     * @param type
      */
-    void onSearchButtonPressed(String name, String radius, List<String> types);
+    void onSearchButtonPressed(String name, String radius, String type);
 
     /**
-     * Triggered when the user updates the place types from the dialog
+     * Triggered when the user updates the place type from the dialog
      *
-     * @param selectedTypes
+     * @param selectedType
      */
-    void onPlaceTypesUpdated(List<String> selectedTypes);
+    void onPlaceTypeUpdated(String selectedType);
 
     /**
      * Triggered when a new search language has been selected

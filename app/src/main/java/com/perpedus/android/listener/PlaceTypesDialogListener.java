@@ -6,17 +6,10 @@ package com.perpedus.android.listener;
 public interface PlaceTypesDialogListener {
 
     /**
-     * Triggered when the user adds a place type
+     * Triggered when the user selects a place type
      *
      * @param placeType
      */
-    void onPlaceTypeAdded(String placeType);
-
-    /**
-     * Triggered when the user removes a place type
-     *
-     * @param placeType
-     */
-    void onPlaceTypeRemoved(String placeType);
+    void onPlaceTypeSelected(String placeType);
 
 }

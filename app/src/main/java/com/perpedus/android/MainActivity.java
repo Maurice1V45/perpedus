@@ -14,15 +14,12 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,20 +31,17 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.perpedus.android.comparator.PlacesComparator;
 import com.perpedus.android.dialog.DialogUtils;
 import com.perpedus.android.dom.Place;
 import com.perpedus.android.dom.PlaceDetailsResponse;
 import com.perpedus.android.dom.PlacesResponse;
 import com.perpedus.android.listener.MainActivityListener;
-import com.perpedus.android.listener.RetrievePlaceDetailsListener;
 import com.perpedus.android.listener.SmartLocationListener;
 import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.ConverterUtils;
 import com.perpedus.android.util.KeyboardUtils;
 import com.perpedus.android.util.LocationUtils;
-import com.perpedus.android.util.PlacesHelper;
 import com.perpedus.android.util.PreferencesUtils;
 import com.perpedus.android.util.ScreenUtils;
 import com.perpedus.android.util.UrlUtils;
@@ -61,88 +55,14 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
 /**
  * Main Activity. This is where all the magic happens
  */
-public class MainActivity extends AppCompatActivity implements SensorEventListener, MainActivityListener, RetrievePlaceDetailsListener {
-
-    /**
-     * Async task that retrieves data about places
-     */
-    private class RetrievePlacesAsync extends AsyncTask<String, Void, Void> {
-
-        private String name;
-        private String radius;
-        private float latitude;
-        private float longitude;
-        private List<String> types;
-
-        @Override
-        protected Void doInBackground(String... params) {
-
-            // build the url to the places web service
-            String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, "en");
-            String placesUrl = UrlUtils.buildPlacesLink(name, latitude, longitude, radius, language, null);
-
-            // get the response from the web service
-            String placesJson = UrlUtils.getJsonFromUrl(placesUrl);
-            PlacesResponse response = new Gson().fromJson(placesJson, PlacesResponse.class);
-
-            if (Constants.GOOGLE_RESPONSE_OK.equals(response.status)) {
-
-                // save the places
-                places = ConverterUtils.fromResponseToPlaces(response);
-
-                // sort the places by distance
-                Collections.sort(places, new PlacesComparator(myLocation));
-
-            } else {
-
-                // display error toast
-                Toast.makeText(MainActivity.this, R.string.google_error, Toast.LENGTH_SHORT).show();
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-
-            // send the data to the places display view
-            placesDisplayView.setPlaces(places);
-
-            // hide the progress view
-            hideProgressView();
-
-            // animate focus view
-            placeFocusView.setVisibility(View.VISIBLE);
-            Animation scaleAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_focus_scale);
-            placeFocusView.startAnimation(scaleAnimation);
-
-            // display a toast
-            Toast.makeText(MainActivity.this, getString(R.string.places_found).replace("%number%", String.valueOf(places.size())), Toast.LENGTH_SHORT).show();
-        }
-
-        public void setRadius(String radius) {
-            this.radius = radius;
-        }
-
-        public void setLatitude(float latitude) {
-            this.latitude = latitude;
-        }
-
-        public void setLongitude(float longitude) {
-            this.longitude = longitude;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public void setTypes(List<String> types) {
-            this.types = types;
-        }
-    }
+public class MainActivity extends AppCompatActivity implements SensorEventListener, MainActivityListener {
 
     private Camera camera;
     private CameraPreview cameraPreview;
@@ -168,6 +88,104 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int screenWidth;
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
+
+    private Callback<PlacesResponse> placesCallback = new Callback<PlacesResponse>() {
+
+        @Override
+        public void success(PlacesResponse placesResponse, Response response) {
+
+            if (Constants.GOOGLE_RESPONSE_OK.equals(placesResponse.status)) {
+
+                // save the places
+                places = ConverterUtils.fromResponseToPlaces(placesResponse);
+
+                // sort the places by distance
+                Collections.sort(places, new PlacesComparator(myLocation));
+
+                // send the data to the places display view
+                placesDisplayView.setPlaces(places);
+                placesDisplayView.setClosestAndFurthestLocation();
+
+                // display a toast
+                Toast.makeText(MainActivity.this, getString(R.string.toast_places_found).replace("%number%", String.valueOf(places.size())), Toast.LENGTH_SHORT).show();
+
+            } else if (Constants.GOOGLE_RESPONSE_NO_RESULTS.equals(placesResponse.status)) {
+
+                // clear the places
+                places.clear();;
+
+                // send the data to the places display view
+                placesDisplayView.setPlaces(places);
+                placesDisplayView.setClosestAndFurthestLocation();
+
+                // display a toast
+                Toast.makeText(MainActivity.this, getString(R.string.toast_no_places_found), Toast.LENGTH_SHORT).show();
+
+            } else {
+
+                // display error toast
+                Toast.makeText(MainActivity.this, R.string.toast_places_error, Toast.LENGTH_SHORT).show();
+            }
+
+            // hide the progress view
+            hideProgressView();
+
+            // animate focus view
+            placeFocusView.setVisibility(View.VISIBLE);
+            Animation scaleAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_focus_scale);
+            placeFocusView.startAnimation(scaleAnimation);
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+
+        }
+    };
+
+    private Callback<PlaceDetailsResponse> placeDetailsCallback = new Callback<PlaceDetailsResponse>() {
+
+        @Override
+        public void success(PlaceDetailsResponse placeDetailsResponse, Response response) {
+
+            if (Constants.GOOGLE_RESPONSE_OK.equals(placeDetailsResponse.status)) {
+                for (Place place : places) {
+                    if (place.getPlaceId().equals(placeDetailsResponse.result.placeId)) {
+
+                        // store place details
+                        place.setDetails(placeDetailsResponse);
+
+                        if (focusedPlace != null) {
+
+                            if (placeDetailsResponse.result.photos == null || placeDetailsResponse.result.photos.length == 0) {
+
+                                // load no photo
+                                placeImage.setImageResource(R.drawable.icon_no_photo);
+
+                            } else {
+
+                                // load photo
+                                String reference = placeDetailsResponse.result.photos[0].reference;
+                                Picasso
+                                        .with(MainActivity.this)
+                                        .load(UrlUtils.buildPlacePhotoLink(reference, (int) ScreenUtils.fromDpToPixels(MainActivity.this, 84f)))
+                                        .placeholder(R.drawable.progress)
+                                        .transform(new RoundedCornersTransformation(12, 0))
+                                        .error(R.drawable.icon_no_photo)
+                                        .into(placeImage);
+                            }
+                        }
+                        break;
+                    }
+                }
+            }
+
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+
+        }
+    };
 
     private BroadcastReceiver locationReceiver = new BroadcastReceiver() {
 
@@ -248,9 +266,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      * Places display view initializer
      */
     private void initPlacesDisplayView() {
-        placesDisplayView = new PlacesDisplayView(this, camera.getParameters().getVerticalViewAngle(), camera.getParameters().getHorizontalViewAngle(), MainActivity.this);
+        placesDisplayView = new PlacesDisplayView(this, camera.getParameters().getVerticalViewAngle(), camera.getParameters().getHorizontalViewAngle(), MainActivity.this, places);
         placesDisplayView.setCurrentLocation(myLocation);
-        placesDisplayView.setPlaces(places);
         screenLayout.addView(placesDisplayView, 1);
     }
 
@@ -278,20 +295,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
         if (getIntent().hasExtra(Constants.EXTRA_PLACES)) {
 
-            PlacesResponse response = new Gson().fromJson(getIntent().getStringExtra(Constants.EXTRA_PLACES), PlacesResponse.class);
-            if (Constants.GOOGLE_RESPONSE_OK.equals(response.status)) {
+            PlacesResponse response = (PlacesResponse) getIntent().getSerializableExtra(Constants.EXTRA_PLACES);
 
-                // save the places
-                places = ConverterUtils.fromResponseToPlaces(response);
+            // save the places
+            places = ConverterUtils.fromResponseToPlaces(response);
 
-                // sort the places by distance
-                Collections.sort(places, new PlacesComparator(myLocation));
+            // sort the places by distance
+            Collections.sort(places, new PlacesComparator(myLocation));
 
-            } else {
-
-                // display error toast
-                Toast.makeText(MainActivity.this, R.string.google_error, Toast.LENGTH_SHORT).show();
-            }
         }
 
         // initialize android device sensor capabilities
@@ -323,8 +334,20 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     private void initToolbar() {
         setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.main_drawer_open, R.string.main_drawer_close) {
+
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+
+                // slowly hide other views
+                placeFocusView.setAlpha(1f - slideOffset);
+                placesDisplayView.setAlpha(1f - slideOffset);
+                placeDetailsView.setAlpha(1f - slideOffset);
+
+            }
+        };
         drawerLayout.setDrawerListener(toggle);
+        drawerLayout.setScrimColor(getResources().getColor(R.color.transparent));
         toggle.syncState();
     }
 
@@ -436,33 +459,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     private void initListeners() {
         drawerContent.setMainActivityListener(MainActivity.this);
-        drawerLayout.setDrawerListener(new DrawerLayout.DrawerListener() {
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-
-                // slowly hide other views
-                placeFocusView.setAlpha(1f - slideOffset);
-                placesDisplayView.setAlpha(1f - slideOffset);
-                placeDetailsView.setAlpha(1f - slideOffset);
-
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                // nothing to do here
-            }
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                // nothing to do here
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                // nothing to do here
-            }
-        });
         placeDetailsView.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -570,7 +566,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             // no details, attempt to retrieve them
             String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, Constants.DEFAULT_LANGUAGE);
-            PlacesHelper.getInstance().retrievePlaceDetailsAsync(MainActivity.this, focusedPlace.getPlaceId(), language);
+            PerpedusApplication.getInstance().getPlacesService().getPlaceDetails(focusedPlace.getPlaceId(), language, Constants.PLACES_KEY, placeDetailsCallback);
 
             // set image as loading
             placeImage.setImageResource(R.drawable.progress);
@@ -601,14 +597,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    public void onSearchButtonPressed(String name, String radius, List<String> types) {
+    public void onSearchButtonPressed(String name, String radius, String type) {
 
         // close drawer and hide keyboard
         KeyboardUtils.closeKeyboard(MainActivity.this);
         drawerLayout.closeDrawer(Gravity.LEFT);
 
         // show progress view
-        showProgressView(getString(R.string.retrieve_places));
+        showProgressView(getString(R.string.loading_retrieving_places_text));
 
         // clear current places
         places.clear();
@@ -616,22 +612,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // hide focus view
         placeFocusView.setVisibility(View.GONE);
 
-        // call for places query
-        RetrievePlacesAsync async = new RetrievePlacesAsync();
-        async.setLatitude((float) myLocation.getLatitude());
-        async.setLongitude((float) myLocation.getLongitude());
-        async.setTypes(types);
-        async.setName(name);
-        async.setRadius(radius);
-        async.execute();
+        String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, Constants.DEFAULT_LANGUAGE);
+        PerpedusApplication.getInstance().getPlacesService().getPlaces(myLocation.getLatitude() + "," + myLocation.getLongitude(), radius, language, name, type, Constants.PLACES_KEY, placesCallback);
+
     }
 
     @Override
-    public void onPlaceTypesUpdated(List<String> selectedTypes) {
+    public void onPlaceTypeUpdated(String selectedType) {
 
-        // set new selected types and update selected types list
-        drawerContent.setSelectedTypes(selectedTypes);
-        drawerContent.updateSelectedTypes();
+        // set new selected type and update it
+        drawerContent.setSelectedType(selectedType);
+        drawerContent.updateSelectedType();
     }
 
     @Override
@@ -706,53 +697,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     private void hideProgressView() {
         progressView.setVisibility(View.GONE);
-    }
-
-    @Override
-    public void onPlaceDetailsRetrieved(String response) {
-
-        final PlaceDetailsResponse detailsResponse = new Gson().fromJson(response, PlaceDetailsResponse.class);
-        for (Place place : places) {
-            if (place.getPlaceId().equals(detailsResponse.result.placeId)) {
-
-                // store place details
-                place.setDetails(detailsResponse);
-
-                if (focusedPlace != null) {
-
-                    // update focused place image
-                    runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-                            if (detailsResponse.result.photos == null || detailsResponse.result.photos.length == 0) {
-
-                                // load no photo
-                                placeImage.setImageResource(R.drawable.icon_no_photo);
-
-                            } else {
-
-                                // load photo
-                                String reference = detailsResponse.result.photos[0].reference;
-                                Picasso
-                                        .with(MainActivity.this)
-                                        .load(UrlUtils.buildPlacePhotoLink(reference, (int) ScreenUtils.fromDpToPixels(MainActivity.this, 84f)))
-                                        .placeholder(R.drawable.progress)
-                                        .transform(new RoundedCornersTransformation(12, 0))
-                                        .error(R.drawable.icon_no_photo)
-                                        .into(placeImage);
-                            }
-                        }
-                    });
-                }
-                break;
-            }
-        }
-    }
-
-    @Override
-    public void onPlaceDetailsRetrievedError() {
-
     }
 
 }

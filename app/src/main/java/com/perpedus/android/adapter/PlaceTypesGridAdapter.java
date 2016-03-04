@@ -20,7 +20,6 @@ import java.util.List;
 public class PlaceTypesGridAdapter extends RecyclerView.Adapter<PlaceTypesGridAdapter.PlaceTypesViewHolder> {
 
     private List<String> placeTypes;
-    private List<String> selectedTypes;
     private Context context;
     private PlaceTypesDialogListener placeTypesDialogListener;
 
@@ -28,13 +27,11 @@ public class PlaceTypesGridAdapter extends RecyclerView.Adapter<PlaceTypesGridAd
      * Constructor
      *
      * @param context
-     * @param placeTypes
      * @param placeTypesDialogListener
      */
-    public PlaceTypesGridAdapter(Context context, List<String> placeTypes, List<String> selectedTypes, PlaceTypesDialogListener placeTypesDialogListener) {
+    public PlaceTypesGridAdapter(Context context, List<String> placeTypes, PlaceTypesDialogListener placeTypesDialogListener) {
         this.context = context;
         this.placeTypes = placeTypes;
-        this.selectedTypes = selectedTypes;
         this.placeTypesDialogListener = placeTypesDialogListener;
     }
 
@@ -59,22 +56,12 @@ public class PlaceTypesGridAdapter extends RecyclerView.Adapter<PlaceTypesGridAd
         // set title
         holder.title.setText(PlacesHelper.getInstance().getPlaceTypeName(placeType));
 
-        // set background
-        if (selectedTypes.contains(placeType)) {
-            holder.itemView.setBackgroundResource(R.drawable.dark_green_bordered_green_selector);
-        } else {
-            holder.itemView.setBackgroundResource(R.drawable.grey_bordered_greyed_selector);
-        }
-
         // set on item click listener
         holder.itemView.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View v) {
-                if (selectedTypes.contains(placeType)) {
-                    placeTypesDialogListener.onPlaceTypeRemoved(placeType);
-                } else {
-                    placeTypesDialogListener.onPlaceTypeAdded(placeType);
-                }
+                placeTypesDialogListener.onPlaceTypeSelected(placeType);
             }
         });
 

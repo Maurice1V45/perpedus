@@ -9,22 +9,55 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
-import com.perpedus.android.listener.RetrievePlacesListener;
+import com.perpedus.android.dom.PlacesResponse;
 import com.perpedus.android.listener.SmartLocationListener;
 import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.LocationUtils;
-import com.perpedus.android.util.PlacesHelper;
 import com.perpedus.android.util.PreferencesUtils;
 
-public class LoadingActivity extends Activity implements RetrievePlacesListener {
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
+
+public class LoadingActivity extends Activity {
+
+    private Callback<PlacesResponse> placesCallback = new Callback<PlacesResponse>() {
+        @Override
+        public void success(PlacesResponse placesResponse, Response response) {
+
+            if (Constants.GOOGLE_RESPONSE_OK.equals(placesResponse.status) || Constants.GOOGLE_RESPONSE_NO_RESULTS.equals(placesResponse.status)) {
+
+                // launch main activity
+                Intent mainActivityIntent = new Intent(LoadingActivity.this, MainActivity.class);
+                mainActivityIntent.putExtra(Constants.EXTRA_PROVIDER, provider);
+                mainActivityIntent.putExtra(Constants.EXTRA_LATITUDE, latitude);
+                mainActivityIntent.putExtra(Constants.EXTRA_LONGITUDE, longitude);
+                mainActivityIntent.putExtra(Constants.EXTRA_PLACES, placesResponse);
+                startActivity(mainActivityIntent);
+                finish();
+            }
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+
+            // display error message
+            progressLayout.setVisibility(View.GONE);
+            errorLayout.setVisibility(View.VISIBLE);
+            errorText.setText(R.string.loading_places_error);
+
+        }
+    };
 
     private LocationManager locationManager;
     private SmartLocationListener gpsLocationListener;
@@ -34,8 +67,16 @@ public class LoadingActivity extends Activity implements RetrievePlacesListener 
     private double latitude;
     private double longitude;
 
+    private ImageView progressImage;
+    private TextView progressText;
+    private TextView errorText;
+    private Button retryButton;
+    private View progressLayout;
+    private View errorLayout;
+
     private static final int PERMISSION_REQUEST_CAMERA = 1;
     private static final int PERMISSION_REQUEST_LOCATION = 2;
+    private static final String INITIAL_SEARCH_RADIUS = "5000";
 
     private BroadcastReceiver locationReceiver = new BroadcastReceiver() {
 
@@ -66,9 +107,46 @@ public class LoadingActivity extends Activity implements RetrievePlacesListener 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.loading_activity);
 
+        initViews();
+        initListeners();
+
         // check if user has the required hardware in order to run this app
         checkUserHasHardwareRequirements();
 
+    }
+
+    /**
+     * Views initializer
+     */
+    private void initViews() {
+        progressImage = (ImageView) findViewById(R.id.progress_image);
+        progressText = (TextView) findViewById(R.id.progress_text);
+        errorText = (TextView) findViewById(R.id.error_text);
+        progressLayout = findViewById(R.id.progress_layout);
+        errorLayout = findViewById(R.id.error_layout);
+        retryButton = (Button) findViewById(R.id.retry_button);
+    }
+
+    /**
+     * Listeners initializer
+     */
+    private void initListeners() {
+        retryButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // show progress view
+                errorLayout.setVisibility(View.GONE);
+                progressLayout.setVisibility(View.VISIBLE);
+                progressText.setText(R.string.loading_retrieving_places_text);
+
+                // retrieve places
+                String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, Constants.DEFAULT_LANGUAGE);
+                PerpedusApplication.getInstance().getPlacesService().getPlaces(latitude + "," + longitude, INITIAL_SEARCH_RADIUS, language, null, null, Constants.PLACES_KEY, placesCallback);
+
+            }
+        });
     }
 
     @Override
@@ -84,8 +162,11 @@ public class LoadingActivity extends Activity implements RetrievePlacesListener 
         // get language
         String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, Constants.DEFAULT_LANGUAGE);
 
+        // set progress text
+        progressText.setText(R.string.loading_retrieving_places_text);
+
         // retrieve places
-        PlacesHelper.getInstance().retrievePlacesAsync(LoadingActivity.this, null, "5000", (float) latitude, (float) longitude, language, null);
+        PerpedusApplication.getInstance().getPlacesService().getPlaces(latitude + "," + longitude, INITIAL_SEARCH_RADIUS, language, null, null, Constants.PLACES_KEY, placesCallback);
     }
 
     @Override
@@ -120,7 +201,7 @@ public class LoadingActivity extends Activity implements RetrievePlacesListener 
 
         // check if user has camera
         if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA)) {
-            Toast.makeText(LoadingActivity.this, R.string.fatal_error_no_camera, Toast.LENGTH_LONG).show();
+            Toast.makeText(LoadingActivity.this, R.string.toast_no_camera, Toast.LENGTH_LONG).show();
             unregisterLocationListener();
             finish();
         }
@@ -129,14 +210,14 @@ public class LoadingActivity extends Activity implements RetrievePlacesListener 
         SensorManager sensorManager = (SensorManager) getSystemService(SENSOR_SERVICE);
         Sensor orientationSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ORIENTATION);
         if (orientationSensor == null) {
-            Toast.makeText(LoadingActivity.this, R.string.fatal_error_no_orientation, Toast.LENGTH_LONG).show();
+            Toast.makeText(LoadingActivity.this, R.string.toast_no_orientation, Toast.LENGTH_LONG).show();
             unregisterLocationListener();
             finish();
         }
 
         // check if user has gps
         if (!packageManager.hasSystemFeature(PackageManager.FEATURE_LOCATION_GPS)) {
-            Toast.makeText(LoadingActivity.this, R.string.fatal_error_no_gps, Toast.LENGTH_LONG).show();
+            Toast.makeText(LoadingActivity.this, R.string.toast_no_gps, Toast.LENGTH_LONG).show();
             unregisterLocationListener();
             finish();
         }
@@ -174,6 +255,10 @@ public class LoadingActivity extends Activity implements RetrievePlacesListener 
         // scan for new location
         LocationUtils.scanLocation(LoadingActivity.this, LocationManager.GPS_PROVIDER, gpsLocationListener);
         LocationUtils.scanLocation(LoadingActivity.this, LocationManager.NETWORK_PROVIDER, networkLocationListener);
+
+        // set progress text and image
+        progressImage.setImageResource(R.drawable.progress_white);
+        progressText.setText(R.string.loading_retrieving_location_text);
     }
 
     @Override
@@ -190,7 +275,7 @@ public class LoadingActivity extends Activity implements RetrievePlacesListener 
                 } else {
 
                     // permission denied
-                    Toast.makeText(LoadingActivity.this, R.string.permission_denied_camera, Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoadingActivity.this, R.string.toast_permission_denied_camera, Toast.LENGTH_LONG).show();
                     unregisterLocationListener();
                     finish();
                 }
@@ -207,7 +292,7 @@ public class LoadingActivity extends Activity implements RetrievePlacesListener 
                 } else {
 
                     // permission denied
-                    Toast.makeText(LoadingActivity.this, R.string.permission_denied_location, Toast.LENGTH_LONG).show();
+                    Toast.makeText(LoadingActivity.this, R.string.toast_permission_denied_location, Toast.LENGTH_LONG).show();
                     unregisterLocationListener();
                     finish();
                 }
@@ -216,23 +301,5 @@ public class LoadingActivity extends Activity implements RetrievePlacesListener 
             default:
                 break;
         }
-    }
-
-    @Override
-    public void onPlacesRetrieved(String response) {
-
-        // launch main activity
-        Intent mainActivityIntent = new Intent(LoadingActivity.this, MainActivity.class);
-        mainActivityIntent.putExtra(Constants.EXTRA_PROVIDER, provider);
-        mainActivityIntent.putExtra(Constants.EXTRA_LATITUDE, latitude);
-        mainActivityIntent.putExtra(Constants.EXTRA_LONGITUDE, longitude);
-        mainActivityIntent.putExtra(Constants.EXTRA_PLACES, response);
-        startActivity(mainActivityIntent);
-        finish();
-    }
-
-    @Override
-    public void onPlacesRetrievedError() {
-
     }
 }

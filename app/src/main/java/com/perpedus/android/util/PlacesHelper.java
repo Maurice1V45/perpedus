@@ -173,7 +173,7 @@ public class PlacesHelper {
 
         // place marker bitmaps (yellow & black)
         blackMarkerBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_marker_black, bitmapOptions);
-        yellowMarkerBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_marker_red, bitmapOptions);
+        yellowMarkerBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_marker_yellow, bitmapOptions);
 
         // arrows bitmaps (used for out of bounds)
         arrowBitmap1 = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon_arrow_1, bitmapOptions);
@@ -290,136 +290,136 @@ public class PlacesHelper {
      * Initializes a hashmap that holds data about each place type
      */
     private void initPlaceTypesMap() {
-        placeTypeMap.put("accounting", new Object[]{R.string.place_type_accounting, bitmapAccounting, R.drawable.icon_accounting, true});
-        placeTypeMap.put("airport", new Object[]{R.string.place_type_airport, bitmapAirport, R.drawable.icon_airport, true});
-        placeTypeMap.put("amusement_park", new Object[]{R.string.place_type_amusement_park, bitmapAmusementPark, R.drawable.icon_amusement_park, true});
-        placeTypeMap.put("aquarium", new Object[]{R.string.place_type_aquarium, bitmapAquarium, R.drawable.icon_aquarium, true});
-        placeTypeMap.put("art_gallery", new Object[]{R.string.place_type_art_gallery, bitmapArtGalery, R.drawable.icon_art_gallery, true});
-        placeTypeMap.put("atm", new Object[]{R.string.place_type_atm, bitmapAtm, R.drawable.icon_atm, true});
-        placeTypeMap.put("bakery", new Object[]{R.string.place_type_bakery, bitmapBakery, R.drawable.icon_bakery, true});
-        placeTypeMap.put("bank", new Object[]{R.string.place_type_bank, bitmapBank, R.drawable.icon_bank, true});
-        placeTypeMap.put("bar", new Object[]{R.string.place_type_bar, bitmapBar, R.drawable.icon_bar, true});
-        placeTypeMap.put("beauty_salon", new Object[]{R.string.place_type_beauty_salon, bitmapBeautySalon, R.drawable.icon_beauty_salon, true});
-        placeTypeMap.put("bicycle_store", new Object[]{R.string.place_type_bicycle_store, bitmapBicycleStore, R.drawable.icon_bicycle_store, true});
-        placeTypeMap.put("book_store", new Object[]{R.string.place_type_book_store, bitmapBookStore, R.drawable.icon_book_store, true});
-        placeTypeMap.put("bowling_alley", new Object[]{R.string.place_type_bowling_alley, bitmapBowlingAlley, R.drawable.icon_bowling_alley, true});
-        placeTypeMap.put("bus_station", new Object[]{R.string.place_type_bus_station, bitmapBusStation, R.drawable.icon_bus_station, true});
-        placeTypeMap.put("cafe", new Object[]{R.string.place_type_cafe, bitmapCafe, R.drawable.icon_cafe, true});
-        placeTypeMap.put("campground", new Object[]{R.string.place_type_campground, bitmapCampground, R.drawable.icon_campground, true});
-        placeTypeMap.put("car_dealer", new Object[]{R.string.place_type_car_dealer, bitmapCarDealer, R.drawable.icon_car_dealer, true});
-        placeTypeMap.put("car_rental", new Object[]{R.string.place_type_car_rental, bitmapCarRental, R.drawable.icon_car_rental, true});
-        placeTypeMap.put("car_repair", new Object[]{R.string.place_type_car_repair, bitmapCarRepair, R.drawable.icon_car_repair, true});
-        placeTypeMap.put("car_wash", new Object[]{R.string.place_type_car_wash, bitmapCarWash, R.drawable.icon_car_wash, true});
-        placeTypeMap.put("casino", new Object[]{R.string.place_type_casino, bitmapCasino, R.drawable.icon_casino, true});
-        placeTypeMap.put("cemetery", new Object[]{R.string.place_type_cemetery, bitmapCemetery, R.drawable.icon_cemetery, true});
-        placeTypeMap.put("church", new Object[]{R.string.place_type_church, bitmapChurch, R.drawable.icon_church, true});
-        placeTypeMap.put("city_hall", new Object[]{R.string.place_type_city_hall, bitmapCityHall, R.drawable.icon_city_hall, true});
-        placeTypeMap.put("clothing_store", new Object[]{R.string.place_type_clothing_store, bitmapClothingStore, R.drawable.icon_clothing_store, true});
-        placeTypeMap.put("convenience_store", new Object[]{R.string.place_type_convenience_store, bitmapConvenienceStore, R.drawable.icon_convenience_store, true});
-        placeTypeMap.put("courthouse", new Object[]{R.string.place_type_courthouse, bitmapCourthouse, R.drawable.icon_courthouse, true});
-        placeTypeMap.put("dentist", new Object[]{R.string.place_type_dentist, bitmapDentist, R.drawable.icon_dentist, true});
-        placeTypeMap.put("department_store", new Object[]{R.string.place_type_department_store, bitmapDepartmentStore, R.drawable.icon_department_store, true});
-        placeTypeMap.put("doctor", new Object[]{R.string.place_type_doctor, bitmapDoctor, R.drawable.icon_doctor, true});
-        placeTypeMap.put("electrician", new Object[]{R.string.place_type_electrician, bitmapElectrician, R.drawable.icon_electrician, true});
-        placeTypeMap.put("electronics_store", new Object[]{R.string.place_type_electronics_store, bitmapElectronicsStore, R.drawable.icon_electronics_store, true});
-        placeTypeMap.put("embassy", new Object[]{R.string.place_type_embassy, bitmapEmbassy, R.drawable.icon_embassy, true});
-        placeTypeMap.put("establishment", new Object[]{R.string.place_type_establishment, bitmapEstablishment, R.drawable.icon_establishment, true});
-        placeTypeMap.put("finance", new Object[]{R.string.place_type_finance, bitmapFinance, R.drawable.icon_finance, true});
-        placeTypeMap.put("fire_station", new Object[]{R.string.place_type_fire_station, bitmapFireStation, R.drawable.icon_fire_station, true});
-        placeTypeMap.put("florist", new Object[]{R.string.place_type_florist, bitmapFlorist, R.drawable.icon_florist, true});
-        placeTypeMap.put("food", new Object[]{R.string.place_type_food, bitmapFood, R.drawable.icon_food, true});
-        placeTypeMap.put("funeral_home", new Object[]{R.string.place_type_funeral_home, bitmapFuneralHome, R.drawable.icon_funeral_home, true});
-        placeTypeMap.put("furniture_store", new Object[]{R.string.place_type_furniture_store, bitmapFurnitureStore, R.drawable.icon_furniture_store, true});
-        placeTypeMap.put("gas_station", new Object[]{R.string.place_type_gas_station, bitmapGasStation, R.drawable.icon_gas_station, true});
-        placeTypeMap.put("general_contractor", new Object[]{R.string.place_type_general_contractor, bitmapGeneralContractor, R.drawable.icon_general_contractor, true});
-        placeTypeMap.put("grocery_or_supermarket", new Object[]{R.string.place_type_grocery_or_supermarket, bitmapGroceryOrSupermarket, R.drawable.icon_grocery_or_supermarket, true});
-        placeTypeMap.put("gym", new Object[]{R.string.place_type_gym, bitmapGym, R.drawable.icon_gym, true});
-        placeTypeMap.put("hair_care", new Object[]{R.string.place_type_hair_care, bitmapHairCare, R.drawable.icon_hair_care, true});
-        placeTypeMap.put("hardware_store", new Object[]{R.string.place_type_hardware_store, bitmapHardwareStore, R.drawable.icon_hardware_store, true});
-        placeTypeMap.put("health", new Object[]{R.string.place_type_health, bitmapHealth, R.drawable.icon_health, true});
-        placeTypeMap.put("hindu_temple", new Object[]{R.string.place_type_hindu_temple, bitmapHinduTemple, R.drawable.icon_hindu_temple, true});
-        placeTypeMap.put("home_goods_store", new Object[]{R.string.place_type_home_goods_store, bitmapHomeGoodsStore, R.drawable.icon_home_goods_store, true});
-        placeTypeMap.put("hospital", new Object[]{R.string.place_type_hospital, bitmapHospital, R.drawable.icon_hospital, true});
-        placeTypeMap.put("insurance_agency", new Object[]{R.string.place_type_insurance_agency, bitmapInsuranceAgency, R.drawable.icon_insurance_agency, true});
-        placeTypeMap.put("jewelry_store", new Object[]{R.string.place_type_jewelry_store, bitmapJewelryStore, R.drawable.icon_jewelry_store, true});
-        placeTypeMap.put("laundry", new Object[]{R.string.place_type_laundry, bitmapLaundry, R.drawable.icon_laundry, true});
-        placeTypeMap.put("lawyer", new Object[]{R.string.place_type_lawyer, bitmapLawyer, R.drawable.icon_lawyer, true});
-        placeTypeMap.put("library", new Object[]{R.string.place_type_library, bitmapLibrary, R.drawable.icon_library, true});
-        placeTypeMap.put("liquor_store", new Object[]{R.string.place_type_liquor_store, bitmapLiquorStore, R.drawable.icon_liquor_store, true});
-        placeTypeMap.put("local_government_office", new Object[]{R.string.place_type_local_government_office, bitmapLocalGovernmentOffice, R.drawable.icon_local_government_office, true});
-        placeTypeMap.put("locksmith", new Object[]{R.string.place_type_locksmith, bitmapLocksmith, R.drawable.icon_locksmith, true});
-        placeTypeMap.put("lodging", new Object[]{R.string.place_type_lodging, bitmapLodging, R.drawable.icon_lodging, true});
-        placeTypeMap.put("meal_delivery", new Object[]{R.string.place_type_meal_delivery, bitmapMealDelivery, R.drawable.icon_meal_delivery, true});
-        placeTypeMap.put("meal_takeaway", new Object[]{R.string.place_type_meal_takeaway, bitmapMealTakeaway, R.drawable.icon_meal_takeaway, true});
-        placeTypeMap.put("mosque", new Object[]{R.string.place_type_mosque, bitmapMosque, R.drawable.icon_mosque, true});
-        placeTypeMap.put("movie_rental", new Object[]{R.string.place_type_movie_rental, bitmapMovieRental, R.drawable.icon_movie_rental, true});
-        placeTypeMap.put("movie_theater", new Object[]{R.string.place_type_movie_theater, bitmapMovieTheater, R.drawable.icon_movie_theater, true});
-        placeTypeMap.put("moving_company", new Object[]{R.string.place_type_moving_company, bitmapMovingCompany, R.drawable.icon_moving_company, true});
-        placeTypeMap.put("museum", new Object[]{R.string.place_type_museum, bitmapMuseum, R.drawable.icon_museum, true});
-        placeTypeMap.put("night_club", new Object[]{R.string.place_type_night_club, bitmapNightClub, R.drawable.icon_night_club, true});
-        placeTypeMap.put("painter", new Object[]{R.string.place_type_painter, bitmapPainter, R.drawable.icon_painter, true});
-        placeTypeMap.put("park", new Object[]{R.string.place_type_park, bitmapPark, R.drawable.icon_park, true});
-        placeTypeMap.put("parking", new Object[]{R.string.place_type_parking, bitmapParking, R.drawable.icon_parking, true});
-        placeTypeMap.put("pet_store", new Object[]{R.string.place_type_pet_store, bitmapPetStore, R.drawable.icon_pet_store, true});
-        placeTypeMap.put("pharmacy", new Object[]{R.string.place_type_pharmacy, bitmapPharmacy, R.drawable.icon_pharmacy, true});
-        placeTypeMap.put("physiotherapist", new Object[]{R.string.place_type_physiotherapist, bitmapPhysiotherapist, R.drawable.icon_physiotherapist, true});
-        placeTypeMap.put("place_of_worship", new Object[]{R.string.place_type_place_of_worship, bitmapPlaceOfWorkship, R.drawable.icon_place_of_worship, true});
-        placeTypeMap.put("plumber", new Object[]{R.string.place_type_plumber, bitmapPlumber, R.drawable.icon_plumber, true});
-        placeTypeMap.put("police", new Object[]{R.string.place_type_police, bitmapPolice, R.drawable.icon_police, true});
-        placeTypeMap.put("post_office", new Object[]{R.string.place_type_post_office, bitmapPostOffice, R.drawable.icon_post_office, true});
-        placeTypeMap.put("real_estate_agency", new Object[]{R.string.place_type_real_estate_agency, bitmapRealEstateAgency, R.drawable.icon_real_estate_agency, true});
-        placeTypeMap.put("restaurant", new Object[]{R.string.place_type_restaurant, bitmapRestaurant, R.drawable.icon_restaurant, true});
-        placeTypeMap.put("roofing_contractor", new Object[]{R.string.place_type_roofing_contractor, bitmapRoofingContractor, R.drawable.icon_roofing_contractor, true});
-        placeTypeMap.put("rv_park", new Object[]{R.string.place_type_rv_park, bitmapRvPark, R.drawable.icon_rv_park, true});
-        placeTypeMap.put("school", new Object[]{R.string.place_type_school, bitmapSchool, R.drawable.icon_school, true});
-        placeTypeMap.put("shoe_store", new Object[]{R.string.place_type_shoe_store, bitmapShoeStore, R.drawable.icon_shoe_store, true});
-        placeTypeMap.put("shopping_mall", new Object[]{R.string.place_type_shopping_mall, bitmapShoppingMall, R.drawable.icon_shopping_mall, true});
-        placeTypeMap.put("spa", new Object[]{R.string.place_type_spa, bitmapSpa, R.drawable.icon_spa, true});
-        placeTypeMap.put("stadium", new Object[]{R.string.place_type_stadium, bitmapStadium, R.drawable.icon_stadium, true});
-        placeTypeMap.put("storage", new Object[]{R.string.place_type_storage, bitmapStorage, R.drawable.icon_storage, true});
-        placeTypeMap.put("store", new Object[]{R.string.place_type_store, bitmapStore, R.drawable.icon_store, true});
-        placeTypeMap.put("subway_station", new Object[]{R.string.place_type_subway_station, bitmapSubwayStation, R.drawable.icon_subway_station, true});
-        placeTypeMap.put("synagogue", new Object[]{R.string.place_type_synagogue, bitmapSynagogue, R.drawable.icon_synagogue, true});
-        placeTypeMap.put("taxi_stand", new Object[]{R.string.place_type_taxi_stand, bitmapTaxiStand, R.drawable.icon_taxi_stand, true});
-        placeTypeMap.put("train_station", new Object[]{R.string.place_type_train_station, bitmapTrainStation, R.drawable.icon_train_station, true});
-        placeTypeMap.put("travel_agency", new Object[]{R.string.place_type_travel_agency, bitmapTravelAgency, R.drawable.icon_travel_agency, true});
-        placeTypeMap.put("university", new Object[]{R.string.place_type_university, bitmapUniversity, R.drawable.icon_university, true});
-        placeTypeMap.put("veterinary_care", new Object[]{R.string.place_type_veterinary_care, bitmapVeterinaryCare, R.drawable.icon_veterinary_care, true});
-        placeTypeMap.put("zoo", new Object[]{R.string.place_type_zoo, bitmapZoo, R.drawable.icon_zoo, true});
+        placeTypeMap.put("accounting", new Object[]{R.string.place_type_accounting, bitmapAccounting, R.drawable.icon_accounting, R.drawable.icon_accounting_white, true});
+        placeTypeMap.put("airport", new Object[]{R.string.place_type_airport, bitmapAirport, R.drawable.icon_airport, R.drawable.icon_airport_white, true});
+        placeTypeMap.put("amusement_park", new Object[]{R.string.place_type_amusement_park, bitmapAmusementPark, R.drawable.icon_amusement_park, R.drawable.icon_amusement_park_white, true});
+        placeTypeMap.put("aquarium", new Object[]{R.string.place_type_aquarium, bitmapAquarium, R.drawable.icon_aquarium, R.drawable.icon_aquarium_white, true});
+        placeTypeMap.put("art_gallery", new Object[]{R.string.place_type_art_gallery, bitmapArtGalery, R.drawable.icon_art_gallery, R.drawable.icon_art_gallery_white, true});
+        placeTypeMap.put("atm", new Object[]{R.string.place_type_atm, bitmapAtm, R.drawable.icon_atm, R.drawable.icon_atm_white, true});
+        placeTypeMap.put("bakery", new Object[]{R.string.place_type_bakery, bitmapBakery, R.drawable.icon_bakery, R.drawable.icon_bakery_white, true});
+        placeTypeMap.put("bank", new Object[]{R.string.place_type_bank, bitmapBank, R.drawable.icon_bank, R.drawable.icon_bank_white, true});
+        placeTypeMap.put("bar", new Object[]{R.string.place_type_bar, bitmapBar, R.drawable.icon_bar, R.drawable.icon_bar_white, true});
+        placeTypeMap.put("beauty_salon", new Object[]{R.string.place_type_beauty_salon, bitmapBeautySalon, R.drawable.icon_beauty_salon, R.drawable.icon_beauty_salon_white, true});
+        placeTypeMap.put("bicycle_store", new Object[]{R.string.place_type_bicycle_store, bitmapBicycleStore, R.drawable.icon_bicycle_store, R.drawable.icon_bicycle_store_white, true});
+        placeTypeMap.put("book_store", new Object[]{R.string.place_type_book_store, bitmapBookStore, R.drawable.icon_book_store, R.drawable.icon_book_store_white, true});
+        placeTypeMap.put("bowling_alley", new Object[]{R.string.place_type_bowling_alley, bitmapBowlingAlley, R.drawable.icon_bowling_alley, R.drawable.icon_bowling_alley_white, true});
+        placeTypeMap.put("bus_station", new Object[]{R.string.place_type_bus_station, bitmapBusStation, R.drawable.icon_bus_station, R.drawable.icon_bus_station_white, true});
+        placeTypeMap.put("cafe", new Object[]{R.string.place_type_cafe, bitmapCafe, R.drawable.icon_cafe, R.drawable.icon_cafe_white, true});
+        placeTypeMap.put("campground", new Object[]{R.string.place_type_campground, bitmapCampground, R.drawable.icon_campground, R.drawable.icon_campground_white, true});
+        placeTypeMap.put("car_dealer", new Object[]{R.string.place_type_car_dealer, bitmapCarDealer, R.drawable.icon_car_dealer, R.drawable.icon_car_dealer_white, true});
+        placeTypeMap.put("car_rental", new Object[]{R.string.place_type_car_rental, bitmapCarRental, R.drawable.icon_car_rental, R.drawable.icon_car_rental_white, true});
+        placeTypeMap.put("car_repair", new Object[]{R.string.place_type_car_repair, bitmapCarRepair, R.drawable.icon_car_repair, R.drawable.icon_car_repair_white, true});
+        placeTypeMap.put("car_wash", new Object[]{R.string.place_type_car_wash, bitmapCarWash, R.drawable.icon_car_wash, R.drawable.icon_car_wash_white, true});
+        placeTypeMap.put("casino", new Object[]{R.string.place_type_casino, bitmapCasino, R.drawable.icon_casino, R.drawable.icon_casino_white, true});
+        placeTypeMap.put("cemetery", new Object[]{R.string.place_type_cemetery, bitmapCemetery, R.drawable.icon_cemetery, R.drawable.icon_cemetery_white, true});
+        placeTypeMap.put("church", new Object[]{R.string.place_type_church, bitmapChurch, R.drawable.icon_church, R.drawable.icon_church_white, true});
+        placeTypeMap.put("city_hall", new Object[]{R.string.place_type_city_hall, bitmapCityHall, R.drawable.icon_city_hall, R.drawable.icon_city_hall_white, true});
+        placeTypeMap.put("clothing_store", new Object[]{R.string.place_type_clothing_store, bitmapClothingStore, R.drawable.icon_clothing_store, R.drawable.icon_clothing_store_white, true});
+        placeTypeMap.put("convenience_store", new Object[]{R.string.place_type_convenience_store, bitmapConvenienceStore, R.drawable.icon_convenience_store, R.drawable.icon_convenience_store_white, true});
+        placeTypeMap.put("courthouse", new Object[]{R.string.place_type_courthouse, bitmapCourthouse, R.drawable.icon_courthouse, R.drawable.icon_courthouse_white, true});
+        placeTypeMap.put("dentist", new Object[]{R.string.place_type_dentist, bitmapDentist, R.drawable.icon_dentist, R.drawable.icon_dentist_white, true});
+        placeTypeMap.put("department_store", new Object[]{R.string.place_type_department_store, bitmapDepartmentStore, R.drawable.icon_department_store, R.drawable.icon_department_store_white, true});
+        placeTypeMap.put("doctor", new Object[]{R.string.place_type_doctor, bitmapDoctor, R.drawable.icon_doctor, R.drawable.icon_doctor_white, true});
+        placeTypeMap.put("electrician", new Object[]{R.string.place_type_electrician, bitmapElectrician, R.drawable.icon_electrician, R.drawable.icon_electrician_white, true});
+        placeTypeMap.put("electronics_store", new Object[]{R.string.place_type_electronics_store, bitmapElectronicsStore, R.drawable.icon_electronics_store, R.drawable.icon_electronics_store_white, true});
+        placeTypeMap.put("embassy", new Object[]{R.string.place_type_embassy, bitmapEmbassy, R.drawable.icon_embassy, R.drawable.icon_embassy_white, true});
+        placeTypeMap.put("establishment", new Object[]{R.string.place_type_establishment, bitmapEstablishment, R.drawable.icon_establishment, R.drawable.icon_establishment_white, true});
+        placeTypeMap.put("finance", new Object[]{R.string.place_type_finance, bitmapFinance, R.drawable.icon_finance, R.drawable.icon_finance_white, true});
+        placeTypeMap.put("fire_station", new Object[]{R.string.place_type_fire_station, bitmapFireStation, R.drawable.icon_fire_station, R.drawable.icon_fire_station_white, true});
+        placeTypeMap.put("florist", new Object[]{R.string.place_type_florist, bitmapFlorist, R.drawable.icon_florist, R.drawable.icon_florist_white, true});
+        placeTypeMap.put("food", new Object[]{R.string.place_type_food, bitmapFood, R.drawable.icon_food, R.drawable.icon_food_white, true});
+        placeTypeMap.put("funeral_home", new Object[]{R.string.place_type_funeral_home, bitmapFuneralHome, R.drawable.icon_funeral_home, R.drawable.icon_funeral_home_white, true});
+        placeTypeMap.put("furniture_store", new Object[]{R.string.place_type_furniture_store, bitmapFurnitureStore, R.drawable.icon_furniture_store, R.drawable.icon_furniture_store_white, true});
+        placeTypeMap.put("gas_station", new Object[]{R.string.place_type_gas_station, bitmapGasStation, R.drawable.icon_gas_station, R.drawable.icon_gas_station_white, true});
+        placeTypeMap.put("general_contractor", new Object[]{R.string.place_type_general_contractor, bitmapGeneralContractor, R.drawable.icon_general_contractor, R.drawable.icon_general_contractor_white, true});
+        placeTypeMap.put("grocery_or_supermarket", new Object[]{R.string.place_type_grocery_or_supermarket, bitmapGroceryOrSupermarket, R.drawable.icon_grocery_or_supermarket, R.drawable.icon_grocery_or_supermarket_white, true});
+        placeTypeMap.put("gym", new Object[]{R.string.place_type_gym, bitmapGym, R.drawable.icon_gym, R.drawable.icon_gym_white, true});
+        placeTypeMap.put("hair_care", new Object[]{R.string.place_type_hair_care, bitmapHairCare, R.drawable.icon_hair_care, R.drawable.icon_hair_care_white, true});
+        placeTypeMap.put("hardware_store", new Object[]{R.string.place_type_hardware_store, bitmapHardwareStore, R.drawable.icon_hardware_store, R.drawable.icon_hardware_store_white, true});
+        placeTypeMap.put("health", new Object[]{R.string.place_type_health, bitmapHealth, R.drawable.icon_health, R.drawable.icon_health_white, true});
+        placeTypeMap.put("hindu_temple", new Object[]{R.string.place_type_hindu_temple, bitmapHinduTemple, R.drawable.icon_hindu_temple, R.drawable.icon_hindu_temple_white, true});
+        placeTypeMap.put("home_goods_store", new Object[]{R.string.place_type_home_goods_store, bitmapHomeGoodsStore, R.drawable.icon_home_goods_store, R.drawable.icon_home_goods_store_white, true});
+        placeTypeMap.put("hospital", new Object[]{R.string.place_type_hospital, bitmapHospital, R.drawable.icon_hospital, R.drawable.icon_hospital_white, true});
+        placeTypeMap.put("insurance_agency", new Object[]{R.string.place_type_insurance_agency, bitmapInsuranceAgency, R.drawable.icon_insurance_agency, R.drawable.icon_insurance_agency_white, true});
+        placeTypeMap.put("jewelry_store", new Object[]{R.string.place_type_jewelry_store, bitmapJewelryStore, R.drawable.icon_jewelry_store, R.drawable.icon_jewelry_store_white, true});
+        placeTypeMap.put("laundry", new Object[]{R.string.place_type_laundry, bitmapLaundry, R.drawable.icon_laundry, R.drawable.icon_laundry_white, true});
+        placeTypeMap.put("lawyer", new Object[]{R.string.place_type_lawyer, bitmapLawyer, R.drawable.icon_lawyer, R.drawable.icon_lawyer_white, true});
+        placeTypeMap.put("library", new Object[]{R.string.place_type_library, bitmapLibrary, R.drawable.icon_library, R.drawable.icon_library_white, true});
+        placeTypeMap.put("liquor_store", new Object[]{R.string.place_type_liquor_store, bitmapLiquorStore, R.drawable.icon_liquor_store, R.drawable.icon_liquor_store_white, true});
+        placeTypeMap.put("local_government_office", new Object[]{R.string.place_type_local_government_office, bitmapLocalGovernmentOffice, R.drawable.icon_local_government_office, R.drawable.icon_local_government_office_white, true});
+        placeTypeMap.put("locksmith", new Object[]{R.string.place_type_locksmith, bitmapLocksmith, R.drawable.icon_locksmith, R.drawable.icon_locksmith_white, true});
+        placeTypeMap.put("lodging", new Object[]{R.string.place_type_lodging, bitmapLodging, R.drawable.icon_lodging, R.drawable.icon_lodging_white, true});
+        placeTypeMap.put("meal_delivery", new Object[]{R.string.place_type_meal_delivery, bitmapMealDelivery, R.drawable.icon_meal_delivery, R.drawable.icon_meal_delivery_white, true});
+        placeTypeMap.put("meal_takeaway", new Object[]{R.string.place_type_meal_takeaway, bitmapMealTakeaway, R.drawable.icon_meal_takeaway, R.drawable.icon_meal_takeaway_white, true});
+        placeTypeMap.put("mosque", new Object[]{R.string.place_type_mosque, bitmapMosque, R.drawable.icon_mosque, R.drawable.icon_mosque_white, true});
+        placeTypeMap.put("movie_rental", new Object[]{R.string.place_type_movie_rental, bitmapMovieRental, R.drawable.icon_movie_rental, R.drawable.icon_movie_rental_white, true});
+        placeTypeMap.put("movie_theater", new Object[]{R.string.place_type_movie_theater, bitmapMovieTheater, R.drawable.icon_movie_theater, R.drawable.icon_movie_theater_white, true});
+        placeTypeMap.put("moving_company", new Object[]{R.string.place_type_moving_company, bitmapMovingCompany, R.drawable.icon_moving_company, R.drawable.icon_moving_company_white, true});
+        placeTypeMap.put("museum", new Object[]{R.string.place_type_museum, bitmapMuseum, R.drawable.icon_museum, R.drawable.icon_museum_white, true});
+        placeTypeMap.put("night_club", new Object[]{R.string.place_type_night_club, bitmapNightClub, R.drawable.icon_night_club, R.drawable.icon_night_club_white, true});
+        placeTypeMap.put("painter", new Object[]{R.string.place_type_painter, bitmapPainter, R.drawable.icon_painter, R.drawable.icon_painter_white, true});
+        placeTypeMap.put("park", new Object[]{R.string.place_type_park, bitmapPark, R.drawable.icon_park, R.drawable.icon_park_white, true});
+        placeTypeMap.put("parking", new Object[]{R.string.place_type_parking, bitmapParking, R.drawable.icon_parking, R.drawable.icon_parking_white, true});
+        placeTypeMap.put("pet_store", new Object[]{R.string.place_type_pet_store, bitmapPetStore, R.drawable.icon_pet_store, R.drawable.icon_pet_store_white, true});
+        placeTypeMap.put("pharmacy", new Object[]{R.string.place_type_pharmacy, bitmapPharmacy, R.drawable.icon_pharmacy, R.drawable.icon_pharmacy_white, true});
+        placeTypeMap.put("physiotherapist", new Object[]{R.string.place_type_physiotherapist, bitmapPhysiotherapist, R.drawable.icon_physiotherapist, R.drawable.icon_physiotherapist_white, true});
+        placeTypeMap.put("place_of_worship", new Object[]{R.string.place_type_place_of_worship, bitmapPlaceOfWorkship, R.drawable.icon_place_of_worship, R.drawable.icon_place_of_worship_white, true});
+        placeTypeMap.put("plumber", new Object[]{R.string.place_type_plumber, bitmapPlumber, R.drawable.icon_plumber, R.drawable.icon_plumber_white, true});
+        placeTypeMap.put("police", new Object[]{R.string.place_type_police, bitmapPolice, R.drawable.icon_police, R.drawable.icon_police_white, true});
+        placeTypeMap.put("post_office", new Object[]{R.string.place_type_post_office, bitmapPostOffice, R.drawable.icon_post_office, R.drawable.icon_post_office_white, true});
+        placeTypeMap.put("real_estate_agency", new Object[]{R.string.place_type_real_estate_agency, bitmapRealEstateAgency, R.drawable.icon_real_estate_agency, R.drawable.icon_real_estate_agency_white, true});
+        placeTypeMap.put("restaurant", new Object[]{R.string.place_type_restaurant, bitmapRestaurant, R.drawable.icon_restaurant, R.drawable.icon_restaurant_white, true});
+        placeTypeMap.put("roofing_contractor", new Object[]{R.string.place_type_roofing_contractor, bitmapRoofingContractor, R.drawable.icon_roofing_contractor, R.drawable.icon_roofing_contractor_white, true});
+        placeTypeMap.put("rv_park", new Object[]{R.string.place_type_rv_park, bitmapRvPark, R.drawable.icon_rv_park, R.drawable.icon_rv_park_white, true});
+        placeTypeMap.put("school", new Object[]{R.string.place_type_school, bitmapSchool, R.drawable.icon_school, R.drawable.icon_school_white, true});
+        placeTypeMap.put("shoe_store", new Object[]{R.string.place_type_shoe_store, bitmapShoeStore, R.drawable.icon_shoe_store, R.drawable.icon_shoe_store_white, true});
+        placeTypeMap.put("shopping_mall", new Object[]{R.string.place_type_shopping_mall, bitmapShoppingMall, R.drawable.icon_shopping_mall, R.drawable.icon_shopping_mall_white, true});
+        placeTypeMap.put("spa", new Object[]{R.string.place_type_spa, bitmapSpa, R.drawable.icon_spa, R.drawable.icon_spa_white, true});
+        placeTypeMap.put("stadium", new Object[]{R.string.place_type_stadium, bitmapStadium, R.drawable.icon_stadium, R.drawable.icon_stadium_white, true});
+        placeTypeMap.put("storage", new Object[]{R.string.place_type_storage, bitmapStorage, R.drawable.icon_storage, R.drawable.icon_storage_white, true});
+        placeTypeMap.put("store", new Object[]{R.string.place_type_store, bitmapStore, R.drawable.icon_store, R.drawable.icon_store_white, true});
+        placeTypeMap.put("subway_station", new Object[]{R.string.place_type_subway_station, bitmapSubwayStation, R.drawable.icon_subway_station, R.drawable.icon_subway_station_white, true});
+        placeTypeMap.put("synagogue", new Object[]{R.string.place_type_synagogue, bitmapSynagogue, R.drawable.icon_synagogue, R.drawable.icon_synagogue_white, true});
+        placeTypeMap.put("taxi_stand", new Object[]{R.string.place_type_taxi_stand, bitmapTaxiStand, R.drawable.icon_taxi_stand, R.drawable.icon_taxi_stand_white, true});
+        placeTypeMap.put("train_station", new Object[]{R.string.place_type_train_station, bitmapTrainStation, R.drawable.icon_train_station, R.drawable.icon_train_station_white, true});
+        placeTypeMap.put("travel_agency", new Object[]{R.string.place_type_travel_agency, bitmapTravelAgency, R.drawable.icon_travel_agency, R.drawable.icon_travel_agency_white, true});
+        placeTypeMap.put("university", new Object[]{R.string.place_type_university, bitmapUniversity, R.drawable.icon_university, R.drawable.icon_university_white, true});
+        placeTypeMap.put("veterinary_care", new Object[]{R.string.place_type_veterinary_care, bitmapVeterinaryCare, R.drawable.icon_veterinary_care, R.drawable.icon_veterinary_care_white, true});
+        placeTypeMap.put("zoo", new Object[]{R.string.place_type_zoo, bitmapZoo, R.drawable.icon_zoo, R.drawable.icon_zoo_white, true});
 
-        placeTypeMap.put("administrative_area_level_1", new Object[]{R.string.place_type_administrative_area_level_1, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("administrative_area_level_2", new Object[]{R.string.place_type_administrative_area_level_2, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("administrative_area_level_3", new Object[]{R.string.place_type_administrative_area_level_3, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("administrative_area_level_4", new Object[]{R.string.place_type_administrative_area_level_4, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("administrative_area_level_5", new Object[]{R.string.place_type_administrative_area_level_5, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("colloquial_area", new Object[]{R.string.place_type_colloquial_area, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("country", new Object[]{R.string.place_type_country, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("floor", new Object[]{R.string.place_type_floor, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("geocode", new Object[]{R.string.place_type_geocode, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("intersection", new Object[]{R.string.place_type_intersection, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("locality", new Object[]{R.string.place_type_locality, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("natural_feature", new Object[]{R.string.place_type_natural_feature, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("neighborhood", new Object[]{R.string.place_type_neighborhood, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("political", new Object[]{R.string.place_type_political, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("point_of_interest", new Object[]{R.string.place_type_point_of_interest, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("post_box", new Object[]{R.string.place_type_post_box, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("postal_code", new Object[]{R.string.place_type_postal_code, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("postal_code_prefix", new Object[]{R.string.place_type_postal_code_prefix, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("postal_code_suffix", new Object[]{R.string.place_type_postal_code_suffix, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("postal_town", new Object[]{R.string.place_type_postal_town, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("premise", new Object[]{R.string.place_type_premise, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("room", new Object[]{R.string.place_type_room, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("route", new Object[]{R.string.place_type_route, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("street_address", new Object[]{R.string.place_type_street_address, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("street_number", new Object[]{R.string.place_type_street_number, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("sublocality", new Object[]{R.string.place_type_sublocality, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("sublocality_level_5", new Object[]{R.string.place_type_sublocality_level_5, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("sublocality_level_4", new Object[]{R.string.place_type_sublocality_level_4, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("sublocality_level_3", new Object[]{R.string.place_type_sublocality_level_3, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("sublocality_level_2", new Object[]{R.string.place_type_sublocality_level_2, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("sublocality_level_1", new Object[]{R.string.place_type_sublocality_level_1, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("subpremise", new Object[]{R.string.place_type_subpremise, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
-        placeTypeMap.put("transit_station", new Object[]{R.string.place_type_train_station, bitmapPointOfInterest, R.drawable.icon_point_of_interest, false});
+        placeTypeMap.put("administrative_area_level_1", new Object[]{R.string.place_type_administrative_area_level_1, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("administrative_area_level_2", new Object[]{R.string.place_type_administrative_area_level_2, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("administrative_area_level_3", new Object[]{R.string.place_type_administrative_area_level_3, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("administrative_area_level_4", new Object[]{R.string.place_type_administrative_area_level_4, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("administrative_area_level_5", new Object[]{R.string.place_type_administrative_area_level_5, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("colloquial_area", new Object[]{R.string.place_type_colloquial_area, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("country", new Object[]{R.string.place_type_country, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("floor", new Object[]{R.string.place_type_floor, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("geocode", new Object[]{R.string.place_type_geocode, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("intersection", new Object[]{R.string.place_type_intersection, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("locality", new Object[]{R.string.place_type_locality, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("natural_feature", new Object[]{R.string.place_type_natural_feature, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("neighborhood", new Object[]{R.string.place_type_neighborhood, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("political", new Object[]{R.string.place_type_political, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("point_of_interest", new Object[]{R.string.place_type_point_of_interest, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("post_box", new Object[]{R.string.place_type_post_box, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("postal_code", new Object[]{R.string.place_type_postal_code, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("postal_code_prefix", new Object[]{R.string.place_type_postal_code_prefix, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("postal_code_suffix", new Object[]{R.string.place_type_postal_code_suffix, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("postal_town", new Object[]{R.string.place_type_postal_town, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("premise", new Object[]{R.string.place_type_premise, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("room", new Object[]{R.string.place_type_room, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("route", new Object[]{R.string.place_type_route, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("street_address", new Object[]{R.string.place_type_street_address, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("street_number", new Object[]{R.string.place_type_street_number, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("sublocality", new Object[]{R.string.place_type_sublocality, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("sublocality_level_5", new Object[]{R.string.place_type_sublocality_level_5, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("sublocality_level_4", new Object[]{R.string.place_type_sublocality_level_4, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("sublocality_level_3", new Object[]{R.string.place_type_sublocality_level_3, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("sublocality_level_2", new Object[]{R.string.place_type_sublocality_level_2, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("sublocality_level_1", new Object[]{R.string.place_type_sublocality_level_1, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("subpremise", new Object[]{R.string.place_type_subpremise, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
+        placeTypeMap.put("transit_station", new Object[]{R.string.place_type_train_station, bitmapPointOfInterest, R.drawable.icon_point_of_interest, R.drawable.icon_point_of_interest_white, false});
     }
 
     /**
@@ -462,6 +462,21 @@ public class PlacesHelper {
     }
 
     /**
+     * Returns the whitedrawable reference for the given place type id
+     *
+     * @param placeType
+     * @return
+     */
+    public int getWhitePlaceIcon(String placeType) {
+        Object[] placeProperties = placeTypeMap.get(placeType);
+        if (placeProperties == null) {
+            return 0;
+        } else {
+            return (Integer) placeProperties[3];
+        }
+    }
+
+    /**
      * Returns the place type name for the given place type id
      *
      * @param placeType
@@ -488,7 +503,7 @@ public class PlacesHelper {
         // get all searchable place types
         List<Map.Entry<String, Object[]>> placeTypes = new ArrayList<Map.Entry<String, Object[]>>();
         for (Map.Entry<String, Object[]> entry : placeTypeMap.entrySet()) {
-            boolean searchable = (boolean) entry.getValue()[3];
+            boolean searchable = (boolean) entry.getValue()[4];
             if (searchable) {
                 placeTypes.add(entry);
             }
@@ -543,39 +558,5 @@ public class PlacesHelper {
             default:
                 return arrowBitmap1;
         }
-    }
-
-    public void retrievePlacesAsync(final RetrievePlacesListener listener, final String keyword, final String radius, final float latitude, final float longitude, final String language, final String type) {
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    String response = UrlUtils.getJsonFromUrl(UrlUtils.buildPlacesLink(keyword, latitude, longitude, radius, language, type));
-                    listener.onPlacesRetrieved(response);
-                } catch (Exception e) {
-                    listener.onPlacesRetrievedError();
-                }
-            }
-        });
-
-        thread.start();
-    }
-
-    public void retrievePlaceDetailsAsync(final RetrievePlaceDetailsListener listener, final String placeId, final String language) {
-        Thread thread = new Thread(new Runnable() {
-
-            @Override
-            public void run() {
-                try {
-                    String response = UrlUtils.getJsonFromUrl(UrlUtils.buildPlaceDetailsLink(placeId, language));
-                    listener.onPlaceDetailsRetrieved(response);
-                } catch (Exception e) {
-                    listener.onPlaceDetailsRetrievedError();
-                }
-            }
-        });
-
-        thread.start();
     }
 }

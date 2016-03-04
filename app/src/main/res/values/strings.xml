@@ -1,26 +1,40 @@
 <resources>
+
     <string name="app_name">Perpedus</string>
-    <string name="scan_location">Scanning your location&#8230;</string>
-    <string name="retrieve_places">Retrieving places&#8230;</string>
-    <string name="places_found" formatted="false">%number% places found!</string>
-    <string name="visible_places" formatted="false">%visible%/%all% places</string>
-    <string name="search_button">Search</string>
-    <string name="hint_location_name">What are you looking for?</string>
-    <string name="radius">Radius</string>
-    <string name="types">Categories</string>
-    <string name="search_title">Search for places</string>
-    <string name="km">km</string>
-    <string name="fatal_error_no_camera">Sorry, your device doesn\'t have a camera :(</string>
-    <string name="fatal_error_no_orientation">Sorry, your device doesn\'t have an orientation sensor :(</string>
-    <string name="fatal_error_no_gps">Sorry, your device doesn\'t have a gps :(</string>
-    <string name="permission_denied_camera">We need your camera permission to look around</string>
-    <string name="permission_denied_location">We need your location permission provide nearby places</string>
-    <string name="no_landscape">Landscape is not supported</string>
+
+    <!-- Loading Activity -->
+    <string name="loading_retrieving_location_text">Finding your location&#8230;</string>
+    <string name="loading_retrieving_places_text">Looking around for places&#8230;</string>
+    <string name="loading_retry_button">RETRY</string>
+    <string name="loading_places_error">Error retrieving places</string>
+    <string name="toast_no_camera">Sorry, your device doesn\'t have a camera</string>
+    <string name="toast_no_orientation">Sorry, your device doesn\'t have an orientation sensor</string>
+    <string name="toast_no_gps">Sorry, your device doesn\'t have a gps</string>
+    <string name="toast_permission_denied_camera">We need your camera permission to look around</string>
+    <string name="toast_permission_denied_location">We need your location permission provide nearby places</string>
+
+    <!-- Main Activity -->
+    <string name="main_drawer_open">Open navigation drawer</string>
+    <string name="main_drawer_close">Close navigation drawer</string>
+    <string name="main_no_landscape_text">Landscape mode is not supported</string>
+    <string name="toast_places_found" formatted="false">%number% places found</string>
+    <string name="toast_no_places_found" >No places found</string>
+    <string name="toast_places_error">Cannot retrieve places</string>
+
+    <!-- Drawer -->
+    <string name="drawer_title_text">Search for places</string>
+    <string name="drawer_keyword_text">What are you looking for?</string>
+    <string name="drawer_radius_text">Search Area</string>
+    <string name="drawer_km_text">km</string>
+    <string name="drawer_type_text">Category</string>
+    <string name="drawer_edit_type_text">EDIT</string>
+    <string name="drawer_search_button">SEARCH</string>
+    <string name="types_all_types">All Categories</string>
+
     <string name="settings">Settings</string>
     <string name="settings_credits">Credits</string>
-    <string name="google_error">Cannot retrieve data</string>
-    <string name="no_photos">No photos</string>
 
+    <!-- Place types -->
     <string name="place_type_accounting">Accounting</string>
     <string name="place_type_airport">Airport</string>
     <string name="place_type_amusement_park">Amusement Park</string>
@@ -154,6 +168,7 @@
 
     <string name="place_type_unknown">Unknown</string>
 
+    <!-- Languages -->
     <string name="language_arabic">Arabic</string>
     <string name="language_bulgarian">Bulgarian</string>
     <string name="language_bengali">Bengali</string>
@@ -207,10 +222,6 @@
     <string name="language_vietnamese">Vietnamese</string>
     <string name="language_chinese_simplified">Chinese (Simplified)</string>
     <string name="language_chinese_traditional">Chinese (Traditional)</string>
-    <string name="title_activity_nav">NavActivity</string>
-
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
 </resources>

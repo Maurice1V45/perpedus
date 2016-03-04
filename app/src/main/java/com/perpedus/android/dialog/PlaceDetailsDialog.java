@@ -1,13 +1,11 @@
 package com.perpedus.android.dialog;
 
 import android.app.DialogFragment;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +22,6 @@ import com.perpedus.android.listener.MainActivityListener;
 import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.PreferencesUtils;
 import com.perpedus.android.util.UrlUtils;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +90,7 @@ public class PlaceDetailsDialog extends DialogFragment {
             } else {
 
                 // display error toast
-                Toast.makeText(getActivity(), R.string.google_error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.toast_places_error, Toast.LENGTH_SHORT).show();
             }
         }
 
