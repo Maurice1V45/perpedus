@@ -51,14 +51,6 @@
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
 
-                    <Button
-                        android:id="@+id/search_language_button"
-                        android:layout_width="@dimen/bu6"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_marginRight="@dimen/bu1"
-                        android:visibility="gone" />
-
                     <EditText
                         android:id="@+id/location_name_field"
                         android:layout_width="match_parent"
@@ -67,7 +59,6 @@
                         android:layout_marginLeft="@dimen/bu1"
                         android:layout_marginRight="@dimen/bu1"
                         android:layout_marginTop="@dimen/bu1"
-                        android:layout_toLeftOf="@+id/search_language_button"
                         android:background="@drawable/icon_edittext_background"
                         android:inputType="textVisiblePassword|textCapSentences"
                         android:textColor="@color/white"

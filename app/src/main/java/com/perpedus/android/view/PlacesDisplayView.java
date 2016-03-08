@@ -9,6 +9,7 @@ import android.graphics.Path;
 import android.graphics.Point;
 import android.graphics.RectF;
 import android.location.Location;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -241,6 +242,11 @@ public class PlacesDisplayView extends View {
         arrowLeftMargin = adjustArrowLeftMargin(arrowLeftMargin);
         arrowTopMargin = adjustArrowTopMargin(arrowTopMargin);
         canvas.drawBitmap(arrowBitmap, arrowLeftMargin, arrowTopMargin, new Paint());
+
+        // set focused line height to 0
+        if (place.getFocusLineHeight() != 0) {
+            place.setFocusLineHeight(0);
+        }
     }
 
 

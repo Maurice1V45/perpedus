@@ -122,8 +122,6 @@ public class UrlUtils {
         // add API key
         builder.append("&key=" + Constants.PLACES_KEY);
 
-        Log.w("link", Constants.PLACE_DETAILS_SEARCH_URL + builder.toString());
-
         return Constants.PLACE_DETAILS_SEARCH_URL + builder.toString();
     }
 
@@ -139,8 +137,6 @@ public class UrlUtils {
 
         // add API key
         builder.append("&key=" + Constants.PLACES_KEY);
-
-        Log.w("link", Constants.PLACE_PHOTO_URL + builder.toString());
 
         return Constants.PLACE_PHOTO_URL + builder.toString();
     }

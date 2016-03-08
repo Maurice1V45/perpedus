@@ -2,20 +2,22 @@ package com.perpedus.android.dom;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Object data that maps the response from Places API
  */
-public class PlaceDetailsResponse {
+public class PlaceDetailsResponse implements Serializable{
 
 
-    public class Photo {
+    public class Photo implements Serializable{
 
         @SerializedName("photo_reference")
         public String reference;
 
     }
 
-    public class Review {
+    public class Review implements Serializable{
 
         @SerializedName("author_name")
         public String author;
@@ -27,7 +29,7 @@ public class PlaceDetailsResponse {
         public int rating;
     }
 
-    public class Result {
+    public class Result implements Serializable{
 
         @SerializedName("name")
         public String name;

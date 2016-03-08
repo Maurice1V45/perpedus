@@ -17,12 +17,12 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/green_lime" />
+                android:background="@color/yellow_strong" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/green_lime" />
+                android:background="@color/yellow_strong" />
         </RelativeLayout>
 
         <View
@@ -38,13 +38,13 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:background="@color/green_lime" />
+                android:background="@color/yellow_strong" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:background="@color/green_lime" />
+                android:background="@color/yellow_strong" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -84,12 +84,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/green_lime" />
+                android:background="@color/yellow_strong" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
-                android:background="@color/green_lime" />
+                android:background="@color/yellow_strong" />
         </RelativeLayout>
 
         <View
@@ -106,13 +106,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:layout_alignParentBottom="true"
-                android:background="@color/green_lime" />
+                android:background="@color/yellow_strong" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:background="@color/green_lime" />
+                android:background="@color/yellow_strong" />
         </RelativeLayout>
     </LinearLayout>
 </LinearLayout>

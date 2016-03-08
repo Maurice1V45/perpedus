@@ -1,31 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".SettingsActivity">
+
+    <RelativeLayout
+        android:id="@+id/language_button"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/bu5"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:orientation="vertical"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/bu1"
+            android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_language"
+            android:textColor="@color/grey_blue"
+            android:textSize="@dimen/text_size_36px" />
+
+        <TextView
+            android:id="@+id/selected_language_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/grey_blue"
+            android:textSize="@dimen/text_size_30px" />
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_blue" />
 
     <RelativeLayout
         android:id="@+id/credits_button"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bu4"
+        android:layout_height="@dimen/bu5"
         android:background="?android:attr/selectableItemBackground"
         android:clickable="true">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/bu1"
             android:text="@string/settings_credits"
-            android:layout_centerVertical="true"
-            android:textColor="@color/dark_grey"
+            android:textColor="@color/grey_blue"
             android:textSize="@dimen/text_size_36px" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_alignParentBottom="true"
-            android:background="@color/greyaa" />
     </RelativeLayout>
 
-</RelativeLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/grey_blue" />
+
+</LinearLayout>

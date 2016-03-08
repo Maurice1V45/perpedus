@@ -20,12 +20,14 @@ public class Constants {
 
     /* Intents */
     public static final String INTENT_LOCATION_UPDATED = "com.perpedus.android.LOCATION_UPDATED";
+    public static final String INTENT_PLACE_DETAILS_RECEIVED = "com.perpedus.android.PLACE_DETAILS_RECEIVED";
 
     /* Extras */
     public static final String EXTRA_LATITUDE = "extra_latitude";
     public static final String EXTRA_LONGITUDE = "extra_longitude";
     public static final String EXTRA_PROVIDER = "extra_provider";
     public static final String EXTRA_PLACES = "extra_places";
+    public static final String EXTRA_PLACE_DETAILS = "extra_place_details";
 
     /* Fonts */
     public static final String CUSTOM_FONT = "Matias.ttf";

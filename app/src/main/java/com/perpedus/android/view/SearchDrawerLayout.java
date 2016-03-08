@@ -16,9 +16,7 @@ import android.widget.TextView;
 import com.perpedus.android.R;
 import com.perpedus.android.dialog.DialogUtils;
 import com.perpedus.android.listener.MainActivityListener;
-import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.PlacesHelper;
-import com.perpedus.android.util.PreferencesUtils;
 
 /**
  * Drawer layout that displays search options
@@ -33,7 +31,6 @@ public class SearchDrawerLayout extends RelativeLayout {
     private String selectedType;
     private LayoutInflater inflater;
     private View editCategoryButton;
-    private Button searchLanguageButton;
     private ImageView categoryIcon;
     private TextView categoryText;
 
@@ -82,7 +79,6 @@ public class SearchDrawerLayout extends RelativeLayout {
         radiusSeekBar = (SeekBar) findViewById(R.id.radius_seek_bar);
         searchButton = (Button) findViewById(R.id.search_button);
         radiusText = (TextView) findViewById(R.id.radius_text);
-        searchLanguageButton = (Button) findViewById(R.id.search_language_button);
         editCategoryButton = findViewById(R.id.edit_category_button);
         categoryIcon = (ImageView) findViewById(R.id.category_icon);
         categoryText = (TextView) findViewById(R.id.category_text);
@@ -149,18 +145,14 @@ public class SearchDrawerLayout extends RelativeLayout {
             @Override
             public void onClick(View v) {
 
+                // notify activity
+                mainActivityListener.onPlaceTypesDialogOpen();
+
                 // open dialog
                 DialogUtils.showPlaceTypesDialog(((Activity) getContext()).getFragmentManager(), mainActivityListener);
             }
         });
 
-        searchLanguageButton.setOnClickListener(new OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                DialogUtils.showSearchLanguageDialog(((Activity) getContext()).getFragmentManager(), mainActivityListener);
-            }
-        });
     }
 
     /**
@@ -171,7 +163,6 @@ public class SearchDrawerLayout extends RelativeLayout {
         initViews();
         initListeners();
         initRadiusSeekBar();
-        updateSearchLanguageButton();
         updateSelectedType();
     }
 
@@ -220,18 +211,4 @@ public class SearchDrawerLayout extends RelativeLayout {
         this.selectedType = selectedType;
     }
 
-    public void updateSearchLanguageButton() {
-
-        // get language
-        String searchLanguage = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, "");
-
-        // if empty, set default to english
-        if (searchLanguage.isEmpty()) {
-            searchLanguage = "en";
-            PreferencesUtils.storePreference(Constants.PREF_SELECTED_SEARCH_LANGUAGE, searchLanguage);
-        }
-
-        // set button text
-        searchLanguageButton.setText(searchLanguage);
-    }
 }

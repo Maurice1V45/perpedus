@@ -2,7 +2,9 @@ package com.perpedus.android.dialog;
 
 import android.app.FragmentManager;
 
+import com.perpedus.android.dom.PlaceDetailsResponse;
 import com.perpedus.android.listener.MainActivityListener;
+import com.perpedus.android.listener.SettingsListener;
 
 import java.util.List;
 
@@ -21,16 +23,16 @@ public class DialogUtils {
         dialog.show(fm, TAG_PLACE_TYPES_DIALOG);
     }
 
-    public static void showSearchLanguageDialog(FragmentManager fm, MainActivityListener mainActivityListener) {
+    public static void showSearchLanguageDialog(FragmentManager fm, SettingsListener settingsListener) {
         SearchLanguageDialog dialog = new SearchLanguageDialog();
-        dialog.setMainActivityListener(mainActivityListener);
+        dialog.setSettingsListener(settingsListener);
         dialog.show(fm, TAG_SEARCH_LANGUAGE_DIALOG);
     }
 
-    public static void showPlaceDetailsDialog(FragmentManager fm, MainActivityListener mainActivityListener, String placeId, int screenWidth) {
+    public static void showPlaceDetailsDialog(FragmentManager fm, MainActivityListener mainActivityListener, PlaceDetailsResponse placeDetails, int screenWidth) {
         PlaceDetailsDialog dialog = new PlaceDetailsDialog();
         dialog.setMainActivityListener(mainActivityListener);
-        dialog.setPlaceId(placeId);
+        dialog.setPlaceDetails(placeDetails);
         dialog.setScreenWidth(screenWidth);
         dialog.show(fm, TAG_PLACE_DETAILS_DIALOG);
     }

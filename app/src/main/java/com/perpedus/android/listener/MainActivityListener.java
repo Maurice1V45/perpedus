@@ -41,14 +41,19 @@ public interface MainActivityListener {
     void onPlaceTypeUpdated(String selectedType);
 
     /**
-     * Triggered when a new search language has been selected
-     *
-     * @param language
-     */
-    void onSearchLanguageSelected(String language);
-
-    /**
      * Triggered when place details dialog was dismissed
      */
     void onPlaceDetailsDialogDismiss();
+
+    /**
+     * Triggered when place types dialog was opened
+     */
+    void onPlaceTypesDialogOpen();
+
+    /**
+     * Triggered when place types dialog was dismissed
+     */
+    void onPlaceTypesDialogDismiss();
+
+
 }

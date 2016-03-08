@@ -14,7 +14,10 @@ import com.perpedus.android.R;
 import com.perpedus.android.adapter.SearchLanguageListAdapter;
 import com.perpedus.android.listener.MainActivityListener;
 import com.perpedus.android.listener.SearchLanguageDialogListener;
+import com.perpedus.android.listener.SettingsListener;
+import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.LanguageUtils;
+import com.perpedus.android.util.PreferencesUtils;
 
 import java.util.List;
 
@@ -24,9 +27,8 @@ import java.util.List;
 public class SearchLanguageDialog extends DialogFragment implements SearchLanguageDialogListener {
 
     private RecyclerView languagesRecycler;
-    private MainActivityListener mainActivityListener;
     private SearchLanguageListAdapter adapter;
-
+    private SettingsListener settingsListener;
 
     /**
      * Default constructor
@@ -75,13 +77,13 @@ public class SearchLanguageDialog extends DialogFragment implements SearchLangua
         super.onViewCreated(view, savedInstanceState);
     }
 
-    public void setMainActivityListener(MainActivityListener mainActivityListener) {
-        this.mainActivityListener = mainActivityListener;
-    }
-
     @Override
     public void onLanguageSelected(String language) {
-        mainActivityListener.onSearchLanguageSelected(language);
+        settingsListener.onSearchLanguageUpdated(language);
         dismiss();
+    }
+
+    public void setSettingsListener(SettingsListener settingsListener) {
+        this.settingsListener = settingsListener;
     }
 }

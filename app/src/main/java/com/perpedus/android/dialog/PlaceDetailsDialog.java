@@ -1,11 +1,17 @@
 package com.perpedus.android.dialog;
 
 import android.app.DialogFragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
+import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,70 +37,6 @@ import java.util.List;
  */
 public class PlaceDetailsDialog extends DialogFragment {
 
-    /**
-     * Async task that retrieves detailed data about a place
-     */
-    private class RetrievePlaceDetailsAsync extends AsyncTask<String, Void, PlaceDetailsResponse> {
-
-        @Override
-        protected PlaceDetailsResponse doInBackground(String... params) {
-
-            // build the url to the place details web service
-            String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, "en");
-            String placeDetailsUrl = UrlUtils.buildPlaceDetailsLink(placeId, language);
-
-            // get the response from the web service
-            String placesJson = UrlUtils.getJsonFromUrl(placeDetailsUrl);
-            PlaceDetailsResponse response = new Gson().fromJson(placesJson, PlaceDetailsResponse.class);
-
-            return response;
-        }
-
-        @Override
-        protected void onPostExecute(PlaceDetailsResponse response) {
-
-            if (Constants.GOOGLE_RESPONSE_OK.equals(response.status)) {
-
-                nameText.setText(response.result.name);
-                addressText.setText(response.result.address);
-                phoneText.setText(response.result.phone);
-
-                if (response.result.photos == null) {
-
-                    // show no photos view
-                    noPhotosView.setVisibility(View.VISIBLE);
-                    photosViewPager.setVisibility(View.GONE);
-
-                } else {
-
-                    // show photos pager
-                    noPhotosView.setVisibility(View.GONE);
-                    photosViewPager.setVisibility(View.VISIBLE);
-
-                    // get all photo references
-                    List<String> photoReferences = new ArrayList<String>();
-                    for (PlaceDetailsResponse.Photo photo : response.result.photos) {
-                        photoReferences.add(photo.reference);
-                    }
-
-                    // set up photos adapter
-                    photosPagerAdapter = new PhotosPagerAdapter(getActivity(), photoReferences, screenWidth);
-                    photosViewPager.setAdapter(photosPagerAdapter);
-                }
-
-                // add reviews
-                if (response.result.reviews != null) {
-                    updateReviewsLayout(response.result.reviews);
-                }
-
-            } else {
-
-                // display error toast
-                Toast.makeText(getActivity(), R.string.toast_places_error, Toast.LENGTH_SHORT).show();
-            }
-        }
-
-    }
 
     private String placeId;
     private MainActivityListener mainActivityListener;
@@ -108,6 +50,34 @@ public class PlaceDetailsDialog extends DialogFragment {
     private LinearLayout reviewsLayout;
     private View noPhotosView;
     private LayoutInflater inflater;
+    private PlaceDetailsResponse placeDetails;
+    private View progressView;
+    private View contentView;
+    private boolean dataPopulated = false;
+
+    private BroadcastReceiver placeDetailsReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if (intent.getAction().equals(Constants.INTENT_PLACE_DETAILS_RECEIVED)) {
+                Log.w("aaa", "received");
+
+                // save place details
+                if (intent.hasExtra(Constants.EXTRA_PLACE_DETAILS)) {
+                    placeDetails = (PlaceDetailsResponse) intent.getSerializableExtra(Constants.EXTRA_PLACE_DETAILS);
+                }
+
+                if (placeDetails != null && !dataPopulated) {
+
+                    // hide progress view and display data
+                    progressView.setVisibility(View.GONE);
+                    contentView.setVisibility(View.VISIBLE);
+                    populateData();
+                }
+            }
+        }
+    };
 
 
     /**
@@ -130,6 +100,8 @@ public class PlaceDetailsDialog extends DialogFragment {
         photosViewPager = (ViewPager) rootView.findViewById(R.id.photos_view_pager);
         reviewsLayout = (LinearLayout) rootView.findViewById(R.id.reviews_layout);
         noPhotosView = rootView.findViewById(R.id.no_photos_view);
+        progressView = rootView.findViewById(R.id.progress_view);
+        contentView = rootView.findViewById(R.id.content_view);
     }
 
 
@@ -145,29 +117,43 @@ public class PlaceDetailsDialog extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.place_details_dialog, container);
         this.inflater = inflater;
-        //this.inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         initViews(view);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
+        if (placeDetails != null && !dataPopulated) {
+
+            // hide progress view and display data
+            progressView.setVisibility(View.GONE);
+            contentView.setVisibility(View.VISIBLE);
+            populateData();
+        }
+
         return view;
     }
 
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-
-        // make place details call
-        RetrievePlaceDetailsAsync async = new RetrievePlaceDetailsAsync();
-        async.execute();
-
-        super.onViewCreated(view, savedInstanceState);
-    }
 
     public void setMainActivityListener(MainActivityListener mainActivityListener) {
         this.mainActivityListener = mainActivityListener;
     }
 
-    public void setPlaceId(String placeId) {
-        this.placeId = placeId;
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // register place details receiver
+        getActivity().registerReceiver(placeDetailsReceiver, new IntentFilter(Constants.INTENT_PLACE_DETAILS_RECEIVED));
+    }
+
+    @Override
+    public void onStop() {
+
+        // unregister location receiver
+        try {
+            getActivity().unregisterReceiver(placeDetailsReceiver);
+        } catch (Exception e) {
+            // receiver was not registered
+        }
+        super.onStop();
     }
 
     @Override
@@ -199,6 +185,49 @@ public class PlaceDetailsDialog extends DialogFragment {
 
             // add the view  to the layout
             reviewsLayout.addView(listItem);
+        }
+    }
+
+    public void setPlaceDetails(PlaceDetailsResponse placeDetails) {
+        this.placeDetails = placeDetails;
+    }
+
+    private void populateData() {
+
+        Log.w("aaa", "populated");
+
+        dataPopulated = true;
+
+        nameText.setText(placeDetails.result.name);
+        addressText.setText(placeDetails.result.address);
+        phoneText.setText(placeDetails.result.phone);
+
+        if (placeDetails.result.photos == null) {
+
+            // show no photos view
+            noPhotosView.setVisibility(View.VISIBLE);
+            photosViewPager.setVisibility(View.GONE);
+
+        } else {
+
+            // show photos pager
+            noPhotosView.setVisibility(View.GONE);
+            photosViewPager.setVisibility(View.VISIBLE);
+
+            // get all photo references
+            List<String> photoReferences = new ArrayList<String>();
+            for (PlaceDetailsResponse.Photo photo : placeDetails.result.photos) {
+                photoReferences.add(photo.reference);
+            }
+
+            // set up photos adapter
+            photosPagerAdapter = new PhotosPagerAdapter(getActivity(), photoReferences, screenWidth);
+            photosViewPager.setAdapter(photosPagerAdapter);
+        }
+
+        // add reviews
+        if (placeDetails.result.reviews != null) {
+            updateReviewsLayout(placeDetails.result.reviews);
         }
     }
 }

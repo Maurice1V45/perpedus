@@ -2,7 +2,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/bu0_25"
-    android:background="@drawable/grey_bordered_white_rounded_shape">
+    android:background="@drawable/place_type_selector">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"
-            android:textColor="@color/black"
+            android:textColor="@color/grey_blue"
             android:textSize="@dimen/text_size_20px" />
 
     </LinearLayout>

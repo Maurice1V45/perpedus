@@ -4,13 +4,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
+
+import com.perpedus.android.dialog.DialogUtils;
+import com.perpedus.android.listener.SettingsListener;
+import com.perpedus.android.util.Constants;
+import com.perpedus.android.util.LanguageUtils;
+import com.perpedus.android.util.PreferencesUtils;
 
 /**
  * Settings activity
  */
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends AppCompatActivity implements SettingsListener{
 
     private View creditsButton;
+    private TextView selectedLanguageText;
+    private View languageButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,19 +28,30 @@ public class SettingsActivity extends AppCompatActivity {
 
         initViews();
         initListeners();
+        initSelectedLanguage();
+
     }
 
     /**
      * Views initializer
      */
     private void initViews() {
+        languageButton = findViewById(R.id.language_button);
         creditsButton = findViewById(R.id.credits_button);
+        selectedLanguageText = (TextView) findViewById(R.id.selected_language_text);
     }
 
     /**
      * Listeners initializer
      */
     private void initListeners() {
+        languageButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                DialogUtils.showSearchLanguageDialog(getFragmentManager(), SettingsActivity.this);
+            }
+        });
         creditsButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -42,5 +62,18 @@ public class SettingsActivity extends AppCompatActivity {
                 startActivity(creditsIntent);
             }
         });
+    }
+
+    private void initSelectedLanguage() {
+        String selectedLanguage = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, Constants.DEFAULT_LANGUAGE);
+        selectedLanguageText.setText(LanguageUtils.SUPPORTED_LANGUAGES_MAP.get(selectedLanguage));
+    }
+
+    @Override
+    public void onSearchLanguageUpdated(String language) {
+
+        // save language in shared preferences
+        PreferencesUtils.storePreference(Constants.PREF_SELECTED_SEARCH_LANGUAGE, language);
+        selectedLanguageText.setText(LanguageUtils.SUPPORTED_LANGUAGES_MAP.get(language));
     }
 }

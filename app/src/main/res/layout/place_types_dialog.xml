@@ -6,26 +6,31 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/bu3"
-        android:layout_marginTop="@dimen/bu3"
-        android:background="@drawable/greyed_rounded_shape">
+        android:layout_marginTop="@dimen/bu3">
 
         <Button
             android:id="@+id/all_button"
             android:layout_width="match_parent"
             android:layout_height="@dimen/bu5"
             android:layout_alignParentBottom="true"
-            android:text="@string/types_all_types" />
+            android:layout_marginLeft="@dimen/bu0_5"
+            android:layout_marginRight="@dimen/bu0_5"
+            android:background="@drawable/place_type_selector"
+            android:text="@string/types_all_types"
+            android:textColor="@color/grey_blue" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/place_types_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/all_button"
+            android:layout_marginBottom="@dimen/bu0_5"
             android:clipToPadding="false"
             android:paddingBottom="@dimen/bu0_5"
             android:paddingLeft="@dimen/bu0_5"
             android:paddingRight="@dimen/bu0_5"
-            android:paddingTop="@dimen/bu0_5" />
+            android:paddingTop="@dimen/bu0_5"
+            android:scrollbars="none" />
     </RelativeLayout>
 
 </RelativeLayout>

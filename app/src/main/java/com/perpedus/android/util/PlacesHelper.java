@@ -462,7 +462,7 @@ public class PlacesHelper {
     }
 
     /**
-     * Returns the whitedrawable reference for the given place type id
+     * Returns the white drawable reference for the given place type id
      *
      * @param placeType
      * @return

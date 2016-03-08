@@ -26,6 +26,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -88,6 +89,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private int screenWidth;
     private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
+    private boolean viewsAlphaLocked;
+    private View settingsButton;
 
     private Callback<PlacesResponse> placesCallback = new Callback<PlacesResponse>() {
 
@@ -177,6 +180,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                         break;
                     }
                 }
+
+                // send broadcast that place details have been received
+                Intent intent = new Intent(Constants.INTENT_PLACE_DETAILS_RECEIVED);
+                intent.putExtra(Constants.EXTRA_PLACE_DETAILS, placeDetailsResponse);
+                sendBroadcast(intent);
             }
 
         }
@@ -339,10 +347,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
 
-                // slowly hide other views
-                placeFocusView.setAlpha(1f - slideOffset);
-                placesDisplayView.setAlpha(1f - slideOffset);
-                placeDetailsView.setAlpha(1f - slideOffset);
+                if (!viewsAlphaLocked) {
+
+                    // slowly hide other views
+                    placeFocusView.setAlpha(1f - slideOffset);
+                    placesDisplayView.setAlpha(1f - slideOffset);
+                    placeDetailsView.setAlpha(1f - slideOffset);
+                }
 
             }
         };
@@ -452,6 +463,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         noLandscapeLayout = findViewById(R.id.no_landscape_layout);
         placeImage = (ImageView) findViewById(R.id.place_image);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
+        settingsButton = findViewById(R.id.settings_button);
     }
 
     /**
@@ -472,8 +484,18 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     placeDetailsView.setAlpha(0f);
 
                     // show place details dialog
-                    DialogUtils.showPlaceDetailsDialog(getFragmentManager(), MainActivity.this, focusedPlace.getPlaceId(), screenWidth);
+                    DialogUtils.showPlaceDetailsDialog(getFragmentManager(), MainActivity.this, focusedPlace.getDetails(), screenWidth);
                 }
+            }
+        });
+        settingsButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // open settings activity
+                Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
+                startActivity(settingsIntent);
             }
         });
     }
@@ -626,22 +648,32 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    public void onSearchLanguageSelected(String language) {
-
-        // store new language into shared prefs
-        PreferencesUtils.storePreference(Constants.PREF_SELECTED_SEARCH_LANGUAGE, language);
-
-        // update search language button
-        drawerContent.updateSearchLanguageButton();
-    }
-
-    @Override
     public void onPlaceDetailsDialogDismiss() {
 
         // show views
         placesDisplayView.setAlpha(1f);
         placeFocusView.setAlpha(1f);
         placeDetailsView.setAlpha(1f);
+    }
+
+    @Override
+    public void onPlaceTypesDialogOpen() {
+
+        // lock views alpha
+        viewsAlphaLocked = true;
+
+        // close navigation drawer
+        drawerLayout.closeDrawer(Gravity.LEFT);
+    }
+
+    @Override
+    public void onPlaceTypesDialogDismiss() {
+
+        // unlock views alpha
+        viewsAlphaLocked = false;
+
+        // close navigation drawer
+        drawerLayout.openDrawer(Gravity.LEFT);
     }
 
     /**

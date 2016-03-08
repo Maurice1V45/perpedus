@@ -1,6 +1,7 @@
 package com.perpedus.android.dialog;
 
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
@@ -106,5 +107,14 @@ public class PlaceTypesDialog extends DialogFragment implements PlaceTypesDialog
 
         // dismiss dialog
         dismiss();
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog) {
+
+        // notify main activity
+        mainActivityListener.onPlaceTypesDialogDismiss();
+
+        super.onDismiss(dialog);
     }
 }

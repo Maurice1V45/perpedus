@@ -54,7 +54,7 @@ public class PhotosPagerAdapter extends PagerAdapter {
         String reference = references.get(position);
 
         ImageView photoView = (ImageView) view.findViewById(R.id.photo);
-        Picasso.with(context).load(UrlUtils.buildPlacePhotoLink(reference, screenWidth)).into(photoView);
+        Picasso.with(context).load(UrlUtils.buildPlacePhotoLink(reference, screenWidth)).placeholder(R.drawable.progress).into(photoView);
 
         container.addView(view, 0);
         return view;
