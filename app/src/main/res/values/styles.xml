@@ -2,9 +2,9 @@
 
     <style name="AppTheme" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/grey_blue</item>
-        <item name="colorPrimaryDark">@color/grey_blue</item>
+        <item name="colorPrimaryDark">@color/grey_blue_dark</item>
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:navigationBarColor">@color/grey_blue</item>
+        <item name="android:navigationBarColor">@color/grey_blue_dark</item>
     </style>
 
     <style name="AppTheme.NoActionBar">

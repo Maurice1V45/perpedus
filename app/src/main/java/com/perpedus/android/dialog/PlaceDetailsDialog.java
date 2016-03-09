@@ -17,12 +17,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.perpedus.android.R;
 import com.perpedus.android.adapter.PhotosPagerAdapter;
+import com.perpedus.android.adapter.ReviewsPagerAdapter;
 import com.perpedus.android.dom.PlaceDetailsResponse;
 import com.perpedus.android.listener.MainActivityListener;
 import com.perpedus.android.util.Constants;
@@ -30,7 +32,10 @@ import com.perpedus.android.util.PreferencesUtils;
 import com.perpedus.android.util.UrlUtils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import me.relex.circleindicator.CircleIndicator;
 
 /**
  * Dialog for place details
@@ -43,16 +48,20 @@ public class PlaceDetailsDialog extends DialogFragment {
     private TextView nameText;
     private TextView addressText;
     private TextView phoneText;
-    private ImageView image;
     private ViewPager photosViewPager;
+    private ViewPager reviewsViewPager;
     private PhotosPagerAdapter photosPagerAdapter;
+    private ReviewsPagerAdapter reviewsPagerAdapter;
     private int screenWidth;
-    private LinearLayout reviewsLayout;
     private View noPhotosView;
+    private CircleIndicator photosPagerIndicator;
     private LayoutInflater inflater;
     private PlaceDetailsResponse placeDetails;
     private View progressView;
     private View contentView;
+    private View reviewsLeftArrow;
+    private View reviewsRightArrow;
+    private View reviewsLayout;
     private boolean dataPopulated = false;
 
     private BroadcastReceiver placeDetailsReceiver = new BroadcastReceiver() {
@@ -61,7 +70,6 @@ public class PlaceDetailsDialog extends DialogFragment {
         public void onReceive(Context context, Intent intent) {
 
             if (intent.getAction().equals(Constants.INTENT_PLACE_DETAILS_RECEIVED)) {
-                Log.w("aaa", "received");
 
                 // save place details
                 if (intent.hasExtra(Constants.EXTRA_PLACE_DETAILS)) {
@@ -96,12 +104,15 @@ public class PlaceDetailsDialog extends DialogFragment {
         nameText = (TextView) rootView.findViewById(R.id.name_text);
         addressText = (TextView) rootView.findViewById(R.id.address_text);
         phoneText = (TextView) rootView.findViewById(R.id.phone_text);
-        image = (ImageView) rootView.findViewById(R.id.image);
         photosViewPager = (ViewPager) rootView.findViewById(R.id.photos_view_pager);
-        reviewsLayout = (LinearLayout) rootView.findViewById(R.id.reviews_layout);
+        reviewsViewPager = (ViewPager) rootView.findViewById(R.id.reviews_view_pager);
+        photosPagerIndicator = (CircleIndicator) rootView.findViewById(R.id.photos_pager_indicator);
         noPhotosView = rootView.findViewById(R.id.no_photos_view);
         progressView = rootView.findViewById(R.id.progress_view);
         contentView = rootView.findViewById(R.id.content_view);
+        reviewsLeftArrow = rootView.findViewById(R.id.reviews_left_arrow);
+        reviewsRightArrow = rootView.findViewById(R.id.reviews_right_arrow);
+        reviewsLayout = rootView.findViewById(R.id.reviews_layout);
     }
 
 
@@ -118,6 +129,7 @@ public class PlaceDetailsDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.place_details_dialog, container);
         this.inflater = inflater;
         initViews(view);
+        initListeners();
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0));
 
         if (placeDetails != null && !dataPopulated) {
@@ -129,6 +141,59 @@ public class PlaceDetailsDialog extends DialogFragment {
         }
 
         return view;
+    }
+
+    private void initListeners() {
+
+        reviewsLeftArrow.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                reviewsViewPager.setCurrentItem(reviewsViewPager.getCurrentItem() - 1, true);
+            }
+        });
+
+        reviewsRightArrow.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                reviewsViewPager.setCurrentItem(reviewsViewPager.getCurrentItem() + 1, true);
+            }
+        });
+
+        reviewsViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // nothing to do here
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updateReviewsArrows();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // nothing to do here
+            }
+        });
+    }
+
+    private void updateReviewsArrows() {
+        int currentPosition = reviewsViewPager.getCurrentItem();
+
+        if (currentPosition == 0) {
+            reviewsLeftArrow.setEnabled(false);
+        } else {
+            reviewsLeftArrow.setEnabled(true);
+        }
+
+        if (currentPosition == placeDetails.result.reviews.length - 1) {
+            reviewsRightArrow.setEnabled(false);
+        } else {
+            reviewsRightArrow.setEnabled(true);
+        }
     }
 
 
@@ -169,50 +234,49 @@ public class PlaceDetailsDialog extends DialogFragment {
         this.screenWidth = screenWidth;
     }
 
-    public void updateReviewsLayout(PlaceDetailsResponse.Review[] reviews) {
-
-        // remove all views from the layout
-        reviewsLayout.removeAllViews();
-
-        for (PlaceDetailsResponse.Review review : reviews) {
-
-            // create a new view
-            View listItem = inflater.inflate(R.layout.review_list_item, null);
-
-            // set comment
-            TextView commentText = (TextView) listItem.findViewById(R.id.comment_text);
-            commentText.setText(review.author + " - " + review.comment);
-
-            // add the view  to the layout
-            reviewsLayout.addView(listItem);
-        }
-    }
-
     public void setPlaceDetails(PlaceDetailsResponse placeDetails) {
         this.placeDetails = placeDetails;
     }
 
     private void populateData() {
 
-        Log.w("aaa", "populated");
-
         dataPopulated = true;
 
         nameText.setText(placeDetails.result.name);
         addressText.setText(placeDetails.result.address);
-        phoneText.setText(placeDetails.result.phone);
+        if (placeDetails.result.formattedPhone == null || placeDetails.result.phone == null) {
+
+            // set no phone text
+            phoneText.setText(R.string.place_details_no_phone);
+            phoneText.setBackgroundResource(0);
+            phoneText.setCompoundDrawables(null, null, null, null);
+
+        } else {
+
+            // set phone number text and listener
+            phoneText.setText(placeDetails.result.formattedPhone);
+            phoneText.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    // TODO Call
+                }
+            });
+        }
 
         if (placeDetails.result.photos == null) {
 
             // show no photos view
             noPhotosView.setVisibility(View.VISIBLE);
             photosViewPager.setVisibility(View.GONE);
+            photosPagerIndicator.setVisibility(View.GONE);
 
         } else {
 
             // show photos pager
             noPhotosView.setVisibility(View.GONE);
             photosViewPager.setVisibility(View.VISIBLE);
+            photosPagerIndicator.setVisibility(View.VISIBLE);
 
             // get all photo references
             List<String> photoReferences = new ArrayList<String>();
@@ -223,11 +287,25 @@ public class PlaceDetailsDialog extends DialogFragment {
             // set up photos adapter
             photosPagerAdapter = new PhotosPagerAdapter(getActivity(), photoReferences, screenWidth);
             photosViewPager.setAdapter(photosPagerAdapter);
+
+            // set up photos pager indicator
+            photosPagerIndicator.setViewPager(photosViewPager);
         }
 
-        // add reviews
-        if (placeDetails.result.reviews != null) {
-            updateReviewsLayout(placeDetails.result.reviews);
+        if (placeDetails.result.reviews == null) {
+
+            // hide reviews
+            reviewsLayout.setVisibility(View.GONE);
+
+        } else {
+
+            // set up reviews adapter
+            reviewsPagerAdapter = new ReviewsPagerAdapter(getActivity(), Arrays.asList(placeDetails.result.reviews));
+            reviewsViewPager.setAdapter(reviewsPagerAdapter);
+
+            // update arrows
+            updateReviewsArrows();
         }
+
     }
 }

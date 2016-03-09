@@ -37,6 +37,9 @@ public class PlaceDetailsResponse implements Serializable{
         @SerializedName("formatted_address")
         public String address;
 
+        @SerializedName("formatted_phone_number")
+        public String formattedPhone;
+
         @SerializedName("international_phone_number")
         public String phone;
 

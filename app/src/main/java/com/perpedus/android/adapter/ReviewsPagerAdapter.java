@@ -2,39 +2,38 @@ package com.perpedus.android.adapter;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.perpedus.android.R;
-import com.perpedus.android.util.ScreenUtils;
+import com.perpedus.android.dom.PlaceDetailsResponse;
 import com.perpedus.android.util.UrlUtils;
-import com.perpedus.android.view.RoundedCornersTransformation;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
 /**
- * Pager adapter for photos
+ * Pager adapter for reviews
  */
-public class PhotosPagerAdapter extends PagerAdapter {
+public class ReviewsPagerAdapter extends PagerAdapter {
 
     private Context context;
-    private List<String> references;
-    private int screenWidth;
+    private List<PlaceDetailsResponse.Review> reviews;
     private LayoutInflater inflater;
 
     /**
      * Constructor
      *
      * @param context
-     * @param references
+     * @param reviews
      */
-    public PhotosPagerAdapter(Context context, List<String> references, int screenWidth) {
+    public ReviewsPagerAdapter(Context context, List<PlaceDetailsResponse.Review> reviews) {
         this.context = context;
-        this.references = references;
-        this.screenWidth = screenWidth;
+        this.reviews = reviews;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -45,24 +44,21 @@ public class PhotosPagerAdapter extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return references.size();
+        return reviews.size();
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        final View view = inflater.inflate(R.layout.photos_pager_item, null);
+        final View view = inflater.inflate(R.layout.reviews_pager_item, null);
 
-        // get the reference
-        String reference = references.get(position);
+        // get the review
+        PlaceDetailsResponse.Review review = reviews.get(position);
 
-        ImageView photoView = (ImageView) view.findViewById(R.id.photo);
-        Picasso
-                .with(context)
-                .load(UrlUtils.buildPlacePhotoLink(reference, screenWidth))
-                .placeholder(R.drawable.progress)
-                .transform(new RoundedCornersTransformation(12, 0))
-                .error(R.drawable.icon_no_photo)
-                .into(photoView);
+        TextView userText = (TextView) view.findViewById(R.id.user_text);
+        userText.setText(review.author);
+
+        TextView commentText = (TextView) view.findViewById(R.id.comment_text);
+        commentText.setText(review.comment);
 
         container.addView(view, 0);
         return view;

@@ -1,4 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -6,75 +8,160 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/bu3"
-        android:layout_marginTop="@dimen/bu3"
-        android:background="@drawable/greyed_rounded_shape">
-
+        android:layout_marginTop="@dimen/bu3">
 
         <ScrollView
             android:id="@+id/content_view"
-            android:visibility="gone"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:scrollbars="none"
+            android:visibility="gone">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:background="@drawable/place_details_background_shape">
+
+                <com.makeramen.roundedimageview.RoundedImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bu15"
+                    android:layout_alignParentBottom="true"
+                    android:paddingBottom="1dp"
+                    android:paddingLeft="1dp"
+                    android:paddingRight="1dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/background_place_details"
+                    app:riv_corner_radius="@dimen/bu1" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:paddingBottom="1dp"
+                    android:paddingRight="1dp"
+                    android:src="@drawable/background_tit" />
 
                 <TextView
                     android:id="@+id/name_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/place_details_header_shape"
+                    android:ellipsize="end"
+                    android:gravity="center_vertical"
+                    android:paddingBottom="@dimen/bu0_5"
+                    android:paddingLeft="@dimen/bu1"
+                    android:paddingRight="@dimen/bu1"
+                    android:paddingTop="@dimen/bu0_5"
+                    android:textColor="@color/grey_blue"
+                    android:textSize="@dimen/text_size_36px" />
+
+                <RelativeLayout
+                    android:id="@+id/photos_pager_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/bu20"
+                    android:layout_below="@+id/name_text">
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/photos_view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:visibility="gone" />
+
+                    <me.relex.circleindicator.CircleIndicator
+                        android:id="@+id/photos_pager_indicator"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/bu4"
+                        android:layout_alignParentBottom="true"
+                        app:ci_drawable="@drawable/circle_white_shape"
+                        app:ci_drawable_unselected="@drawable/circle_semi_transparent_shape"
+                        app:ci_height="@dimen/bu0_5"
+                        app:ci_width="@dimen/bu0_5" />
+
+                    <ImageView
+                        android:id="@+id/no_photos_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="center"
+                        android:src="@drawable/icon_no_photo"
+                        android:visibility="gone" />
+                </RelativeLayout>
+
 
                 <TextView
                     android:id="@+id/address_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/photos_pager_layout"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="@dimen/bu1"
+                    android:layout_marginRight="@dimen/bu1"
+                    android:gravity="center"
+                    android:textColor="@color/grey_blue"
+                    android:textSize="@dimen/text_size_36px" />
 
                 <TextView
                     android:id="@+id/phone_text"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/photos_view_pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/bu20"
-                    android:visibility="gone" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/address_text"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/bu2"
+                    android:layout_marginTop="@dimen/bu2"
+                    android:background="@drawable/phone_button_selector"
+                    android:clickable="true"
+                    android:drawableLeft="@drawable/icon_phone"
+                    android:drawablePadding="@dimen/bu1"
+                    android:gravity="center"
+                    android:paddingBottom="@dimen/bu1"
+                    android:paddingLeft="@dimen/bu2"
+                    android:paddingRight="@dimen/bu2"
+                    android:paddingTop="@dimen/bu1"
+                    android:textColor="@color/grey_blue"
+                    android:textSize="@dimen/text_size_36px" />
 
                 <RelativeLayout
-                    android:id="@+id/no_photos_view"
+                    android:id="@+id/reviews_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/bu20"
-                    android:visibility="gone">
+                    android:layout_height="@dimen/bu15"
+                    android:layout_below="@+id/phone_text">
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
-                        android:text="NO PHOTOS"
-                        android:textColor="@color/dark_grey"
-                        android:textSize="@dimen/text_size_30px" />
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/reviews_view_pager"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="@dimen/bu5"
+                        android:paddingRight="@dimen/bu5" />
+
+                    <ImageView
+                        android:id="@+id/reviews_left_arrow"
+                        android:layout_width="@dimen/bu5"
+                        android:layout_height="@dimen/bu5"
+                        android:layout_alignParentLeft="true"
+                        android:clickable="true"
+                        android:scaleType="center"
+                        android:src="@drawable/arrow_left_selector" />
+
+                    <ImageView
+                        android:id="@+id/reviews_right_arrow"
+                        android:layout_width="@dimen/bu5"
+                        android:layout_height="@dimen/bu5"
+                        android:layout_alignParentRight="true"
+                        android:clickable="true"
+                        android:scaleType="center"
+                        android:src="@drawable/arrow_right_selector" />
 
                 </RelativeLayout>
 
-                <LinearLayout
-                    android:id="@+id/reviews_layout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/bu1"
-                    android:layout_marginRight="@dimen/bu1"
-                    android:orientation="vertical" />
-
-            </LinearLayout>
+            </RelativeLayout>
         </ScrollView>
 
         <ImageView
             android:id="@+id/progress_view"
             android:layout_width="@dimen/bu5"
-            android:src="@drawable/progress"
-            android:scaleType="fitXY"
+            android:layout_height="@dimen/bu5"
             android:layout_centerInParent="true"
-            android:layout_height="@dimen/bu5" />
+            android:scaleType="fitXY"
+            android:src="@drawable/progress" />
     </RelativeLayout>
 </RelativeLayout>

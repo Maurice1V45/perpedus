@@ -35,6 +35,9 @@
     <string name="settings_language">Language</string>
     <string name="settings_credits">Credits</string>
 
+    <!-- Place details -->
+    <string name="place_details_no_phone">No phone available</string>
+
     <!-- Place types -->
     <string name="place_type_accounting">Accounting</string>
     <string name="place_type_airport">Airport</string>
