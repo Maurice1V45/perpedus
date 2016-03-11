@@ -9,7 +9,7 @@ import android.webkit.WebViewClient;
 /**
  * Credits activity
  */
-public class CreditsActivity extends AppCompatActivity {
+public class TermsAndConditionsActivity extends AppCompatActivity {
 
     private WebView webView;
 

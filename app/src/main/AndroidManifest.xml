@@ -10,8 +10,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
 
-    <uses-feature android:name="android.hardware.camera" />
-    <uses-feature android:name="android.hardware.sensor.accelerometer" />
+    <uses-feature android:required="true" android:name="android.hardware.camera" />
+    <uses-feature android:required="true" android:name="android.hardware.location.gps" />
+    <uses-feature android:required="true" android:name="android.hardware.sensor.accelerometer" />
+    <uses-feature android:required="true" android:name="android.hardware.sensor.compass" />
 
     <application
         android:name=".PerpedusApplication"
@@ -37,6 +39,16 @@
         <activity
             android:name=".CreditsActivity"
             android:label="@string/settings_credits"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".PrivacyPolicyActivity"
+            android:label="@string/settings_privacy_policy"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".TermsAndConditionsActivity"
+            android:label="@string/settings_terms_and_conditions"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <activity

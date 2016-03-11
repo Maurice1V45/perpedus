@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private SearchDrawerLayout drawerContent;
     private boolean portraitOrientation = true;
     private int screenWidth;
-    private ActionBarDrawerToggle drawerToggle;
     private Toolbar toolbar;
     private boolean viewsAlphaLocked;
     private View settingsButton;
@@ -115,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             } else if (Constants.GOOGLE_RESPONSE_NO_RESULTS.equals(placesResponse.status)) {
 
                 // clear the places
-                places.clear();;
+                places.clear();
 
                 // send the data to the places display view
                 placesDisplayView.setPlaces(places);
@@ -330,10 +329,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // init places display view
         initPlacesDisplayView();
 
-        // animate focus view
-        placeFocusView.setVisibility(View.VISIBLE);
-        Animation scaleAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_focus_scale);
-        placeFocusView.startAnimation(scaleAnimation);
+        // if it's first time use display sensors calibration dialog
+        displaySensorsCalibrationDialog();
 
     }
 
@@ -527,6 +524,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         ViewGroup.LayoutParams layoutParams = placeFocusView.getLayoutParams();
         layoutParams.width = width / 2;
         layoutParams.height = width / 2;
+
+        // animate focus view
+        placeFocusView.setVisibility(View.VISIBLE);
+        Animation scaleAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_focus_scale);
+        placeFocusView.startAnimation(scaleAnimation);
     }
 
     @Override
@@ -729,6 +731,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     private void hideProgressView() {
         progressView.setVisibility(View.GONE);
+    }
+
+    /**
+     * Displays sensors calibration dialog only if it's first time use
+     */
+    private void displaySensorsCalibrationDialog() {
+        if (PreferencesUtils.getPreferences().getBoolean(Constants.PREF_FIRST_TIME_USE, true)) {
+            PreferencesUtils.storePreference(Constants.PREF_FIRST_TIME_USE, false);
+            DialogUtils.showCalibrateSensorsDialog(getFragmentManager());
+        }
     }
 
 }

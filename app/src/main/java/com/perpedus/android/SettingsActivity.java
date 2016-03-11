@@ -17,6 +17,8 @@ import com.perpedus.android.util.PreferencesUtils;
  */
 public class SettingsActivity extends AppCompatActivity implements SettingsListener{
 
+    private View privacyPolicyButton;
+    private View termsAndConditionsButton;
     private View creditsButton;
     private TextView selectedLanguageText;
     private View languageButton;
@@ -37,6 +39,8 @@ public class SettingsActivity extends AppCompatActivity implements SettingsListe
      */
     private void initViews() {
         languageButton = findViewById(R.id.language_button);
+        privacyPolicyButton = findViewById(R.id.privacy_policy_button);
+        termsAndConditionsButton = findViewById(R.id.terms_and_conditions_button);
         creditsButton = findViewById(R.id.credits_button);
         selectedLanguageText = (TextView) findViewById(R.id.selected_language_text);
     }
@@ -50,6 +54,26 @@ public class SettingsActivity extends AppCompatActivity implements SettingsListe
             @Override
             public void onClick(View v) {
                 DialogUtils.showSearchLanguageDialog(getFragmentManager(), SettingsActivity.this);
+            }
+        });
+        privacyPolicyButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // open privacy policy activity
+                Intent creditsIntent = new Intent(SettingsActivity.this, PrivacyPolicyActivity.class);
+                startActivity(creditsIntent);
+            }
+        });
+        termsAndConditionsButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                // open terms and conditions activity
+                Intent creditsIntent = new Intent(SettingsActivity.this, TermsAndConditionsActivity.class);
+                startActivity(creditsIntent);
             }
         });
         creditsButton.setOnClickListener(new View.OnClickListener() {

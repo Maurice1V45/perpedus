@@ -16,6 +16,7 @@ public class DialogUtils {
     public static final String TAG_PLACE_TYPES_DIALOG = "tag_place_types_dialog";
     public static final String TAG_SEARCH_LANGUAGE_DIALOG = "tag_search_language_dialog";
     public static final String TAG_PLACE_DETAILS_DIALOG = "tag_place_details_dialog";
+    public static final String TAG_CALIBRATE_SENSORS_DIALOG = "tag_calibrate_sensors_dialog";
 
     public static void showPlaceTypesDialog(FragmentManager fm, MainActivityListener mainActivityListener) {
         PlaceTypesDialog dialog = new PlaceTypesDialog();
@@ -35,6 +36,11 @@ public class DialogUtils {
         dialog.setPlaceDetails(placeDetails);
         dialog.setScreenWidth(screenWidth);
         dialog.show(fm, TAG_PLACE_DETAILS_DIALOG);
+    }
+
+    public static void showCalibrateSensorsDialog(FragmentManager fm) {
+        CalibrateSensorsDialog dialog = new CalibrateSensorsDialog();
+        dialog.show(fm, TAG_CALIBRATE_SENSORS_DIALOG);
     }
 
 }

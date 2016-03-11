@@ -153,6 +153,15 @@
 
                 </RelativeLayout>
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/reviews_layout"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="@dimen/bu0_5"
+                    android:layout_marginRight="@dimen/bu0_5"
+                    android:src="@drawable/powered_by_google_on_white" />
+
             </RelativeLayout>
         </ScrollView>
 

@@ -17,6 +17,7 @@ public class Constants {
     /* Preferences */
     public static final String PREFERENCES = "prefs";
     public static final String PREF_SELECTED_SEARCH_LANGUAGE = "pref_selected_search_language";
+    public static final String PREF_FIRST_TIME_USE = "pref_first_time_use";
 
     /* Intents */
     public static final String INTENT_LOCATION_UPDATED = "com.perpedus.android.LOCATION_UPDATED";
