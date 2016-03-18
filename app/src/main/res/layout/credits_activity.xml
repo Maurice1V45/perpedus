@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/bu2"
+                android:text="Android Developer"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_36px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Marius Ivas"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/bu2"
+                android:text="Web Developer"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_36px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Rares Pascut"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/bu2"
+                android:text="Web/Mobile Designer"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_36px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Bogdan Nastasa"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/bu2"
+                android:text="Icon Providers"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_36px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Freepik"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="SimplePik"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="CoolPik"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="... from flaticon.com"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/bu2"
+                android:text="Places Provider"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_36px"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Google"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

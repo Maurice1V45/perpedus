@@ -19,8 +19,9 @@
         <item name="android:textColorPrimary">@color/grey_blue</item>
         <item name="android:textColorSecondary">@color/grey_blue</item>
         <item name="actionMenuTextColor">@color/grey_blue</item>
-        <!--<item name="actionOverflowButtonStyle">@style/ActionButtonOverflowStyle</item>
-        <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>-->
+        <item name="windowActionBar">false</item>
+        <item name="windowActionBarOverlay">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
 </resources>

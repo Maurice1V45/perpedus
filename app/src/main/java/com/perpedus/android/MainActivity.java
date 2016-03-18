@@ -20,13 +20,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Toolbar toolbar;
     private boolean viewsAlphaLocked;
     private View settingsButton;
+    private boolean sensorCalibrationDialogVisible = false;
+    private long lastGpsLocationTime = 0;
 
     private Callback<PlacesResponse> placesCallback = new Callback<PlacesResponse>() {
 
@@ -133,9 +135,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             hideProgressView();
 
             // animate focus view
-            placeFocusView.setVisibility(View.VISIBLE);
-            Animation scaleAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_focus_scale);
-            placeFocusView.startAnimation(scaleAnimation);
+            animateFocusView();
         }
 
         @Override
@@ -199,22 +199,29 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         @Override
         public void onReceive(Context context, Intent intent) {
 
-            if (intent.getAction().equals(Constants.INTENT_LOCATION_UPDATED) && intent.hasExtra(Constants.EXTRA_LATITUDE) && intent.hasExtra(Constants.EXTRA_LONGITUDE)) {
+            if (intent.getAction().equals(Constants.INTENT_LOCATION_UPDATED) && intent.hasExtra(Constants.EXTRA_PROVIDER) && intent.hasExtra(Constants.EXTRA_LATITUDE) && intent.hasExtra(Constants.EXTRA_LONGITUDE)) {
 
-                // set provider
-                String provider = "";
-                if (intent.hasExtra(Constants.EXTRA_PROVIDER)) {
-                    provider = intent.getStringExtra(Constants.EXTRA_PROVIDER);
+                // get provider
+                String provider = intent.getStringExtra(Constants.EXTRA_PROVIDER);
+
+                // if we received a network location and a gps location was received recently, ignore
+                // the network location, else save the location
+                if (!(LocationManager.NETWORK_PROVIDER.equals(provider) && System.currentTimeMillis() - lastGpsLocationTime < 10000)) {
+
+                    // set current location
+                    Location location = new Location(provider);
+                    location.setLatitude(intent.getDoubleExtra(Constants.EXTRA_LATITUDE, 0));
+                    location.setLongitude(intent.getDoubleExtra(Constants.EXTRA_LONGITUDE, 0));
+                    myLocation = location;
+
+                    if (placesDisplayView != null) {
+                        placesDisplayView.setCurrentLocation(myLocation);
+                    }
                 }
 
-                // set current location
-                Location location = new Location(provider);
-                location.setLatitude(intent.getDoubleExtra(Constants.EXTRA_LATITUDE, 0));
-                location.setLongitude(intent.getDoubleExtra(Constants.EXTRA_LONGITUDE, 0));
-                myLocation = location;
-
-                if (placesDisplayView != null) {
-                    placesDisplayView.setCurrentLocation(myLocation);
+                // if location is gps provided, save its time
+                if (LocationManager.GPS_PROVIDER.equals(provider)) {
+                    lastGpsLocationTime = System.currentTimeMillis();
                 }
             }
         }
@@ -329,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // init places display view
         initPlacesDisplayView();
 
-        // if it's first time use display sensors calibration dialog
+        // display sensors calibration dialog
         displaySensorsCalibrationDialog();
 
     }
@@ -403,6 +410,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //        Log.w("asd",
 //                Math.round(event.values[0]) + "     " + Math.round(event.values[1]) + "     "
 //                        + Math.round(event.values[2]));
+
         if (placesDisplayView != null) {
             float coordinateX = event.values[0];
             float coordinateY = event.values[1];
@@ -414,7 +422,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             placesDisplayView.invalidate();
 
-            checkLandscape(coordinateZ);
+            if (!sensorCalibrationDialogVisible) {
+                checkLandscape(coordinateZ);
+            }
         }
 
     }
@@ -498,13 +508,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    protected void onDestroy() {
-
-
-        super.onDestroy();
-    }
-
-    @Override
     public void onBackPressed() {
 
         // close drawer if opened
@@ -525,7 +528,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         layoutParams.width = width / 2;
         layoutParams.height = width / 2;
 
-        // animate focus view
+        if (!PreferencesUtils.getPreferences().getBoolean(Constants.PREF_SHOW_SENSORS_CALIBRATION_DIALOG, true)) {
+            animateFocusView();
+        }
+
+    }
+
+    /**
+     * Makes focus view visible and animates it
+     */
+    private void animateFocusView() {
         placeFocusView.setVisibility(View.VISIBLE);
         Animation scaleAnimation = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_focus_scale);
         placeFocusView.startAnimation(scaleAnimation);
@@ -678,6 +690,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         drawerLayout.openDrawer(Gravity.LEFT);
     }
 
+    @Override
+    public void onSensorsCalibrationDialogDismiss() {
+        sensorCalibrationDialogVisible = false;
+        animateFocusView();
+    }
+
     /**
      * Unregisters receivers
      */
@@ -734,12 +752,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     /**
-     * Displays sensors calibration dialog only if it's first time use
+     * Displays sensors calibration dialog
      */
     private void displaySensorsCalibrationDialog() {
-        if (PreferencesUtils.getPreferences().getBoolean(Constants.PREF_FIRST_TIME_USE, true)) {
-            PreferencesUtils.storePreference(Constants.PREF_FIRST_TIME_USE, false);
-            DialogUtils.showCalibrateSensorsDialog(getFragmentManager());
+        if (PreferencesUtils.getPreferences().getBoolean(Constants.PREF_SHOW_SENSORS_CALIBRATION_DIALOG, true)) {
+            sensorCalibrationDialogVisible = true;
+            DialogUtils.showCalibrateSensorsDialog(getFragmentManager(), MainActivity.this);
         }
     }
 

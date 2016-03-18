@@ -9,6 +9,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <FrameLayout
+            android:id="@+id/camera_preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
         <android.support.design.widget.AppBarLayout
             android:id="@+id/app_bar_layout"
             android:layout_width="match_parent"
@@ -41,11 +46,6 @@
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.AppBarLayout>
-
-        <FrameLayout
-            android:id="@+id/camera_preview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
 
         <include
             android:id="@+id/place_focus_view"
@@ -119,23 +119,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@drawable/semi_transparent_rounded_shape"
+            android:background="@drawable/transparent_blue_rounded_shape"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="@dimen/bu2"
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/progress" />
+                android:layout_width="@dimen/bu5"
+                android:layout_height="@dimen/bu5"
+                android:scaleType="fitXY"
+                android:src="@drawable/progress_white" />
 
             <TextView
                 android:id="@+id/progress_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/bu1"
-                android:textColor="@color/dark_grey"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_size_30px" />
 
         </LinearLayout>
@@ -145,16 +146,17 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:background="@drawable/black_transparent_rounded_shape"
+            android:background="@drawable/transparent_blue_rounded_shape"
             android:gravity="center"
             android:orientation="vertical"
             android:padding="@dimen/bu2"
             android:visibility="gone">
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/progress" />
+                android:layout_width="@dimen/bu5"
+                android:layout_height="@dimen/bu5"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_disabled_white" />
 
             <TextView
                 android:layout_width="wrap_content"

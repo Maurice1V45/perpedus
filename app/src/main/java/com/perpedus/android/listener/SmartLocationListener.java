@@ -36,6 +36,7 @@ public class SmartLocationListener implements LocationListener {
 
             // send broadcast that location was updated
             Intent locationUpdateIntent = new Intent(Constants.INTENT_LOCATION_UPDATED);
+            locationUpdateIntent.putExtra(Constants.EXTRA_PROVIDER, provider);
             locationUpdateIntent.putExtra(Constants.EXTRA_LATITUDE, location.getLatitude());
             locationUpdateIntent.putExtra(Constants.EXTRA_LONGITUDE, location.getLongitude());
             context.sendBroadcast(locationUpdateIntent);

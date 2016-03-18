@@ -32,12 +32,12 @@ public class CoordinateProvider {
         this.context = context;
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
-        this.cameraHorizontalAngle = cameraHorizontalAngle;
-        this.cameraVerticalAngle = cameraVerticalAngle;
-        Log.w("prop", "width=" + screenWidth);
-        Log.w("prop", "height=" + screenHeight);
-        Log.w("prop", "horiz angle=" + cameraHorizontalAngle);
-        Log.w("prop", "vert angle=" + cameraVerticalAngle);
+        this.cameraHorizontalAngle = (cameraHorizontalAngle < 30 || cameraHorizontalAngle > 90) ? 40 : cameraHorizontalAngle;
+        this.cameraVerticalAngle = (cameraVerticalAngle < 30 || cameraVerticalAngle > 90) ? 50 : cameraVerticalAngle;
+//        Log.w("prop", "width=" + screenWidth);
+//        Log.w("prop", "height=" + screenHeight);
+//        Log.w("prop", "horiz angle=" + cameraHorizontalAngle);
+//        Log.w("prop", "vert angle=" + cameraVerticalAngle);
     }
 
     /**
@@ -70,7 +70,7 @@ public class CoordinateProvider {
         float distanceDelta = 0f;
         if (furthestLocation != 0 && closestLocation != furthestLocation) {
             float distance = myLocation.distanceTo(targetLocation);
-            distanceDelta = ((distance * screenHeight / 2f / furthestLocation) - (screenHeight / 4f)) * -1;
+            distanceDelta = ((distance * screenHeight / 4f / furthestLocation) - (screenHeight / 8f)) * -1;
         }
 
         // calculate width and height. These are the coordinates used to display the Place on

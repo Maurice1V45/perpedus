@@ -55,5 +55,10 @@ public interface MainActivityListener {
      */
     void onPlaceTypesDialogDismiss();
 
+    /**
+     * Triggered when sensors calibration dialog was dismissed
+     */
+    void onSensorsCalibrationDialogDismiss();
+
 
 }

@@ -38,8 +38,9 @@ public class DialogUtils {
         dialog.show(fm, TAG_PLACE_DETAILS_DIALOG);
     }
 
-    public static void showCalibrateSensorsDialog(FragmentManager fm) {
+    public static void showCalibrateSensorsDialog(FragmentManager fm, MainActivityListener mainActivityListener) {
         CalibrateSensorsDialog dialog = new CalibrateSensorsDialog();
+        dialog.setMainActivityListener(mainActivityListener);
         dialog.show(fm, TAG_CALIBRATE_SENSORS_DIALOG);
     }
 

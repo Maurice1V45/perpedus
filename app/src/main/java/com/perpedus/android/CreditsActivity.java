@@ -16,21 +16,7 @@ public class CreditsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.webview_activity);
-
-        initViews();
-        initWebView();
-    }
-
-    private void initViews() {
-        webView = (WebView) findViewById(R.id.webview);
-    }
-
-    private void initWebView() {
-        WebSettings settings = webView.getSettings();
-        settings.setJavaScriptEnabled(true);
-        webView.setWebViewClient(new WebViewClient());
-        webView.loadUrl("http://www.google.com");
+        setContentView(R.layout.credits_activity);
 
     }
 }
