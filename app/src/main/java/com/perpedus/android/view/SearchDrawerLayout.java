@@ -195,7 +195,7 @@ public class SearchDrawerLayout extends RelativeLayout {
         if (selectedType == null) {
 
             // set all place types icon and text
-            categoryIcon.setImageResource(R.drawable.icon_stadium_white);
+            categoryIcon.setImageResource(R.drawable.icon_star);
             categoryText.setText(R.string.types_all_types);
 
         } else {

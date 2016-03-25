@@ -46,7 +46,7 @@ public class PlacesDisplayView extends View {
     private static final float MY_PLACE_ICON_SIZE = 64f;
 
     // size of the arrow icons
-    private static final float MY_ARROW_ICON_SIZE = 64f;
+    private static final float MY_ARROW_ICON_SIZE = 100f;
 
     // size of the meters text
     private static final float MY_METERS_TEXT_SIZE = 26f;

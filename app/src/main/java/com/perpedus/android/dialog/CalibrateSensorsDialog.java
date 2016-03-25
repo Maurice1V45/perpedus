@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
@@ -55,7 +57,9 @@ public class CalibrateSensorsDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.calibrate_sensors_dialog, container);
         initViews(view);
         initListeners();
+
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0));
+
         return view;
     }
 
@@ -97,5 +101,11 @@ public class CalibrateSensorsDialog extends DialogFragment {
 
     public void setMainActivityListener(MainActivityListener mainActivityListener) {
         this.mainActivityListener = mainActivityListener;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
     }
 }

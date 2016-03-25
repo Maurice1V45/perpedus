@@ -1,48 +1,67 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
-    android:orientation="vertical"
-    android:background="@drawable/transparent_blue_rounded_shape"
-    android:layout_height="wrap_content">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:textSize="@dimen/text_size_30px"
-        android:textColor="@color/white"
-        android:layout_marginTop="@dimen/bu2"
-        android:layout_marginLeft="@dimen/bu2"
-        android:layout_marginRight="@dimen/bu2"
-        android:text="@string/sensors_calibration_description_text"
-        android:layout_height="wrap_content" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <pl.droidsonroids.gif.GifImageView
-        android:layout_width="wrap_content"
-        android:layout_marginTop="@dimen/bu1"
-        android:layout_gravity="center_horizontal"
-        android:layout_height="wrap_content"
-        android:src="@drawable/animated_gif_calibrate_sensors" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bu5"
+                android:layout_marginRight="@dimen/bu5"
+                android:layout_marginTop="@dimen/bu5"
+                android:gravity="center"
+                android:text="@string/sensors_calibration_title_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_36px" />
 
-    <CheckBox
-        android:id="@+id/never_show_again_checkbox"
-        android:layout_width="wrap_content"
-        android:layout_marginLeft="@dimen/bu2"
-        android:text="@string/sensors_calibration_never_show_again_text"
-        android:textColor="@color/white"
-        android:layout_marginTop="@dimen/bu1"
-        android:textSize="@dimen/text_size_26px"
-        android:layout_height="wrap_content" />
+            <ImageView
+                android:layout_width="@dimen/bu16"
+                android:layout_height="@dimen/bu16"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/bu1"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_calibrate" />
 
-    <TextView
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bu5"
+                android:layout_marginRight="@dimen/bu5"
+                android:layout_marginTop="@dimen/bu1"
+                android:gravity="center"
+                android:text="@string/sensors_calibration_description_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_36px" />
+
+            <CheckBox
+                android:id="@+id/never_show_again_checkbox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bu2"
+                android:layout_marginTop="@dimen/bu1_5"
+                android:button="@drawable/white_checkbox_selector"
+                android:text="@string/sensors_calibration_never_show_again_text"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_26px" />
+
+        </LinearLayout>
+
+    <Button
         android:id="@+id/ok_button"
-        android:clickable="true"
         android:layout_width="wrap_content"
-        android:text="@string/sensors_calibration_ok_button"
-        android:textColor="@color/white"
+        android:layout_height="@dimen/bu4"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/bu2"
+        android:background="@drawable/search_button_selector"
         android:paddingLeft="@dimen/bu2"
         android:paddingRight="@dimen/bu2"
-        android:paddingTop="@dimen/bu1"
-        android:paddingBottom="@dimen/bu2"
-        android:textSize="@dimen/text_size_40px"
-        android:layout_gravity="right"
-        android:layout_height="wrap_content" />
+        android:text="@string/sensors_calibration_ok_button"
+        android:textColor="@color/grey_blue"
+        android:textSize="@dimen/text_size_36px" />
 
-</LinearLayout>
+</RelativeLayout>

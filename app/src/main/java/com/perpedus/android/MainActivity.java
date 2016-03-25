@@ -15,12 +15,12 @@ import android.hardware.SensorManager;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +47,7 @@ import com.perpedus.android.util.PreferencesUtils;
 import com.perpedus.android.util.ScreenUtils;
 import com.perpedus.android.util.UrlUtils;
 import com.perpedus.android.view.CameraPreview;
+import com.perpedus.android.view.CustomToast;
 import com.perpedus.android.view.PlacesDisplayView;
 import com.perpedus.android.view.RoundedCornersTransformation;
 import com.perpedus.android.view.SearchDrawerLayout;
@@ -82,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private Place focusedPlace;
     private DrawerLayout drawerLayout;
     private View progressView;
-    private TextView progressText;
     private View noLandscapeLayout;
+    private View noLandscapeInnerLayout;
     private SearchDrawerLayout drawerContent;
     private boolean portraitOrientation = true;
     private int screenWidth;
@@ -92,6 +93,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private View settingsButton;
     private boolean sensorCalibrationDialogVisible = false;
     private long lastGpsLocationTime = 0;
+    private boolean backPressedOnce;
+    private View loadingIcon1;
+    private View loadingIcon2;
+    private View loadingIcon3;
+    private View loadingIcon4;
+    private View loadingLayout;
+    private static final int BACK_TO_EXIT_INTERVAL = 2000;
 
     private Callback<PlacesResponse> placesCallback = new Callback<PlacesResponse>() {
 
@@ -141,6 +149,14 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         @Override
         public void failure(RetrofitError error) {
 
+            // display error toast
+            Toast.makeText(MainActivity.this, R.string.toast_places_error, Toast.LENGTH_SHORT).show();
+
+            // hide the progress view
+            hideProgressView();
+
+            // animate focus view
+            animateFocusView();
         }
     };
 
@@ -150,6 +166,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         public void success(PlaceDetailsResponse placeDetailsResponse, Response response) {
 
             if (Constants.GOOGLE_RESPONSE_OK.equals(placeDetailsResponse.status)) {
+
+                if (placeDetailsResponse.result.reviews != null) {
+
+                    // remove empty reviews
+                    List<PlaceDetailsResponse.Review> reviewList = new ArrayList<PlaceDetailsResponse.Review>();
+                    for (PlaceDetailsResponse.Review review : placeDetailsResponse.result.reviews) {
+                        if (review.comment != null && !review.comment.isEmpty()) {
+                            reviewList.add(review);
+                        }
+                    }
+                    placeDetailsResponse.result.reviews = reviewList.toArray(new PlaceDetailsResponse.Review[reviewList.size()]);
+                }
+
                 for (Place place : places) {
                     if (place.getPlaceId().equals(placeDetailsResponse.result.placeId)) {
 
@@ -281,6 +310,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      */
     private void initPlacesDisplayView() {
         placesDisplayView = new PlacesDisplayView(this, camera.getParameters().getVerticalViewAngle(), camera.getParameters().getHorizontalViewAngle(), MainActivity.this, places);
+        placesDisplayView.setAlpha(0f);
         placesDisplayView.setCurrentLocation(myLocation);
         screenLayout.addView(placesDisplayView, 1);
     }
@@ -411,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //                Math.round(event.values[0]) + "     " + Math.round(event.values[1]) + "     "
 //                        + Math.round(event.values[2]));
 
-        if (placesDisplayView != null) {
+        if (placesDisplayView != null && !sensorCalibrationDialogVisible) {
             float coordinateX = event.values[0];
             float coordinateY = event.values[1];
             float coordinateZ = event.values[2];
@@ -422,9 +452,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
             placesDisplayView.invalidate();
 
-            if (!sensorCalibrationDialogVisible) {
-                checkLandscape(coordinateZ);
-            }
+            checkLandscape(coordinateZ);
         }
 
     }
@@ -442,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             placesDisplayView.setVisibility(View.GONE);
             placeFocusView.setVisibility(View.GONE);
             noLandscapeLayout.setVisibility(View.VISIBLE);
-            noLandscapeLayout.setRotation(coordinateZ > 0 ? 90 : -90);
+            noLandscapeInnerLayout.setRotation(coordinateZ > 0 ? 90 : -90);
             handleFocusedPlace(null);
         } else if (Math.abs(coordinateZ) < 45 && !portraitOrientation) {
 
@@ -466,11 +494,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerContent = (SearchDrawerLayout) findViewById(R.id.right_drawer);
         progressView = findViewById(R.id.progress_layout);
-        progressText = (TextView) findViewById(R.id.progress_text);
         noLandscapeLayout = findViewById(R.id.no_landscape_layout);
+        noLandscapeInnerLayout = findViewById(R.id.no_landscape_inner_layout);
         placeImage = (ImageView) findViewById(R.id.place_image);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         settingsButton = findViewById(R.id.settings_button);
+        loadingIcon1 = findViewById(R.id.loading_icon1);
+        loadingIcon2 = findViewById(R.id.loading_icon2);
+        loadingIcon3 = findViewById(R.id.loading_icon3);
+        loadingIcon4 = findViewById(R.id.loading_icon4);
+        loadingLayout = findViewById(R.id.loading_layout);
     }
 
     /**
@@ -514,7 +547,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (drawerLayout.isDrawerVisible(Gravity.LEFT)) {
             drawerLayout.closeDrawer(Gravity.LEFT);
         } else {
-            super.onBackPressed();
+            if (backPressedOnce) {
+
+                // exit the app
+                super.onBackPressed();
+            } else {
+
+                // display back to exit toast
+                backPressedOnce = true;
+                CustomToast.makeText(this, getString(R.string.toast_back_to_exit), Toast.LENGTH_SHORT).show();
+
+                // reset flag after the interval time
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        backPressedOnce = false;
+                    }
+                }, BACK_TO_EXIT_INTERVAL);
+            }
         }
     }
 
@@ -530,6 +581,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (!PreferencesUtils.getPreferences().getBoolean(Constants.PREF_SHOW_SENSORS_CALIBRATION_DIALOG, true)) {
             animateFocusView();
+
+            // show views
+            placesDisplayView.setAlpha(1f);
+            placeDetailsView.setAlpha(1f);
         }
 
     }
@@ -640,7 +695,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         drawerLayout.closeDrawer(Gravity.LEFT);
 
         // show progress view
-        showProgressView(getString(R.string.loading_retrieving_places_text));
+        showProgressView();
 
         // clear current places
         places.clear();
@@ -694,6 +749,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorsCalibrationDialogDismiss() {
         sensorCalibrationDialogVisible = false;
         animateFocusView();
+        // show views
+        placesDisplayView.setAlpha(1f);
+        placeDetailsView.setAlpha(1f);
     }
 
     /**
@@ -736,12 +794,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     /**
      * Displays the progress view
-     *
-     * @param text
      */
-    private void showProgressView(String text) {
+    private void showProgressView() {
         progressView.setVisibility(View.VISIBLE);
-        progressText.setText(text);
+        playProgressAnimation();
     }
 
     /**
@@ -759,6 +815,19 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             sensorCalibrationDialogVisible = true;
             DialogUtils.showCalibrateSensorsDialog(getFragmentManager(), MainActivity.this);
         }
+    }
+
+    private void playProgressAnimation() {
+        Animation loadingAnimation1 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_loading1);
+        Animation loadingAnimation2 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_loading2);
+        Animation loadingAnimation3 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_loading3);
+        Animation loadingAnimation4 = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_loading4);
+        Animation rotate = AnimationUtils.loadAnimation(MainActivity.this, R.anim.anim_rotate);
+        loadingIcon1.startAnimation(loadingAnimation1);
+        loadingIcon2.startAnimation(loadingAnimation2);
+        loadingIcon3.startAnimation(loadingAnimation3);
+        loadingIcon4.startAnimation(loadingAnimation4);
+        loadingLayout.startAnimation(rotate);
     }
 
 }

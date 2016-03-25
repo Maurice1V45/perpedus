@@ -5,10 +5,10 @@
 
     <ImageView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/background_tit_big"
         android:scaleType="center"
-        android:layout_height="match_parent" />
+        android:src="@drawable/background_tit_big" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -61,13 +61,12 @@
                         android:layout_marginTop="@dimen/bu1"
                         android:background="@drawable/icon_edittext_background"
                         android:inputType="textVisiblePassword|textCapSentences"
+                        android:maxLength="40"
                         android:textColor="@color/white"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/text_size_30px" />
 
-
                 </RelativeLayout>
-
             </LinearLayout>
 
             <LinearLayout

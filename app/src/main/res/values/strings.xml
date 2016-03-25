@@ -17,9 +17,12 @@
     <string name="main_drawer_open">Open navigation drawer</string>
     <string name="main_drawer_close">Close navigation drawer</string>
     <string name="main_no_landscape_text">Landscape mode is not supported</string>
+    <string name="main_retrieving_places_text">Looking around for places</string>
+    <string name="main_please_wait_text">Please wait&#8230;</string>
     <string name="toast_places_found" formatted="false">%number% places found</string>
     <string name="toast_no_places_found" >No places found</string>
     <string name="toast_places_error">Cannot retrieve places</string>
+    <string name="toast_back_to_exit">Press back again to exit</string>
 
     <!-- Drawer -->
     <string name="drawer_title_text">Search for places</string>
@@ -41,9 +44,11 @@
     <string name="place_details_no_phone">No phone available</string>
 
     <!-- Sensors calibration -->
-    <string name="sensors_calibration_never_show_again_text">Never show me again</string>
-    <string name="sensors_calibration_description_text">Before using this app, it is recommended to calibrate your sensors. Move your phone into an 8 shape like in the picture below.</string>
-    <string name="sensors_calibration_ok_button">GOT IT</string>
+    <string name="sensors_calibration_never_show_again_text">Don\'t show me this message again</string>
+    <string name="sensors_calibration_title_text">Lets CALIBRATE your awesome phone</string>
+    <string name="sensors_calibration_description_text">Wave your device around several times in a figure of 8 pattern</string>
+    <string name="sensors_calibration_hint_text">It\'s recommended to calibrate your phone each time you use the app</string>
+    <string name="sensors_calibration_ok_button">DONE</string>
 
     <!-- Place types -->
     <string name="place_type_accounting">Accounting</string>

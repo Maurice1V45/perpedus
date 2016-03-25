@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -259,7 +260,11 @@ public class PlaceDetailsDialog extends DialogFragment {
 
                 @Override
                 public void onClick(View v) {
-                    // TODO Call
+
+                    // dial phone number
+                    Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+                    dialIntent.setData(Uri.parse("tel:" + placeDetails.result.phone));
+                    startActivity(dialIntent);
                 }
             });
         }
@@ -292,7 +297,7 @@ public class PlaceDetailsDialog extends DialogFragment {
             photosPagerIndicator.setViewPager(photosViewPager);
         }
 
-        if (placeDetails.result.reviews == null) {
+        if (placeDetails.result.reviews == null || placeDetails.result.reviews.length == 0) {
 
             // hide reviews
             reviewsLayout.setVisibility(View.GONE);
