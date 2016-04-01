@@ -9,7 +9,7 @@
         android:layout_marginTop="@dimen/bu3"
         android:paddingTop="@dimen/bu1"
         android:paddingBottom="@dimen/bu1"
-        android:background="@drawable/greyed_rounded_shape">
+        android:background="@drawable/white_rounded_shape">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/languages_recycler_view"

@@ -5,6 +5,10 @@ package com.perpedus.android.util;
  */
 public class Constants {
 
+    /* URLS */
+    public static final String URL_PRIVACY_POLICY = "http://www.perpedus.com/privacy-policy";
+    public static final String URL_TERMS_AND_CONDITIONS = "http://www.perpedus.com/terms-and-conditions";
+
     /* Keys */
     public static final String PLACES_KEY = "AIzaSyCc7oA2cfSln6lorqam-4Jq5WFxzWQkbow";
     public static final String PLACES_BASE_URL = "https://maps.googleapis.com/maps/api/place";
@@ -20,6 +24,7 @@ public class Constants {
     public static final String PREF_SHOW_SENSORS_CALIBRATION_DIALOG = "pref_show_sensor_calibration_dialog";
 
     /* Intents */
+    public static final String INTENT_LOCATION_ENABLED_RECEIVED = "android.location.PROVIDERS_CHANGED";
     public static final String INTENT_LOCATION_UPDATED = "com.perpedus.android.LOCATION_UPDATED";
     public static final String INTENT_PLACE_DETAILS_RECEIVED = "com.perpedus.android.PLACE_DETAILS_RECEIVED";
 
@@ -29,9 +34,6 @@ public class Constants {
     public static final String EXTRA_PROVIDER = "extra_provider";
     public static final String EXTRA_PLACES = "extra_places";
     public static final String EXTRA_PLACE_DETAILS = "extra_place_details";
-
-    /* Fonts */
-    public static final String CUSTOM_FONT = "Matias.ttf";
 
     /* Other */
     public static final String DEFAULT_LANGUAGE = "en";

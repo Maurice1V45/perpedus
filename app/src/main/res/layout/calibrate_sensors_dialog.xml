@@ -61,7 +61,7 @@
         android:paddingLeft="@dimen/bu2"
         android:paddingRight="@dimen/bu2"
         android:text="@string/sensors_calibration_ok_button"
-        android:textColor="@color/grey_blue"
+        android:textColor="@drawable/search_button_text_selector"
         android:textSize="@dimen/text_size_36px" />
 
 </RelativeLayout>

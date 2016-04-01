@@ -13,6 +13,7 @@ import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,14 +23,27 @@ import android.widget.Toast;
 import com.perpedus.android.dom.PlacesResponse;
 import com.perpedus.android.listener.SmartLocationListener;
 import com.perpedus.android.util.Constants;
+import com.perpedus.android.util.LanguageUtils;
 import com.perpedus.android.util.LocationUtils;
 import com.perpedus.android.util.PreferencesUtils;
+
+import java.util.Locale;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class LoadingActivity extends Activity {
+
+    private BroadcastReceiver locationEnabledReceiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().matches(Constants.INTENT_LOCATION_ENABLED_RECEIVED)) {
+                checkLocationEnabled();
+            }
+        }
+    };
 
     private Callback<PlacesResponse> placesCallback = new Callback<PlacesResponse>() {
         @Override
@@ -113,6 +127,8 @@ public class LoadingActivity extends Activity {
         // check if user has the required hardware in order to run this app
         checkUserHasHardwareRequirements();
 
+        //
+
     }
 
     /**
@@ -160,7 +176,20 @@ public class LoadingActivity extends Activity {
     private void onFirstLocationReceived() {
 
         // get language
-        String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, Constants.DEFAULT_LANGUAGE);
+        String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, "");
+
+        if (language.isEmpty()) {
+            language = Locale.getDefault().getLanguage();
+
+            // store language into shared prefs
+            if (LanguageUtils.isLanguageSupported(language)) {
+                PreferencesUtils.storePreference(Constants.PREF_SELECTED_SEARCH_LANGUAGE, language);
+            } else {
+                language = Constants.DEFAULT_LANGUAGE;
+                PreferencesUtils.storePreference(Constants.PREF_SELECTED_SEARCH_LANGUAGE, Constants.DEFAULT_LANGUAGE);
+            }
+
+        }
 
         // set progress text
         progressText.setText(R.string.loading_retrieving_places_text);
@@ -180,6 +209,7 @@ public class LoadingActivity extends Activity {
         // unregister location receiver
         try {
             unregisterReceiver(locationReceiver);
+            unregisterReceiver(locationEnabledReceiver);
         } catch (Exception e) {
             // receiver was not registered
         }
@@ -248,6 +278,9 @@ public class LoadingActivity extends Activity {
         // init location listener
         registerReceiver(locationReceiver, new IntentFilter(Constants.INTENT_LOCATION_UPDATED));
 
+        // init location enabled listener
+        registerReceiver(locationEnabledReceiver, new IntentFilter(Constants.INTENT_LOCATION_ENABLED_RECEIVED));
+
         // init location listeners
         gpsLocationListener = new SmartLocationListener(LoadingActivity.this, LocationManager.GPS_PROVIDER);
         networkLocationListener = new SmartLocationListener(LoadingActivity.this, LocationManager.NETWORK_PROVIDER);
@@ -257,8 +290,7 @@ public class LoadingActivity extends Activity {
         LocationUtils.scanLocation(LoadingActivity.this, LocationManager.NETWORK_PROVIDER, networkLocationListener);
 
         // set progress text and image
-        progressImage.setImageResource(R.drawable.progress_white);
-        progressText.setText(R.string.loading_retrieving_location_text);
+        checkLocationEnabled();
     }
 
     @Override
@@ -300,6 +332,16 @@ public class LoadingActivity extends Activity {
             }
             default:
                 break;
+        }
+    }
+
+    private void checkLocationEnabled() {
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            progressImage.setImageResource(R.drawable.progress_white);
+            progressText.setText(R.string.loading_retrieving_location_text);
+        } else {
+            progressImage.setImageResource(R.drawable.icon_exclamation_mark);
+            progressText.setText(R.string.loading_enable_location_text);
         }
     }
 }

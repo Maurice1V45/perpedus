@@ -2,113 +2,151 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@color/white"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".SettingsActivity">
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/language_button"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/bu5"
+        android:layout_height="@dimen/bu7"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true">
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/bu3"
+            android:layout_height="@dimen/bu3"
+            android:layout_margin="@dimen/bu1"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_places_language" />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:orientation="vertical"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/bu1"
-            android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/settings_language"
-            android:textColor="@color/grey_blue"
-            android:textSize="@dimen/text_size_36px" />
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/selected_language_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/grey_blue"
-            android:textSize="@dimen/text_size_30px" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/settings_language"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_36px" />
+
+            <TextView
+                android:id="@+id/selected_language_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
         </LinearLayout>
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey_blue" />
+        android:layout_marginLeft="@dimen/bu1"
+        android:layout_marginRight="@dimen/bu1"
+        android:background="@color/greyed" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/credits_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bu5"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true">
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/bu3"
+            android:layout_height="@dimen/bu3"
+            android:layout_margin="@dimen/bu1"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_credits" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/bu1"
             android:text="@string/settings_credits"
             android:textColor="@color/grey_blue"
             android:textSize="@dimen/text_size_36px" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey_blue" />
+        android:layout_marginLeft="@dimen/bu1"
+        android:layout_marginRight="@dimen/bu1"
+        android:background="@color/greyed" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/privacy_policy_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bu5"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true">
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/bu3"
+            android:layout_height="@dimen/bu3"
+            android:layout_margin="@dimen/bu1"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_privacy_policy" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/bu1"
             android:text="@string/settings_privacy_policy"
             android:textColor="@color/grey_blue"
             android:textSize="@dimen/text_size_36px" />
 
-    </RelativeLayout>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey_blue" />
+        android:layout_marginLeft="@dimen/bu1"
+        android:layout_marginRight="@dimen/bu1"
+        android:background="@color/greyed" />
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/terms_and_conditions_button"
         android:layout_width="match_parent"
         android:layout_height="@dimen/bu5"
         android:background="?android:attr/selectableItemBackground"
-        android:clickable="true">
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="@dimen/bu3"
+            android:layout_height="@dimen/bu3"
+            android:layout_margin="@dimen/bu1"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_terms_and_conditions" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/bu1"
             android:text="@string/settings_terms_and_conditions"
             android:textColor="@color/grey_blue"
             android:textSize="@dimen/text_size_36px" />
 
-    </RelativeLayout>
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/grey_blue" />
+        android:layout_marginLeft="@dimen/bu1"
+        android:layout_marginRight="@dimen/bu1"
+        android:background="@color/greyed" />
 
 </LinearLayout>

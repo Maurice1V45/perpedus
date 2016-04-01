@@ -2,7 +2,9 @@ package com.perpedus.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -31,6 +33,9 @@ public class SettingsActivity extends AppCompatActivity implements SettingsListe
         initViews();
         initListeners();
         initSelectedLanguage();
+
+        // display action bar arrow
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
     }
 
@@ -99,5 +104,17 @@ public class SettingsActivity extends AppCompatActivity implements SettingsListe
         // save language in shared preferences
         PreferencesUtils.storePreference(Constants.PREF_SELECTED_SEARCH_LANGUAGE, language);
         selectedLanguageText.setText(LanguageUtils.SUPPORTED_LANGUAGES_MAP.get(language));
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

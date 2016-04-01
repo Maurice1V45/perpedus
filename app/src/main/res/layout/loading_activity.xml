@@ -73,7 +73,7 @@
                 android:paddingLeft="@dimen/bu2"
                 android:paddingRight="@dimen/bu2"
                 android:text="@string/loading_retry_button"
-                android:textColor="@color/grey_blue"
+                android:textColor="@drawable/search_button_text_selector"
                 android:textSize="@dimen/text_size_36px" />
 
         </LinearLayout>

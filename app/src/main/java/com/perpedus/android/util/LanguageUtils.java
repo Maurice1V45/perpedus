@@ -88,4 +88,19 @@ public class LanguageUtils {
 
         return supportedLanguages;
     }
+
+    /**
+     * Checks if the given language is supported by Google Places
+     *
+     * @param language
+     * @return
+     */
+    public static boolean isLanguageSupported(String language) {
+        for (String key : SUPPORTED_LANGUAGES_MAP.keySet()) {
+            if (key.equals(language)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
