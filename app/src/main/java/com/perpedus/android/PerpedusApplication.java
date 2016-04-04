@@ -31,7 +31,7 @@ public class PerpedusApplication extends Application {
         tabletVersion = getResources().getBoolean(R.bool.is_tablet);
 
         // init services
-        placesService = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.BASIC).setEndpoint(Constants.PLACES_BASE_URL).build().create(PlacesService.class);
+        placesService = new RestAdapter.Builder().setLogLevel(RestAdapter.LogLevel.NONE).setEndpoint(Constants.PLACES_BASE_URL).build().create(PlacesService.class);
 
     }
 

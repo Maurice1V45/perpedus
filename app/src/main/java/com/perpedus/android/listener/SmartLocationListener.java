@@ -32,7 +32,6 @@ public class SmartLocationListener implements LocationListener {
     public void onLocationChanged(Location location) {
 
         if (location != null) {
-            Log.w("asd", provider + " location detected: " + location.getLatitude() + "," + location.getLongitude());
 
             // send broadcast that location was updated
             Intent locationUpdateIntent = new Intent(Constants.INTENT_LOCATION_UPDATED);

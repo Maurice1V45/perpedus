@@ -2,66 +2,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/bu5"
+            android:layout_marginRight="@dimen/bu5"
+            android:layout_marginTop="@dimen/bu5"
+            android:gravity="center"
+            android:text="@string/sensors_calibration_title_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_36px" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/bu5"
-                android:layout_marginRight="@dimen/bu5"
-                android:layout_marginTop="@dimen/bu5"
-                android:gravity="center"
-                android:text="@string/sensors_calibration_title_text"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_36px" />
+        <ImageView
+            android:layout_width="@dimen/bu16"
+            android:layout_height="@dimen/bu16"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/bu1"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_calibrate" />
 
-            <ImageView
-                android:layout_width="@dimen/bu16"
-                android:layout_height="@dimen/bu16"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="@dimen/bu1"
-                android:scaleType="fitXY"
-                android:src="@drawable/icon_calibrate" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="@dimen/bu5"
+            android:layout_marginRight="@dimen/bu5"
+            android:layout_marginTop="@dimen/bu1"
+            android:gravity="center"
+            android:text="@string/sensors_calibration_description_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_36px" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/bu5"
-                android:layout_marginRight="@dimen/bu5"
-                android:layout_marginTop="@dimen/bu1"
-                android:gravity="center"
-                android:text="@string/sensors_calibration_description_text"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_36px" />
+        <CheckBox
+            android:id="@+id/never_show_again_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/bu2"
+            android:layout_marginTop="@dimen/bu1_5"
+            android:button="@drawable/white_checkbox_selector"
+            android:text="@string/sensors_calibration_never_show_again_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_26px" />
 
-            <CheckBox
-                android:id="@+id/never_show_again_checkbox"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/bu2"
-                android:layout_marginTop="@dimen/bu1_5"
-                android:button="@drawable/white_checkbox_selector"
-                android:text="@string/sensors_calibration_never_show_again_text"
-                android:textColor="@color/white"
-                android:textSize="@dimen/text_size_26px" />
+        <Button
+            android:id="@+id/ok_button"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/bu4"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/bu2"
+            android:layout_marginTop="@dimen/bu2"
+            android:background="@drawable/search_button_selector"
+            android:paddingLeft="@dimen/bu2"
+            android:paddingRight="@dimen/bu2"
+            android:text="@string/sensors_calibration_ok_button"
+            android:textColor="@drawable/search_button_text_selector"
+            android:textSize="@dimen/text_size_36px" />
 
-        </LinearLayout>
-
-    <Button
-        android:id="@+id/ok_button"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/bu4"
-        android:layout_centerHorizontal="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/bu2"
-        android:background="@drawable/search_button_selector"
-        android:paddingLeft="@dimen/bu2"
-        android:paddingRight="@dimen/bu2"
-        android:text="@string/sensors_calibration_ok_button"
-        android:textColor="@drawable/search_button_text_selector"
-        android:textSize="@dimen/text_size_36px" />
+    </LinearLayout>
 
 </RelativeLayout>

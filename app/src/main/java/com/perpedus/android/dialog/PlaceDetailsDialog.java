@@ -1,6 +1,7 @@
 package com.perpedus.android.dialog;
 
 import android.app.DialogFragment;
+import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -31,6 +32,7 @@ import com.perpedus.android.listener.MainActivityListener;
 import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.PreferencesUtils;
 import com.perpedus.android.util.UrlUtils;
+import com.perpedus.android.view.CustomToast;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -261,10 +263,14 @@ public class PlaceDetailsDialog extends DialogFragment {
                 @Override
                 public void onClick(View v) {
 
-                    // dial phone number
-                    Intent dialIntent = new Intent(Intent.ACTION_DIAL);
-                    dialIntent.setData(Uri.parse("tel:" + placeDetails.result.phone));
-                    startActivity(dialIntent);
+                    try {
+                        // dial phone number
+                        Intent dialIntent = new Intent(Intent.ACTION_DIAL);
+                        dialIntent.setData(Uri.parse("tel:" + placeDetails.result.phone));
+                        startActivity(dialIntent);
+                    } catch (ActivityNotFoundException e) {
+                        CustomToast.makeText(getActivity(), R.string.place_details_cannot_call, Toast.LENGTH_SHORT).show();
+                    }
                 }
             });
         }

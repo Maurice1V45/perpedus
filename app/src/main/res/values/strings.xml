@@ -43,6 +43,7 @@
 
     <!-- Place details -->
     <string name="place_details_no_phone">No phone available</string>
+    <string name="place_details_cannot_call">Cannot call this number</string>
 
     <!-- Sensors calibration -->
     <string name="sensors_calibration_never_show_again_text">Don\'t show me this message again</string>

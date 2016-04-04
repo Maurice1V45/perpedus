@@ -32,5 +32,4 @@ dependencies {
     compile 'com.android.support:design:23.1.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'me.relex:circleindicator:1.1.8@aar'
-    compile 'pl.droidsonroids.gif:android-gif-drawable:1.1.+'
 }

@@ -104,8 +104,6 @@ public class UrlUtils {
         // add API key
         builder.append("&key=" + Constants.PLACES_KEY);
 
-        Log.w("link", Constants.PLACES_SEARCH_URL + builder.toString());
-
         return Constants.PLACES_SEARCH_URL + builder.toString();
     }
 
