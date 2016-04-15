@@ -14,6 +14,7 @@ import java.util.List;
 public class DialogUtils {
 
     public static final String TAG_PLACE_TYPES_DIALOG = "tag_place_types_dialog";
+    public static final String TAG_APP_LANGUAGE_DIALOG = "tag_app_language_dialog";
     public static final String TAG_SEARCH_LANGUAGE_DIALOG = "tag_search_language_dialog";
     public static final String TAG_PLACE_DETAILS_DIALOG = "tag_place_details_dialog";
     public static final String TAG_CALIBRATE_SENSORS_DIALOG = "tag_calibrate_sensors_dialog";
@@ -22,6 +23,12 @@ public class DialogUtils {
         PlaceTypesDialog dialog = new PlaceTypesDialog();
         dialog.setMainActivityListener(mainActivityListener);
         dialog.show(fm, TAG_PLACE_TYPES_DIALOG);
+    }
+
+    public static void showAppLanguageDialog(FragmentManager fm, SettingsListener settingsListener) {
+        AppLanguageDialog dialog = new AppLanguageDialog();
+        dialog.setSettingsListener(settingsListener);
+        dialog.show(fm, TAG_APP_LANGUAGE_DIALOG);
     }
 
     public static void showSearchLanguageDialog(FragmentManager fm, SettingsListener settingsListener) {

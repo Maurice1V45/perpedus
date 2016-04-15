@@ -89,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="SimplePik"
+                android:text="GraphBerry"
                 android:textColor="@color/grey_blue"
                 android:textSize="@dimen/text_size_30px" />
 
@@ -97,7 +97,55 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:text="CoolPik"
+                android:text="Scott de Jonge"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Plainicon"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="SimpleIcon"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Icomoon"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Zurb"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Yannick"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Egor Rumyantsev"
                 android:textColor="@color/grey_blue"
                 android:textSize="@dimen/text_size_30px" />
 

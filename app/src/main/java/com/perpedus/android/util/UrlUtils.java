@@ -2,19 +2,10 @@ package com.perpedus.android.util;
 
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
-import java.util.List;
 
 /**
  * Util class that gets data and handles urls
@@ -29,35 +20,14 @@ public class UrlUtils {
      */
     public static String getJsonFromUrl(final String url) {
 
-        InputStream stream = null;
         String jsonString = "";
 
         try {
-            // defaultHttpClient
-            final DefaultHttpClient httpClient = new DefaultHttpClient();
-            final HttpGet httpGet = new HttpGet(url);
-
-            final HttpResponse httpResponse = httpClient.execute(httpGet);
-            final HttpEntity httpEntity = httpResponse.getEntity();
-            stream = httpEntity.getContent();
-
-            final BufferedReader reader = new BufferedReader(new InputStreamReader(stream, "utf-8"), 8);
-            final StringBuilder sb = new StringBuilder();
-            String line = null;
-            while ((line = reader.readLine()) != null) {
-                sb.append(line + "\n");
-            }
-            stream.close();
-            jsonString = sb.toString();
-
-        } catch (final UnsupportedEncodingException e) {
-            Log.e("ProductRetriever", "Error retrieving data from URL: " + e.toString());
-        } catch (final ClientProtocolException e) {
-            Log.e("ProductRetriever", "Error retrieving data from URL: " + e.toString());
-        } catch (final IOException e) {
-            Log.e("ProductRetriever", "Error retrieving data from URL: " + e.toString());
+            HttpRequest request = new HttpRequest(url);
+            jsonString = request.prepare().sendAndReadString();
+        } catch (IOException e) {
+            // oops
         }
-
         return jsonString;
 
     }

@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -21,6 +22,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -99,6 +101,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private View loadingIcon3;
     private View loadingIcon4;
     private View loadingLayout;
+    private View tutorialLayout;
+    private TextView tutorialText;
+    private TextView tutorialCompletedText;
+    private TextView tutorialNextButton;
+    private int tutorialLevel = 0;
     private static final int BACK_TO_EXIT_INTERVAL = 2000;
 
     private Callback<PlacesResponse> placesCallback = new Callback<PlacesResponse>() {
@@ -469,6 +476,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             portraitOrientation = false;
             placesDisplayView.setVisibility(View.GONE);
             placeFocusView.setVisibility(View.GONE);
+            tutorialLayout.setVisibility(View.GONE);
             noLandscapeLayout.setVisibility(View.VISIBLE);
             noLandscapeInnerLayout.setRotation(coordinateZ > 0 ? 90 : -90);
             handleFocusedPlace(null);
@@ -479,6 +487,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             placesDisplayView.setVisibility(View.VISIBLE);
             placeFocusView.setVisibility(View.VISIBLE);
             noLandscapeLayout.setVisibility(View.GONE);
+            if (tutorialLevel > 0) {
+                tutorialLayout.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -504,6 +515,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         loadingIcon3 = findViewById(R.id.loading_icon3);
         loadingIcon4 = findViewById(R.id.loading_icon4);
         loadingLayout = findViewById(R.id.loading_layout);
+        tutorialLayout = findViewById(R.id.tutorial_layout);
+        tutorialText = (TextView) findViewById(R.id.tutorial_text);
+        tutorialCompletedText = (TextView) findViewById(R.id.tutorial_completed_text);
+        tutorialNextButton = (TextView) findViewById(R.id.tutorial_next_button);
     }
 
     /**
@@ -517,6 +532,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             public void onClick(View v) {
 
                 if (focusedPlace != null) {
+
+                    // enable next button if tutorial level 2 is on
+                    if (tutorialLevel == 2) {
+                        tutorialNextButton.setVisibility(View.VISIBLE);
+                        tutorialCompletedText.setVisibility(View.VISIBLE);
+                    }
 
                     // hide views
                     placesDisplayView.setAlpha(0f);
@@ -536,6 +557,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 // open settings activity
                 Intent settingsIntent = new Intent(MainActivity.this, SettingsActivity.class);
                 startActivity(settingsIntent);
+            }
+        });
+        tutorialNextButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                incrementTutorialLevel();
             }
         });
     }
@@ -581,6 +609,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         if (!PreferencesUtils.getPreferences().getBoolean(Constants.PREF_SHOW_SENSORS_CALIBRATION_DIALOG, true)) {
             animateFocusView();
+            checkTutorialCompleted();
 
             // show views
             placesDisplayView.setAlpha(1f);
@@ -616,6 +645,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 placeDetailsView.startAnimation(invisibleAnimation);
             }
         } else {
+
+            // enable next button if tutorial level 1 is on
+            if (tutorialLevel == 1) {
+                tutorialNextButton.setVisibility(View.VISIBLE);
+                tutorialCompletedText.setVisibility(View.VISIBLE);
+            }
 
             // there is a already focused place
             if (this.focusedPlace == null) {
@@ -690,6 +725,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSearchButtonPressed(String name, String radius, String type) {
 
+        // enable next button if tutorial level 3 is on
+        if (tutorialLevel == 3) {
+            tutorialNextButton.setVisibility(View.VISIBLE);
+            tutorialCompletedText.setVisibility(View.VISIBLE);
+        }
+
         // close drawer and hide keyboard
         KeyboardUtils.closeKeyboard(MainActivity.this);
         drawerLayout.closeDrawer(Gravity.LEFT);
@@ -749,6 +790,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     public void onSensorsCalibrationDialogDismiss() {
         sensorCalibrationDialogVisible = false;
         animateFocusView();
+        checkTutorialCompleted();
         // show views
         placesDisplayView.setAlpha(1f);
         placeDetailsView.setAlpha(1f);
@@ -828,6 +870,46 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         loadingIcon3.startAnimation(loadingAnimation3);
         loadingIcon4.startAnimation(loadingAnimation4);
         loadingLayout.startAnimation(rotate);
+    }
+
+    private void incrementTutorialLevel() {
+        tutorialLevel++;
+        tutorialCompletedText.setVisibility(View.GONE);
+        switch (tutorialLevel) {
+            case 1:
+                tutorialText.setText(R.string.tutorial_text_level_1);
+                tutorialNextButton.setVisibility(View.GONE);
+                break;
+            case 2:
+                tutorialText.setText(R.string.tutorial_text_level_2);
+                tutorialNextButton.setVisibility(View.GONE);
+                break;
+            case 3:
+                tutorialText.setText(R.string.tutorial_text_level_3);
+                tutorialNextButton.setVisibility(View.GONE);
+                break;
+            case 4:
+                tutorialText.setText(R.string.tutorial_text_level_4);
+                tutorialNextButton.setText(R.string.tutorial_button_finish);
+                tutorialNextButton.setVisibility(View.VISIBLE);
+                break;
+            case 5:
+                tutorialLevel = 0;
+                tutorialLayout.setVisibility(View.GONE);
+                PreferencesUtils.storePreference(Constants.PREF_TUTORIAL_COMPLETED, true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void checkTutorialCompleted() {
+        if (!PreferencesUtils.getPreferences().getBoolean(Constants.PREF_TUTORIAL_COMPLETED, false)) {
+
+            // init tutorial
+            tutorialLayout.setVisibility(View.VISIBLE);
+            incrementTutorialLevel();
+        }
     }
 
 }

@@ -1,0 +1,255 @@
+<resources>
+
+    <string name="app_name">Perpedus</string>
+
+    <!-- Loading Activity -->
+    <string name="loading_retrieving_location_text">Căutăm locația ta&#8230;</string>
+    <string name="loading_retrieving_places_text">Căutăm locații din jurul tău&#8230;</string>
+    <string name="loading_enable_location_text">Te rugăm pornește-ți locația</string>
+    <string name="loading_retry_button">MAI ÎNCEARCĂ</string>
+    <string name="loading_places_error">Nu putem găsi locații</string>
+    <string name="toast_no_camera">Ne pare rău, telefonul tău nu are cameră foto</string>
+    <string name="toast_no_orientation">Ne pare rău, telefonul tău nu are senzor de orientare</string>
+    <string name="toast_no_gps">Ne pare rău, telefonul tău nu are gps</string>
+    <string name="toast_permission_denied_camera">Avem nevoie de cameră pentru a ne uita în jur</string>
+    <string name="toast_permission_denied_location">Avem nevoie de locația ta pentru a găsi locații din apropiere</string>
+
+    <!-- Main Activity -->
+    <string name="main_drawer_open">Deschide drawerul de navigație</string>
+    <string name="main_drawer_close">Închide drawerul de navigație</string>
+    <string name="main_no_landscape_text">Modul orizontal nu este disponibil</string>
+    <string name="main_retrieving_places_text">Căutam locații din apropiere</string>
+    <string name="main_please_wait_text">Te rugăm așteaptă&#8230;</string>
+    <string name="toast_places_found" formatted="false">%number% locații găsite</string>
+    <string name="toast_no_places_found" >Nici o locație găsită</string>
+    <string name="toast_places_error">Nu putem găsi locații</string>
+    <string name="toast_back_to_exit">Apasă înapoi din nou pentru a ieși</string>
+
+    <!-- Main Activity -->
+    <string name="tutorial_button_next">MAI DEPARTE</string>
+    <string name="tutorial_button_finish">AM ÎNȚELES</string>
+    <string name="tutorial_text_completed">(TERMINAT)</string>
+    <string name="tutorial_text_level_1">Uită-te în jurul tău prin telefon pentru a vedea locații din apropiere. Plasează o locație în chenarul galben.\n(Indiciu: Săgețile îți arată în ce parte sa te uiți pentru a vedea o locație)</string>
+    <string name="tutorial_text_level_2">Cât timp ești focusat pe o locație, apasă pe balonașul galben de jos pentru mai multe detalii.</string>
+    <string name="tutorial_text_level_3">Trage drawerul din stânga ecranului, tastează un cuvânt cheie si apasă CAUTĂ.</string>
+    <string name="tutorial_text_level_4">Felicitări, ai terminat tutorialul. Caută locații cu Perpedus!</string>
+
+    <!-- Drawer -->
+    <string name="drawer_title_text">Caută locații</string>
+    <string name="drawer_keyword_text">Ce cauți?</string>
+    <string name="drawer_radius_text">Suprafața de căutare</string>
+    <string name="drawer_km_text">km</string>
+    <string name="drawer_type_text">Categorie</string>
+    <string name="drawer_edit_type_text">EDITEAZĂ</string>
+    <string name="drawer_search_button">CAUTĂ</string>
+    <string name="types_all_types">Toate categoriile</string>
+
+    <string name="settings">Setări</string>
+    <string name="settings_app_language">Limba aplicației</string>
+    <string name="settings_language">Limba locațiilor</string>
+    <string name="settings_credits">Credite</string>
+    <string name="settings_privacy_policy">Politică de confidențialitate</string>
+    <string name="settings_terms_and_conditions">Termeni și condiții</string>
+
+    <!-- Place details -->
+    <string name="place_details_no_phone">Nu există număr de telefon</string>
+    <string name="place_details_cannot_call">Nu putem suna la numarul acesta</string>
+
+    <!-- Sensors calibration -->
+    <string name="sensors_calibration_never_show_again_text">Nu mai afișa mesajul acesta</string>
+    <string name="sensors_calibration_title_text">Hai să CALIBRAM telefonul tău</string>
+    <string name="sensors_calibration_description_text">Mișcă telefonul de câteva ori într-o formă de 8</string>
+    <string name="sensors_calibration_hint_text">Îți recomandăm să calibrezi telefonul de fiecare dată când folosești aplicația</string>
+    <string name="sensors_calibration_ok_button">AM CALIBRAT</string>
+
+    <!-- Place types -->
+    <string name="place_type_accounting">Contabilitate</string>
+    <string name="place_type_airport">Aeroport</string>
+    <string name="place_type_amusement_park">Parc de distracții</string>
+    <string name="place_type_aquarium">Acvariu</string>
+    <string name="place_type_art_gallery">Galerie de artă</string>
+    <string name="place_type_atm">Bancomat</string>
+    <string name="place_type_bakery">Brutărie</string>
+    <string name="place_type_bank">Bancă</string>
+    <string name="place_type_bar">Bar</string>
+    <string name="place_type_beauty_salon">Salon de înfrumusețare</string>
+    <string name="place_type_bicycle_store">Magazin de biciclete</string>
+    <string name="place_type_book_store">Librărie</string>
+    <string name="place_type_bowling_alley">Bowling</string>
+    <string name="place_type_bus_station">Stație de autobuz</string>
+    <string name="place_type_cafe">Cafenea</string>
+    <string name="place_type_campground">Teren de campare</string>
+    <string name="place_type_car_dealer">Dealer auto</string>
+    <string name="place_type_car_rental">Închirieri auto</string>
+    <string name="place_type_car_repair">Reparații auto</string>
+    <string name="place_type_car_wash">Spălătorie auto</string>
+    <string name="place_type_casino">Cazinou</string>
+    <string name="place_type_cemetery">Cimitir</string>
+    <string name="place_type_church">Biserică</string>
+    <string name="place_type_city_hall">Primărie</string>
+    <string name="place_type_clothing_store">Magazin de îmbrăcăminte</string>
+    <string name="place_type_convenience_store">Magazin alimentar</string>
+    <string name="place_type_courthouse">Tribunal</string>
+    <string name="place_type_dentist">Dentist</string>
+    <string name="place_type_department_store">Magazin universal</string>
+    <string name="place_type_doctor">Doctor</string>
+    <string name="place_type_electrician">Electrician</string>
+    <string name="place_type_electronics_store">Magazin de electronice</string>
+    <string name="place_type_embassy">Ambasadă</string>
+    <string name="place_type_establishment">Instituție</string>
+    <string name="place_type_finance">Finanțe</string>
+    <string name="place_type_fire_station">Stație de pompieri</string>
+    <string name="place_type_florist">Florărie</string>
+    <string name="place_type_food">Mâncare</string>
+    <string name="place_type_funeral_home">Casă funerară</string>
+    <string name="place_type_furniture_store">Magazin de mobilă</string>
+    <string name="place_type_gas_station">Benzinărie</string>
+    <string name="place_type_general_contractor">Antreprenor general</string>
+    <string name="place_type_grocery_or_supermarket">Alimentară sau supermarket</string>
+    <string name="place_type_gym">Sală de gimnastica</string>
+    <string name="place_type_hair_care">Frizerie</string>
+    <string name="place_type_hardware_store">Magazin de hardware</string>
+    <string name="place_type_health">Sănătate</string>
+    <string name="place_type_hindu_temple">Templu hindus</string>
+    <string name="place_type_home_goods_store">Magazin de bunuri casnice</string>
+    <string name="place_type_hospital">Spital</string>
+    <string name="place_type_insurance_agency">Agenție de asigurări</string>
+    <string name="place_type_jewelry_store">Magazin de bijuterii</string>
+    <string name="place_type_laundry">Spălătorie</string>
+    <string name="place_type_lawyer">Avocat</string>
+    <string name="place_type_library">Bibliotecă</string>
+    <string name="place_type_liquor_store">Magazin de băuturi alcoolice</string>
+    <string name="place_type_local_government_office">Agenție guvernamentală</string>
+    <string name="place_type_locksmith">Lăcătuș</string>
+    <string name="place_type_lodging">Hotel</string>
+    <string name="place_type_meal_delivery">Catering</string>
+    <string name="place_type_meal_takeaway">Mâncare la pachet</string>
+    <string name="place_type_mosque">Moschee</string>
+    <string name="place_type_movie_rental">Închiriere filme</string>
+    <string name="place_type_movie_theater">Cinema</string>
+    <string name="place_type_moving_company">Firmă de mutări</string>
+    <string name="place_type_museum">Muzeu</string>
+    <string name="place_type_night_club">Club de noapte</string>
+    <string name="place_type_painter">Zugrav</string>
+    <string name="place_type_park">Parc</string>
+    <string name="place_type_parking">Parcare</string>
+    <string name="place_type_pet_store">Magazin de animale</string>
+    <string name="place_type_pharmacy">Farmacie</string>
+    <string name="place_type_physiotherapist">Fizioterapie</string>
+    <string name="place_type_place_of_worship">Lăcaș de cult</string>
+    <string name="place_type_plumber">Instalator</string>
+    <string name="place_type_police">Poliție</string>
+    <string name="place_type_post_office">Oficiu poștal</string>
+    <string name="place_type_real_estate_agency">Agenție imobiliară</string>
+    <string name="place_type_restaurant">Restaurant</string>
+    <string name="place_type_roofing_contractor">Firmă de acoperișuri</string>
+    <string name="place_type_rv_park">Parc pentru rulote</string>
+    <string name="place_type_school">Școală</string>
+    <string name="place_type_shoe_store">Magazin de încălțăminte</string>
+    <string name="place_type_shopping_mall">Mall</string>
+    <string name="place_type_spa">Spa</string>
+    <string name="place_type_stadium">Stadion</string>
+    <string name="place_type_storage">Depozit</string>
+    <string name="place_type_store">Magazin</string>
+    <string name="place_type_subway_station">Stație de metrou</string>
+    <string name="place_type_synagogue">Sinagogă</string>
+    <string name="place_type_taxi_stand">Parcare de taxiuri</string>
+    <string name="place_type_train_station">Gară</string>
+    <string name="place_type_travel_agency">Agenție turistică</string>
+    <string name="place_type_university">Universitate</string>
+    <string name="place_type_veterinary_care">Veterinară</string>
+    <string name="place_type_zoo">Grădină zoologică</string>
+
+    <string name="place_type_administrative_area_level_1">Zonă administrativă de nivel 1</string>
+    <string name="place_type_administrative_area_level_2">Zonă administrativă de nivel 2</string>
+    <string name="place_type_administrative_area_level_3">Zonă administrativă de nivel 3</string>
+    <string name="place_type_administrative_area_level_4">Zonă administrativă de nivel 4</string>
+    <string name="place_type_administrative_area_level_5">Zonă administrativă de nivel 5</string>
+    <string name="place_type_colloquial_area">Zonă colocvială</string>
+    <string name="place_type_country">Țară</string>
+    <string name="place_type_floor">Etaj</string>
+    <string name="place_type_geocode">Geocodificare</string>
+    <string name="place_type_intersection">Intersecție</string>
+    <string name="place_type_locality">Localitate</string>
+    <string name="place_type_natural_feature">Caracteristică naturală</string>
+    <string name="place_type_neighborhood">Cartier</string>
+    <string name="place_type_political">Politic</string>
+    <string name="place_type_point_of_interest">Punct de interes</string>
+    <string name="place_type_post_box">Cutie poștală</string>
+    <string name="place_type_postal_code">Cod poștal</string>
+    <string name="place_type_postal_code_prefix">Prefix cod poștal</string>
+    <string name="place_type_postal_code_suffix">Sufix cod poștal</string>
+    <string name="place_type_postal_town">Oraș poștal</string>
+    <string name="place_type_premise">Premisă</string>
+    <string name="place_type_room">Cameră</string>
+    <string name="place_type_route">Traseu</string>
+    <string name="place_type_street_address">Adresa străzii</string>
+    <string name="place_type_street_number">Numărul străzii</string>
+    <string name="place_type_sublocality">Sublocalitate</string>
+    <string name="place_type_sublocality_level_5">Sublocalitate de nivel 5</string>
+    <string name="place_type_sublocality_level_4">Sublocalitate de nivel 4</string>
+    <string name="place_type_sublocality_level_3">Sublocalitate de nivel 3</string>
+    <string name="place_type_sublocality_level_2">Sublocalitate de nivel 2</string>
+    <string name="place_type_sublocality_level_1">Sublocalitate de nivel 1</string>
+    <string name="place_type_subpremise">Subpremisă</string>
+    <string name="place_type_transit_station">Stație de tranzit</string>
+
+    <string name="place_type_unknown">Necunoscut</string>
+
+    <!-- Languages -->
+    <string name="language_arabic">Arabă</string>
+    <string name="language_bulgarian">Bulgară</string>
+    <string name="language_bengali">Bengaleză</string>
+    <string name="language_catalan">Catalană</string>
+    <string name="language_czech">Cehă</string>
+    <string name="language_danish">Daneză</string>
+    <string name="language_german">Germană</string>
+    <string name="language_greek">Greacă</string>
+    <string name="language_english">Engleză</string>
+    <string name="language_english_australian">Engleză (Australiană)</string>
+    <string name="language_english_gb">	Engleză (Britanică)</string>
+    <string name="language_spanish">Spaniolă</string>
+    <string name="language_basque">Bască</string>
+    <string name="language_farsi">Farsi</string>
+    <string name="language_finnish">Finlandeză</string>
+    <string name="language_filipino">Filipineză</string>
+    <string name="language_french">Franceză</string>
+    <string name="language_galician">Galiciană</string>
+    <string name="language_gujarati">Gujarati</string>
+    <string name="language_hindi">Hindusă</string>
+    <string name="language_croatian">Croată</string>
+    <string name="language_hungarian">Maghiară</string>
+    <string name="language_indonesian">Indoneziană</string>
+    <string name="language_italian">Italiană</string>
+    <string name="language_hebrew">Ebraică</string>
+    <string name="language_japanese">Japoneză</string>
+    <string name="language_kannada">Kannada</string>
+    <string name="language_korean">Coreeană</string>
+    <string name="language_lithuanian">Lituaniană</string>
+    <string name="language_latvian">Letonă</string>
+    <string name="language_malayalam">Malayalam</string>
+    <string name="language_marathi">Marathi</string>
+    <string name="language_dutch">Olandeză</string>
+    <string name="language_norwegian">Norvegiană</string>
+    <string name="language_polish">Poloneză</string>
+    <string name="language_portugese">Portugheză</string>
+    <string name="language_portugese_brazil">Portugheză (Brazilia)</string>
+    <string name="language_portugese_portugal">Portugheză (Portugalia)</string>
+    <string name="language_romanian">Română</string>
+    <string name="language_russian">Rusă</string>
+    <string name="language_slovak">Slovacă</string>
+    <string name="language_slovenian">Slovenă</string>
+    <string name="language_serbian">Sârbă</string>
+    <string name="language_swedish">Suedeză</string>
+    <string name="language_tamil">Tamil</string>
+    <string name="language_telugu">Telugu</string>
+    <string name="language_thai">Tailandeză</string>
+    <string name="language_tagalog">Tagalogă</string>
+    <string name="language_turkish">Turcă</string>
+    <string name="language_ukrainian">Ucraineană</string>
+    <string name="language_vietnamese">Vietnameză</string>
+    <string name="language_chinese_simplified">Chineză (Simplificată)</string>
+    <string name="language_chinese_traditional">Chineză (Tradițională)</string>
+
+    <string name="action_settings">Setări</string>
+</resources>

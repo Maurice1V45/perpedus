@@ -25,6 +25,15 @@
     <string name="toast_places_error">Cannot retrieve places</string>
     <string name="toast_back_to_exit">Press back again to exit</string>
 
+    <!-- Main Activity -->
+    <string name="tutorial_button_next">NEXT</string>
+    <string name="tutorial_button_finish">FINISH</string>
+    <string name="tutorial_text_completed">(COMPLETED)</string>
+    <string name="tutorial_text_level_1">Look around you through your phone to see nearby places. Fix a place into the yellow marker.\n(Tip: The arrows indicate which way to look to find a place)</string>
+    <string name="tutorial_text_level_2">While keeping focus over a place, tap the yellow bubble at the bottom to see more details.</string>
+    <string name="tutorial_text_level_3">Drag the drawer from the left of the screen, type in a keyword and press SEARCH.</string>
+    <string name="tutorial_text_level_4">Congratulations, you completed the tutorial. Enjoy using Perpedus!</string>
+
     <!-- Drawer -->
     <string name="drawer_title_text">Search for places</string>
     <string name="drawer_keyword_text">What are you looking for?</string>
@@ -36,6 +45,7 @@
     <string name="types_all_types">All Categories</string>
 
     <string name="settings">Settings</string>
+    <string name="settings_app_language">App Language</string>
     <string name="settings_language">Places Language</string>
     <string name="settings_credits">Credits</string>
     <string name="settings_privacy_policy">Privacy Policy</string>
@@ -111,12 +121,12 @@
     <string name="place_type_liquor_store">Liquor Store</string>
     <string name="place_type_local_government_office">Local Government Office</string>
     <string name="place_type_locksmith">Locksmith</string>
-    <string name="place_type_lodging">Lodging</string>
+    <string name="place_type_lodging">Hotel</string>
     <string name="place_type_meal_delivery">Meal Delivery</string>
     <string name="place_type_meal_takeaway">Meal Takeaway</string>
     <string name="place_type_mosque">Mosque</string>
     <string name="place_type_movie_rental">Movie Rental</string>
-    <string name="place_type_movie_theater">Theater</string>
+    <string name="place_type_movie_theater">Cinema</string>
     <string name="place_type_moving_company">Moving Company</string>
     <string name="place_type_museum">Museum</string>
     <string name="place_type_night_club">Night Club</string>

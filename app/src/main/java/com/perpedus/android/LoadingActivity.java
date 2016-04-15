@@ -24,6 +24,7 @@ import com.perpedus.android.dom.PlacesResponse;
 import com.perpedus.android.listener.SmartLocationListener;
 import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.LanguageUtils;
+import com.perpedus.android.util.LocalizationUtils;
 import com.perpedus.android.util.LocationUtils;
 import com.perpedus.android.util.PreferencesUtils;
 
@@ -127,8 +128,6 @@ public class LoadingActivity extends Activity {
         // check if user has the required hardware in order to run this app
         checkUserHasHardwareRequirements();
 
-        //
-
     }
 
     /**
@@ -215,7 +214,7 @@ public class LoadingActivity extends Activity {
         }
 
         // remove location updates
-        if (ContextCompat.checkSelfPermission(LoadingActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(LoadingActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && (locationManager != null)) {
 
             // remove location updates on the listener
             locationManager.removeUpdates(gpsLocationListener);

@@ -114,6 +114,61 @@
 
         </RelativeLayout>
 
+        <RelativeLayout
+            android:id="@+id/tutorial_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="@dimen/bu5"
+            android:layout_marginRight="@dimen/bu1"
+            android:layout_marginTop="@dimen/bu6"
+            android:background="@drawable/tutorial_background_shape"
+            android:padding="@dimen/bu1"
+            android:visibility="gone">
+
+            <ImageView
+                android:id="@+id/tutorial_icon"
+                android:layout_width="@dimen/bu4"
+                android:layout_height="@dimen/bu4"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_logo" />
+
+            <TextView
+                android:id="@+id/tutorial_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/bu1"
+                android:layout_toRightOf="@+id/tutorial_icon"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_28px" />
+
+            <TextView
+                android:id="@+id/tutorial_completed_text"
+                android:layout_width="wrap_content"
+                android:layout_below="@+id/tutorial_text"
+                android:layout_alignLeft="@+id/tutorial_text"
+                android:layout_height="wrap_content"
+                android:text="@string/tutorial_text_completed"
+                android:textColor="@color/yellow_strong"
+                android:textSize="@dimen/text_size_26px" />
+
+            <TextView
+                android:id="@+id/tutorial_next_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/tutorial_text"
+                android:clickable="true"
+                android:paddingTop="@dimen/bu1"
+                android:paddingLeft="@dimen/bu1"
+                android:paddingRight="@dimen/bu1"
+                android:text="@string/tutorial_button_next"
+                android:textColor="@color/yellow_strong"
+                android:textSize="@dimen/text_size_36px" />
+
+
+        </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/progress_layout"
             android:layout_width="match_parent"

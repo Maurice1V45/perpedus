@@ -75,6 +75,13 @@ public class LanguageUtils {
         SUPPORTED_LANGUAGES_MAP.put("zh-TW", R.string.language_chinese_traditional);
     }
 
+    public static final Map<String, Integer> APP_LANGUAGES_MAP = new HashMap<String, Integer>();
+
+    static {
+        APP_LANGUAGES_MAP.put("en", R.string.language_english);
+        APP_LANGUAGES_MAP.put("ro", R.string.language_romanian);
+    }
+
     public static List<String> getSupportedLanguages(Context context) {
 
         // get all supported languages
@@ -87,6 +94,20 @@ public class LanguageUtils {
         Collections.sort(supportedLanguages, new LanguagesComparator(context));
 
         return supportedLanguages;
+    }
+
+    public static List<String> getAppLanguages(Context context) {
+
+        // get all app languages
+        List<String> appLanguages = new ArrayList<String>();
+        for (String key : APP_LANGUAGES_MAP.keySet()) {
+            appLanguages.add(key);
+        }
+
+        // sort languages alphabetically
+        Collections.sort(appLanguages, new LanguagesComparator(context));
+
+        return appLanguages;
     }
 
     /**

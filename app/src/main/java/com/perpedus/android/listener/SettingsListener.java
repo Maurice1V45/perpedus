@@ -12,5 +12,12 @@ public interface SettingsListener {
      */
     void onSearchLanguageUpdated(String language);
 
+    /**
+     * Triggered when app language has been changed
+     *
+     * @param language
+     */
+    void onAppLanguageUpdated(String language);
+
 
 }
