@@ -3,6 +3,7 @@ package com.perpedus.android.util;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationManager;
+import android.util.Log;
 
 import com.perpedus.android.listener.SmartLocationListener;
 
@@ -25,24 +26,27 @@ public class LocationUtils {
 
     }
 
-    public static final Location getLastLocation(Context context) {
-
-        // retrieve location manager
-        LocationManager locationManager = (LocationManager) context.getSystemService(
-                Context.LOCATION_SERVICE);
-        Location gpsLocation = locationManager.getLastKnownLocation("gps");
-        Location networkLocation = locationManager.getLastKnownLocation("network");
-        if (gpsLocation == null && networkLocation != null) {
-            return networkLocation;
-        } else if (networkLocation == null && gpsLocation != null) {
-            return gpsLocation;
-        } else if (networkLocation.getTime() > gpsLocation.getTime()) {
-            return networkLocation;
-        } else if (gpsLocation.getTime() > networkLocation.getTime()) {
-            return gpsLocation;
+    /**
+     * Returns the location in front of the user with 50 meters
+     *
+     * @param myLocation
+     * @param sensorX
+     * @return
+     */
+    public static Location getFrontLocation(Location myLocation, float sensorX) {
+        float bearing = sensorX + 90f;
+        if (bearing > 360f) {
+            bearing -= 360f;
         }
-        return null;
-
+        double distance = 0.05d / 6371d;
+        double myLatitude = Math.toRadians(myLocation.getLatitude());
+        double myLongitude = Math.toRadians(myLocation.getLongitude());
+        double frontLocationLat = Math.asin(Math.sin(myLatitude) * Math.cos(distance) + Math.cos(myLatitude) * Math.sin(distance) * Math.cos(bearing));
+        double frontLocationLong = myLongitude + Math.atan2(Math.sin(bearing) * Math.sin(distance) * Math.cos(myLatitude), Math.cos(distance) - Math.sin(myLatitude) * Math.sin(frontLocationLat));
+        Location frontLocation = new Location(myLocation.getProvider());
+        frontLocation.setLatitude(Math.toDegrees(frontLocationLat));
+        frontLocation.setLongitude(Math.toDegrees(frontLocationLong));
+        return frontLocation;
     }
 
 }

@@ -28,20 +28,41 @@
                 android:theme="@style/ToolBarStyle"
                 app:popupTheme="@style/AppTheme.PopupOverlay">
 
-                <RelativeLayout
-                    android:id="@+id/settings_button"
-                    android:layout_width="?attr/actionBarSize"
-                    android:layout_height="?attr/actionBarSize"
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="right"
-                    android:clickable="true">
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:layout_width="@dimen/bu2"
-                        android:layout_height="@dimen/bu2"
-                        android:layout_centerInParent="true"
-                        android:scaleType="fitXY"
-                        android:src="@drawable/settings_button_selector" />
-                </RelativeLayout>
+                    <RelativeLayout
+                        android:id="@+id/scan_front_button"
+                        android:layout_width="?attr/actionBarSize"
+                        android:layout_height="?attr/actionBarSize"
+                        android:clickable="true">
+
+                        <ImageView
+                            android:layout_width="@dimen/bu2"
+                            android:layout_height="@dimen/bu2"
+                            android:layout_centerInParent="true"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/scan_button_selector" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/settings_button"
+                        android:layout_width="?attr/actionBarSize"
+                        android:layout_height="?attr/actionBarSize"
+                        android:clickable="true">
+
+                        <ImageView
+                            android:layout_width="@dimen/bu2"
+                            android:layout_height="@dimen/bu2"
+                            android:layout_centerInParent="true"
+                            android:scaleType="fitXY"
+                            android:src="@drawable/settings_button_selector" />
+                    </RelativeLayout>
+
+                </LinearLayout>
 
             </android.support.v7.widget.Toolbar>
 
@@ -145,9 +166,9 @@
             <TextView
                 android:id="@+id/tutorial_completed_text"
                 android:layout_width="wrap_content"
-                android:layout_below="@+id/tutorial_text"
-                android:layout_alignLeft="@+id/tutorial_text"
                 android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/tutorial_text"
+                android:layout_below="@+id/tutorial_text"
                 android:text="@string/tutorial_text_completed"
                 android:textColor="@color/yellow_strong"
                 android:textSize="@dimen/text_size_26px" />
@@ -159,9 +180,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_below="@id/tutorial_text"
                 android:clickable="true"
-                android:paddingTop="@dimen/bu1"
                 android:paddingLeft="@dimen/bu1"
                 android:paddingRight="@dimen/bu1"
+                android:paddingTop="@dimen/bu1"
                 android:text="@string/tutorial_button_next"
                 android:textColor="@color/yellow_strong"
                 android:textSize="@dimen/text_size_36px" />
@@ -270,6 +291,51 @@
                     android:text="@string/main_no_landscape_text"
                     android:textColor="@color/white"
                     android:textSize="@dimen/text_size_30px" />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/no_gps_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/bu2"
+            android:alpha="0"
+            android:background="@drawable/tutorial_background_shape"
+            android:padding="@dimen/bu1">
+
+            <ImageView
+                android:id="@+id/no_gps_icon"
+                android:layout_width="@dimen/bu4"
+                android:layout_height="@dimen/bu4"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_no_gps" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/bu1"
+                android:layout_toRightOf="@+id/no_gps_icon"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_no_gps_title"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_36px"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/main_no_gps_description"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_30px" />
+
             </LinearLayout>
 
         </RelativeLayout>

@@ -15,6 +15,9 @@ import android.support.v4.content.ContextCompat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -336,7 +339,12 @@ public class LoadingActivity extends Activity {
 
     private void checkLocationEnabled() {
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            progressImage.setImageResource(R.drawable.progress_white);
+            progressImage.setImageResource(R.drawable.icon_progress_white);
+            RotateAnimation animation = new RotateAnimation(0f, 360f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            animation.setRepeatCount(Animation.INFINITE);
+            animation.setDuration(1000);
+            animation.setInterpolator(new LinearInterpolator());
+            progressImage.startAnimation(animation);
             progressText.setText(R.string.loading_retrieving_location_text);
         } else {
             progressImage.setImageResource(R.drawable.icon_exclamation_mark);

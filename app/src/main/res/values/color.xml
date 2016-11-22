@@ -29,5 +29,6 @@
     <color name="grey_blue_transparent">#B33F4F73</color>
     <color name="grey_blue_dark">#3A4868</color>
     <color name="grey_light">#56627C</color>
+    <color name="red_strong">#FF0000</color>
 
 </resources>

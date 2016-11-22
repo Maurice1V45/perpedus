@@ -22,7 +22,6 @@ public class Constants {
     public static final String PREFERENCES = "prefs";
     public static final String PREF_SELECTED_SEARCH_LANGUAGE = "pref_selected_search_language";
     public static final String PREF_SELECTED_APP_LANGUAGE = "pref_selected_app_language";
-    public static final String PREF_SHOW_SENSORS_CALIBRATION_DIALOG = "pref_show_sensor_calibration_dialog";
     public static final String PREF_TUTORIAL_COMPLETED = "pref_tutorial_completed";
 
     /* Intents */

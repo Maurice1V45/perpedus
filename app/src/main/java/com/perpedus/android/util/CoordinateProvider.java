@@ -63,7 +63,7 @@ public class CoordinateProvider {
 
         // calculate the angle. Angle represents the angle from the current location to the
         // target location considering we are facing the X angle
-        float angle = getAngleForDegrees(sensorX, bearing);
+        float angle = CoordinateUtils.getAngleForDegrees(sensorX, bearing);
 
         // calculate distance delta. The distance delta adds or removes some extra Y pixels
         // depending on how close/far the target place is
@@ -129,19 +129,6 @@ public class CoordinateProvider {
         this.furthestLocation = furthestLocation;
     }
 
-    /**
-     * Calculates the angle between 2 (0, 360) coordinates. The result will be in a (-180, 180)
-     * range
-     *
-     * @param a
-     * @param b
-     * @return
-     */
-    private float getAngleForDegrees(float a, float b) {
-        float d = Math.abs(a - b) % 360;
-        float r = d > 180 ? 360 - d : d;
-        int sign = (a - b >= 0 && a - b <= 180) || (a - b <= -180 && a- b>= -360) ? 1 : -1;
-        r *= -sign;
-        return r;
-    }
+
+
 }

@@ -43,6 +43,8 @@ import com.perpedus.android.listener.MainActivityListener;
 import com.perpedus.android.listener.SmartLocationListener;
 import com.perpedus.android.util.Constants;
 import com.perpedus.android.util.ConverterUtils;
+import com.perpedus.android.util.CoordinateProvider;
+import com.perpedus.android.util.CoordinateUtils;
 import com.perpedus.android.util.KeyboardUtils;
 import com.perpedus.android.util.LocationUtils;
 import com.perpedus.android.util.PreferencesUtils;
@@ -96,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private boolean sensorCalibrationDialogVisible = false;
     private long lastGpsLocationTime = 0;
     private boolean backPressedOnce;
+    private boolean noGps;
+    private boolean noGpsViewProhibited;
+    private View noGpsView;
     private View loadingIcon1;
     private View loadingIcon2;
     private View loadingIcon3;
@@ -106,9 +111,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private TextView tutorialCompletedText;
     private TextView tutorialNextButton;
     private int tutorialLevel = 0;
+    private View scanFrontButton;
     private static final int BACK_TO_EXIT_INTERVAL = 2000;
 
-    private Callback<PlacesResponse> placesCallback = new Callback<PlacesResponse>() {
+    private class PlacesCallback implements Callback<PlacesResponse> {
+
+        private boolean onlyClosest;
+
+        public PlacesCallback(boolean onlyClosest) {
+            this.onlyClosest = onlyClosest;
+        }
 
         @Override
         public void success(PlacesResponse placesResponse, Response response) {
@@ -121,12 +133,17 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 // sort the places by distance
                 Collections.sort(places, new PlacesComparator(myLocation));
 
+                // remove other places if onlyClosest flag is true
+                if (onlyClosest && !places.isEmpty()) {
+                    places.subList(0, places.size() - 1).clear();
+                }
+
                 // send the data to the places display view
                 placesDisplayView.setPlaces(places);
                 placesDisplayView.setClosestAndFurthestLocation();
 
                 // display a toast
-                Toast.makeText(MainActivity.this, getString(R.string.toast_places_found).replace("%number%", String.valueOf(places.size())), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, getString(places.size() == 1 ? R.string.toast_place_found : R.string.toast_places_found).replace("%number%", String.valueOf(places.size())), Toast.LENGTH_SHORT).show();
 
             } else if (Constants.GOOGLE_RESPONSE_NO_RESULTS.equals(placesResponse.status)) {
 
@@ -165,7 +182,87 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             // animate focus view
             animateFocusView();
         }
-    };
+    }
+
+    private class ScanFrontCallback implements Callback<PlacesResponse> {
+
+        private float targetBearing;
+
+        public ScanFrontCallback(float targetBearing) {
+            this.targetBearing = targetBearing;
+        }
+
+        @Override
+        public void success(PlacesResponse placesResponse, Response response) {
+
+            if (Constants.GOOGLE_RESPONSE_OK.equals(placesResponse.status)) {
+
+                List<Place> foundPlaces = ConverterUtils.fromResponseToPlaces(placesResponse);
+
+                if (!foundPlaces.isEmpty()) {
+                    float bestBearingDifference = 360f;
+                    Place bestPlace = null;
+
+                    // find the closest place to the direction the user is looking
+                    for (Place place : foundPlaces) {
+                        float placeBearing = myLocation.bearingTo(place.getLocation());
+                        float bearingDifference = Math.abs(CoordinateUtils.getAngleForDegrees(placeBearing, targetBearing));
+                        if (bearingDifference < bestBearingDifference) {
+                            bestBearingDifference = bearingDifference;
+                            bestPlace = place;
+                        }
+                    }
+
+                    // save the place
+                    places = new ArrayList<Place>();
+                    places.add(bestPlace);
+                }
+
+                // send the data to the places display view
+                placesDisplayView.setPlaces(places);
+                placesDisplayView.setClosestAndFurthestLocation();
+
+                // display a toast
+                Toast.makeText(MainActivity.this, getString(places.size() == 1 ? R.string.toast_place_found : R.string.toast_places_found).replace("%number%", String.valueOf(places.size())), Toast.LENGTH_SHORT).show();
+
+            } else if (Constants.GOOGLE_RESPONSE_NO_RESULTS.equals(placesResponse.status)) {
+
+                // clear the places
+                places.clear();
+
+                // send the data to the places display view
+                placesDisplayView.setPlaces(places);
+                placesDisplayView.setClosestAndFurthestLocation();
+
+                // display a toast
+                Toast.makeText(MainActivity.this, getString(R.string.toast_no_places_found), Toast.LENGTH_SHORT).show();
+
+            } else {
+
+                // display error toast
+                Toast.makeText(MainActivity.this, R.string.toast_places_error, Toast.LENGTH_SHORT).show();
+            }
+
+            // hide the progress view
+            hideProgressView();
+
+            // animate focus view
+            animateFocusView();
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+
+            // display error toast
+            Toast.makeText(MainActivity.this, R.string.toast_places_error, Toast.LENGTH_SHORT).show();
+
+            // hide the progress view
+            hideProgressView();
+
+            // animate focus view
+            animateFocusView();
+        }
+    }
 
     private Callback<PlaceDetailsResponse> placeDetailsCallback = new Callback<PlaceDetailsResponse>() {
 
@@ -253,11 +350,23 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     if (placesDisplayView != null) {
                         placesDisplayView.setCurrentLocation(myLocation);
                     }
+
+                    // if its network provider, show no gps view
+                    if (LocationManager.NETWORK_PROVIDER.equals(provider)) {
+                        noGps = true;
+                        if (!noGpsViewProhibited) {
+                            noGpsView.setVisibility(View.VISIBLE);
+                        }
+                    }
                 }
 
                 // if location is gps provided, save its time
                 if (LocationManager.GPS_PROVIDER.equals(provider)) {
                     lastGpsLocationTime = System.currentTimeMillis();
+
+                    // hide no gps view
+                    noGps = false;
+                    noGpsView.setVisibility(View.GONE);
                 }
             }
         }
@@ -373,6 +482,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // init places display view
         initPlacesDisplayView();
 
+        // set no gps to true of gps was not detected
+        if (LocationManager.NETWORK_PROVIDER.equals(myLocation.getProvider())) {
+            noGps = true;
+        }
+
         // display sensors calibration dialog
         displaySensorsCalibrationDialog();
 
@@ -394,6 +508,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     placeFocusView.setAlpha(1f - slideOffset);
                     placesDisplayView.setAlpha(1f - slideOffset);
                     placeDetailsView.setAlpha(1f - slideOffset);
+                    noGpsView.setAlpha(1f - slideOffset);
                 }
 
             }
@@ -444,10 +559,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     @Override
     public void onSensorChanged(SensorEvent event) {
 
-//        Log.w("asd",
-//                Math.round(event.values[0]) + "     " + Math.round(event.values[1]) + "     "
-//                        + Math.round(event.values[2]));
-
         if (placesDisplayView != null && !sensorCalibrationDialogVisible) {
             float coordinateX = event.values[0];
             float coordinateY = event.values[1];
@@ -477,6 +588,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             placesDisplayView.setVisibility(View.GONE);
             placeFocusView.setVisibility(View.GONE);
             tutorialLayout.setVisibility(View.GONE);
+            noGpsViewProhibited = true;
+            noGpsView.setVisibility(View.GONE);
             noLandscapeLayout.setVisibility(View.VISIBLE);
             noLandscapeInnerLayout.setRotation(coordinateZ > 0 ? 90 : -90);
             handleFocusedPlace(null);
@@ -486,6 +599,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             portraitOrientation = true;
             placesDisplayView.setVisibility(View.VISIBLE);
             placeFocusView.setVisibility(View.VISIBLE);
+            noGpsViewProhibited = false;
+            if (noGps) {
+                noGpsView.setVisibility(View.VISIBLE);
+            }
             noLandscapeLayout.setVisibility(View.GONE);
             if (tutorialLevel > 0) {
                 tutorialLayout.setVisibility(View.VISIBLE);
@@ -519,6 +636,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         tutorialText = (TextView) findViewById(R.id.tutorial_text);
         tutorialCompletedText = (TextView) findViewById(R.id.tutorial_completed_text);
         tutorialNextButton = (TextView) findViewById(R.id.tutorial_next_button);
+        noGpsView = findViewById(R.id.no_gps_view);
+        scanFrontButton = findViewById(R.id.scan_front_button);
     }
 
     /**
@@ -543,6 +662,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     placesDisplayView.setAlpha(0f);
                     placeFocusView.setAlpha(0f);
                     placeDetailsView.setAlpha(0f);
+                    noGpsView.setAlpha(0f);
 
                     // show place details dialog
                     DialogUtils.showPlaceDetailsDialog(getFragmentManager(), MainActivity.this, focusedPlace.getDetails(), screenWidth);
@@ -564,6 +684,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             @Override
             public void onClick(View v) {
                 incrementTutorialLevel();
+            }
+        });
+        scanFrontButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Location frontLocation = LocationUtils.getFrontLocation(myLocation, placesDisplayView.getSensorX());
+
+                // show progress view
+                showProgressView();
+
+                // clear current places
+                places.clear();
+
+                // hide focus view
+                placeFocusView.setVisibility(View.GONE);
+
+                String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, Constants.DEFAULT_LANGUAGE);
+                PerpedusApplication.getInstance().getPlacesService().getPlaces(frontLocation.getLatitude() + "," + frontLocation.getLongitude(), "50", language, null, null, Constants.PLACES_KEY, new ScanFrontCallback(myLocation.bearingTo(frontLocation)));
             }
         });
     }
@@ -607,15 +746,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         layoutParams.width = width / 2;
         layoutParams.height = width / 2;
 
-        if (!PreferencesUtils.getPreferences().getBoolean(Constants.PREF_SHOW_SENSORS_CALIBRATION_DIALOG, true)) {
-            animateFocusView();
-            checkTutorialCompleted();
-
-            // show views
-            placesDisplayView.setAlpha(1f);
-            placeDetailsView.setAlpha(1f);
-        }
-
     }
 
     /**
@@ -636,6 +766,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (focusedPlace == null) {
 
             // there is currently no focused place
+
+            // show no gps view if the case
+            if (noGps && !noGpsViewProhibited) {
+                noGpsView.setVisibility(View.VISIBLE);
+            }
+
             if (this.focusedPlace != null) {
 
                 // assign new focused place and animate place details
@@ -645,6 +781,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 placeDetailsView.startAnimation(invisibleAnimation);
             }
         } else {
+
+            // hide no gps view if the case
+            if (noGps) {
+                noGpsView.setVisibility(View.GONE);
+            }
 
             // enable next button if tutorial level 1 is on
             if (tutorialLevel == 1) {
@@ -723,7 +864,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     @Override
-    public void onSearchButtonPressed(String name, String radius, String type) {
+    public void onSearchButtonPressed(String name, String radius, String type, boolean onlyClosest) {
 
         // enable next button if tutorial level 3 is on
         if (tutorialLevel == 3) {
@@ -745,7 +886,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         placeFocusView.setVisibility(View.GONE);
 
         String language = PreferencesUtils.getPreferences().getString(Constants.PREF_SELECTED_SEARCH_LANGUAGE, Constants.DEFAULT_LANGUAGE);
-        PerpedusApplication.getInstance().getPlacesService().getPlaces(myLocation.getLatitude() + "," + myLocation.getLongitude(), radius, language, name, type, Constants.PLACES_KEY, placesCallback);
+        PerpedusApplication.getInstance().getPlacesService().getPlaces(myLocation.getLatitude() + "," + myLocation.getLongitude(), radius, language, name, type, Constants.PLACES_KEY, new PlacesCallback(onlyClosest));
 
     }
 
@@ -764,6 +905,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         placesDisplayView.setAlpha(1f);
         placeFocusView.setAlpha(1f);
         placeDetailsView.setAlpha(1f);
+        noGpsView.setAlpha(1f);
     }
 
     @Override
@@ -794,6 +936,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         // show views
         placesDisplayView.setAlpha(1f);
         placeDetailsView.setAlpha(1f);
+        noGpsView.setAlpha(1f);
     }
 
     /**
@@ -853,10 +996,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
      * Displays sensors calibration dialog
      */
     private void displaySensorsCalibrationDialog() {
-        if (PreferencesUtils.getPreferences().getBoolean(Constants.PREF_SHOW_SENSORS_CALIBRATION_DIALOG, true)) {
-            sensorCalibrationDialogVisible = true;
-            DialogUtils.showCalibrateSensorsDialog(getFragmentManager(), MainActivity.this);
-        }
+        sensorCalibrationDialogVisible = true;
+        DialogUtils.showCalibrateSensorsDialog(getFragmentManager(), MainActivity.this);
     }
 
     private void playProgressAnimation() {

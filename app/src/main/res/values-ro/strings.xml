@@ -20,6 +20,9 @@
     <string name="main_no_landscape_text">Modul orizontal nu este disponibil</string>
     <string name="main_retrieving_places_text">Căutam locații din apropiere</string>
     <string name="main_please_wait_text">Te rugăm așteaptă&#8230;</string>
+    <string name="main_no_gps_title">Nu există semnal GPS</string>
+    <string name="main_no_gps_description">Locațiile pot fi imprecise</string>
+    <string name="toast_place_found" formatted="false">%number% locație găsită</string>
     <string name="toast_places_found" formatted="false">%number% locații găsite</string>
     <string name="toast_no_places_found" >Nici o locație găsită</string>
     <string name="toast_places_error">Nu putem găsi locații</string>
@@ -40,11 +43,15 @@
     <string name="drawer_radius_text">Suprafața de căutare</string>
     <string name="drawer_km_text">km</string>
     <string name="drawer_type_text">Categorie</string>
+    <string name="drawer_number_text">Câte locații?</string>
+    <string name="drawer_all">Toate</string>
+    <string name="drawer_only_closest">Doar cea mai apropiată</string>
     <string name="drawer_edit_type_text">EDITEAZĂ</string>
     <string name="drawer_search_button">CAUTĂ</string>
     <string name="types_all_types">Toate categoriile</string>
+    <string name="types_field_hint">Numele categoriei</string>
 
-    <string name="settings">Setări</string>
+    <string name="settings_title">Setări</string>
     <string name="settings_app_language">Limba aplicației</string>
     <string name="settings_language">Limba locațiilor</string>
     <string name="settings_credits">Credite</string>
@@ -54,9 +61,10 @@
     <!-- Place details -->
     <string name="place_details_no_phone">Nu există număr de telefon</string>
     <string name="place_details_cannot_call">Nu putem suna la numarul acesta</string>
+    <string name="place_details_cannot_navigate">Nu ai o aplicație pentru navigare</string>
+    <string name="place_details_navigate">Du-mă acolo</string>
 
     <!-- Sensors calibration -->
-    <string name="sensors_calibration_never_show_again_text">Nu mai afișa mesajul acesta</string>
     <string name="sensors_calibration_title_text">Hai să CALIBRAM telefonul tău</string>
     <string name="sensors_calibration_description_text">Mișcă telefonul de câteva ori într-o formă de 8</string>
     <string name="sensors_calibration_hint_text">Îți recomandăm să calibrezi telefonul de fiecare dată când folosești aplicația</string>

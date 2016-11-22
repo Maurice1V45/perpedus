@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="none"
-            android:visibility="gone">
+            android:visibility="visible">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -100,31 +100,51 @@
                     android:textColor="@color/grey_blue"
                     android:textSize="@dimen/text_size_36px" />
 
-                <TextView
-                    android:id="@+id/phone_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/address_text"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/bu2"
-                    android:layout_marginTop="@dimen/bu2"
-                    android:background="@drawable/phone_button_selector"
-                    android:clickable="true"
-                    android:drawableLeft="@drawable/icon_phone"
-                    android:drawablePadding="@dimen/bu1"
-                    android:gravity="center"
-                    android:paddingBottom="@dimen/bu1"
-                    android:paddingLeft="@dimen/bu2"
-                    android:paddingRight="@dimen/bu2"
-                    android:paddingTop="@dimen/bu1"
-                    android:textColor="@color/grey_blue"
-                    android:textSize="@dimen/text_size_36px" />
+                    <TextView
+                        android:id="@+id/phone_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@+id/address_text"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/bu2"
+                        android:background="@drawable/phone_button_selector"
+                        android:clickable="true"
+                        android:drawableLeft="@drawable/icon_phone"
+                        android:drawablePadding="@dimen/bu1"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/bu1"
+                        android:paddingLeft="@dimen/bu2"
+                        android:paddingRight="@dimen/bu2"
+                        android:paddingTop="@dimen/bu1"
+                        android:textColor="@color/grey_blue"
+                        android:textSize="@dimen/text_size_36px" />
+
+                    <TextView
+                        android:id="@+id/navigate_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/bu2"
+                        android:layout_marginTop="@dimen/bu1"
+                        android:layout_below="@+id/phone_text"
+                        android:layout_centerHorizontal="true"
+                        android:background="@drawable/phone_button_selector"
+                        android:clickable="true"
+                        android:drawableLeft="@drawable/icon_navigate"
+                        android:drawablePadding="@dimen/bu1"
+                        android:text="@string/place_details_navigate"
+                        android:gravity="center"
+                        android:paddingBottom="@dimen/bu1"
+                        android:paddingLeft="@dimen/bu2"
+                        android:paddingRight="@dimen/bu2"
+                        android:paddingTop="@dimen/bu1"
+                        android:textColor="@color/grey_blue"
+                        android:textSize="@dimen/text_size_36px" />
 
                 <RelativeLayout
                     android:id="@+id/reviews_layout"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/bu15"
-                    android:layout_below="@+id/phone_text">
+                    android:layout_below="@+id/navigate_button">
 
                     <android.support.v4.view.ViewPager
                         android:id="@+id/reviews_view_pager"

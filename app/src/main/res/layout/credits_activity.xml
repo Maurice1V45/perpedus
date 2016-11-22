@@ -153,6 +153,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:text="Gregor Cresnar"
+                android:textColor="@color/grey_blue"
+                android:textSize="@dimen/text_size_30px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
                 android:text="... from flaticon.com"
                 android:textColor="@color/grey_blue"
                 android:textSize="@dimen/text_size_30px" />

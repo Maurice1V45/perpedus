@@ -3,10 +3,13 @@ package com.perpedus.android.view;
 import android.app.Activity;
 import android.content.Context;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,6 +36,8 @@ public class SearchDrawerLayout extends RelativeLayout {
     private View editCategoryButton;
     private ImageView categoryIcon;
     private TextView categoryText;
+    private CheckBox allCheckbox;
+    private CheckBox onlyClosestCheckbox;
 
     // set to 4 so that initial search will be on 5 km
     private static final int RADIUS_SEEK_BAR_INITIAL_POSITION = 4;
@@ -82,6 +87,8 @@ public class SearchDrawerLayout extends RelativeLayout {
         editCategoryButton = findViewById(R.id.edit_category_button);
         categoryIcon = (ImageView) findViewById(R.id.category_icon);
         categoryText = (TextView) findViewById(R.id.category_text);
+        allCheckbox = (CheckBox) findViewById(R.id.all_checkbox);
+        onlyClosestCheckbox = (CheckBox) findViewById(R.id.only_closest_checkbox);
     }
 
     /**
@@ -95,7 +102,7 @@ public class SearchDrawerLayout extends RelativeLayout {
             public void onClick(View v) {
                 String name = nameField.getText().toString();
                 String radius = String.valueOf((long) (radiusSeekBar.getProgress() + 1) * 1000);
-                mainActivityListener.onSearchButtonPressed(name, radius, selectedType);
+                mainActivityListener.onSearchButtonPressed(name, radius, selectedType, onlyClosestCheckbox.isChecked());
             }
         });
 
@@ -150,6 +157,42 @@ public class SearchDrawerLayout extends RelativeLayout {
 
                 // open dialog
                 DialogUtils.showPlaceTypesDialog(((Activity) getContext()).getFragmentManager(), mainActivityListener);
+            }
+        });
+
+        allCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+
+                    // uncheck only closest checkbox
+                    onlyClosestCheckbox.setChecked(false);
+
+                } else if (!onlyClosestCheckbox.isChecked()) {
+
+                    // keep it checked
+                    allCheckbox.setChecked(true);
+                }
+            }
+        });
+
+        onlyClosestCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+
+                if (isChecked) {
+
+                    // uncheck all checkbox
+                    allCheckbox.setChecked(false);
+
+                } else if (!allCheckbox.isChecked()) {
+
+                    // keep it checked
+                    onlyClosestCheckbox.setChecked(true);
+                }
             }
         });
 

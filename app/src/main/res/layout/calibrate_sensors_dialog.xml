@@ -40,24 +40,13 @@
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_36px" />
 
-        <CheckBox
-            android:id="@+id/never_show_again_checkbox"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/bu2"
-            android:layout_marginTop="@dimen/bu1_5"
-            android:button="@drawable/white_checkbox_selector"
-            android:text="@string/sensors_calibration_never_show_again_text"
-            android:textColor="@color/white"
-            android:textSize="@dimen/text_size_26px" />
-
         <Button
             android:id="@+id/ok_button"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/bu4"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="@dimen/bu2"
-            android:layout_marginTop="@dimen/bu2"
+            android:layout_marginTop="@dimen/bu3"
             android:background="@drawable/search_button_selector"
             android:paddingLeft="@dimen/bu2"
             android:paddingRight="@dimen/bu2"

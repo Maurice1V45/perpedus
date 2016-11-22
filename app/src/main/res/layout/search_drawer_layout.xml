@@ -149,6 +149,7 @@
                 </RelativeLayout>
 
                 <LinearLayout
+                    android:id="@+id/category_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/category_label"
@@ -176,12 +177,47 @@
             </RelativeLayout>
 
             <LinearLayout
-                android:id="@+id/selected_types_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/bu1"
                 android:layout_marginRight="@dimen/bu1"
-                android:orientation="vertical" />
+                android:layout_marginTop="@dimen/bu2_5"
+                android:background="@drawable/light_grey_rounded_shape"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/bu1"
+                    android:layout_marginTop="@dimen/bu1"
+                    android:text="@string/drawer_number_text"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_30px" />
+
+                <CheckBox
+                    android:id="@+id/all_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/bu1"
+                    android:layout_marginTop="@dimen/bu0_5"
+                    android:button="@drawable/white_checkbox_selector"
+                    android:checked="true"
+                    android:text="@string/drawer_all"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_30px" />
+
+                <CheckBox
+                    android:id="@+id/only_closest_checkbox"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/bu1"
+                    android:layout_marginLeft="@dimen/bu1"
+                    android:button="@drawable/white_checkbox_selector"
+                    android:text="@string/drawer_only_closest"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_30px" />
+
+            </LinearLayout>
 
             <Button
                 android:id="@+id/search_button"
@@ -196,6 +232,7 @@
                 android:text="@string/drawer_search_button"
                 android:textColor="@drawable/search_button_text_selector"
                 android:textSize="@dimen/text_size_36px" />
+
         </LinearLayout>
     </ScrollView>
 

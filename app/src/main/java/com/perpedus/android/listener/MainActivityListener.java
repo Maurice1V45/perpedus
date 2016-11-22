@@ -30,8 +30,9 @@ public interface MainActivityListener {
      * @param name
      * @param radius
      * @param type
+     * @param onlyClosest
      */
-    void onSearchButtonPressed(String name, String radius, String type);
+    void onSearchButtonPressed(String name, String radius, String type, boolean onlyClosest);
 
     /**
      * Triggered when the user updates the place type from the dialog

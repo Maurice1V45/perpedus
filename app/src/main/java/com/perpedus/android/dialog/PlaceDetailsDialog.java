@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -65,6 +66,7 @@ public class PlaceDetailsDialog extends DialogFragment {
     private View reviewsLeftArrow;
     private View reviewsRightArrow;
     private View reviewsLayout;
+    private View navigateButton;
     private boolean dataPopulated = false;
 
     private BroadcastReceiver placeDetailsReceiver = new BroadcastReceiver() {
@@ -116,6 +118,7 @@ public class PlaceDetailsDialog extends DialogFragment {
         reviewsLeftArrow = rootView.findViewById(R.id.reviews_left_arrow);
         reviewsRightArrow = rootView.findViewById(R.id.reviews_right_arrow);
         reviewsLayout = rootView.findViewById(R.id.reviews_layout);
+        navigateButton = rootView.findViewById(R.id.navigate_button);
     }
 
 
@@ -179,6 +182,24 @@ public class PlaceDetailsDialog extends DialogFragment {
             @Override
             public void onPageScrollStateChanged(int state) {
                 // nothing to do here
+            }
+        });
+
+        navigateButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                try {
+                    // launch navigation intent
+                    Intent navigationIntent = new Intent(android.content.Intent.ACTION_VIEW);
+                    double latitude = placeDetails.result.geometry.location.latitude;
+                    double longitude = placeDetails.result.geometry.location.longitude;
+                    navigationIntent.setData(Uri.parse("http://maps.google.com/maps?daddr=" + latitude + "," + longitude));
+                    startActivity(navigationIntent);
+                } catch (ActivityNotFoundException e) {
+                    CustomToast.makeText(getActivity(), R.string.place_details_cannot_navigate, Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

@@ -54,7 +54,7 @@ public class AppLanguageDialog extends DialogFragment implements AppLanguageDial
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.search_language_dialog, container);
+        View view = inflater.inflate(R.layout.app_language_dialog, container);
         initViews(view);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(0));
         return view;

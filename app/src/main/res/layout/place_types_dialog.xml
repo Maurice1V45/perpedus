@@ -8,6 +8,21 @@
         android:layout_marginBottom="@dimen/bu3"
         android:layout_marginTop="@dimen/bu3">
 
+        <EditText
+            android:id="@+id/type_field"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/bu4"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/bu0_5"
+            android:layout_marginRight="@dimen/bu0_5"
+            android:background="@drawable/place_type_background_shape"
+            android:hint="@string/types_field_hint"
+            android:imeOptions="actionDone"
+            android:inputType="textVisiblePassword|textCapSentences"
+            android:padding="@dimen/bu1"
+            android:textColor="@color/grey_blue"
+            android:textSize="@dimen/text_size_30px" />
+
         <Button
             android:id="@+id/all_button"
             android:layout_width="match_parent"
@@ -17,19 +32,20 @@
             android:layout_marginRight="@dimen/bu0_5"
             android:background="@drawable/place_type_selector"
             android:text="@string/types_all_types"
-            android:textColor="@color/grey_blue" />
+            android:textColor="@color/grey_blue"
+            android:textSize="@dimen/text_size_30px" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/place_types_recycler_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_above="@+id/all_button"
+            android:layout_below="@+id/type_field"
             android:layout_marginBottom="@dimen/bu0_5"
+            android:layout_marginTop="@dimen/bu0_5"
             android:clipToPadding="false"
-            android:paddingBottom="@dimen/bu0_5"
             android:paddingLeft="@dimen/bu0_5"
             android:paddingRight="@dimen/bu0_5"
-            android:paddingTop="@dimen/bu0_5"
             android:scrollbars="none" />
     </RelativeLayout>
 

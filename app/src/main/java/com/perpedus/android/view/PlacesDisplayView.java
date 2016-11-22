@@ -319,6 +319,18 @@ public class PlacesDisplayView extends View {
         this.sensorZ = sensorZ;
     }
 
+    public float getSensorX() {
+        return sensorX;
+    }
+
+    public float getSensorY() {
+        return sensorY;
+    }
+
+    public float getSensorZ() {
+        return sensorZ;
+    }
+
     /**
      * Adjusts arrow left margin in case it's out of the screen
      *
@@ -394,15 +406,12 @@ public class PlacesDisplayView extends View {
         } else {
             if (focusedLineHeight < pivotY) {
 
-                // set focused line height to 0
-                focusedLineHeight = 0f;
+                // set focused line height to pivot Y
+                focusedLineHeight = pivotY;
             } else {
 
                 // decrease focused line height up to 0
                 focusedLineHeight -= MY_FOCUSED_LINE_TICK_SIZE;
-                if (focusedLineHeight < 0f) {
-                    focusedLineHeight = 0f;
-                }
             }
         }
         place.setFocusLineHeight(focusedLineHeight);

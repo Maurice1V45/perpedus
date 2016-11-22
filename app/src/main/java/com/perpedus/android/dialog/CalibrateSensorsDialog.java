@@ -22,7 +22,6 @@ import com.perpedus.android.util.PreferencesUtils;
  */
 public class CalibrateSensorsDialog extends DialogFragment {
 
-    private CheckBox neverShowAgainCheckbox;
     private View okButton;
     private MainActivityListener mainActivityListener;
 
@@ -39,7 +38,6 @@ public class CalibrateSensorsDialog extends DialogFragment {
      * @param rootView
      */
     private void initViews(View rootView) {
-        neverShowAgainCheckbox = (CheckBox) rootView.findViewById(R.id.never_show_again_checkbox);
         okButton = rootView.findViewById(R.id.ok_button);
     }
 
@@ -67,13 +65,6 @@ public class CalibrateSensorsDialog extends DialogFragment {
      * Listeners initializer
      */
     private void initListeners() {
-        neverShowAgainCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                PreferencesUtils.storePreference(Constants.PREF_SHOW_SENSORS_CALIBRATION_DIALOG, !isChecked);
-            }
-        });
         okButton.setOnClickListener(new View.OnClickListener() {
 
             @Override

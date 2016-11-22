@@ -31,6 +31,9 @@ public class PlaceDetailsResponse implements Serializable{
 
     public class Result implements Serializable{
 
+        @SerializedName("geometry")
+        public Geometry geometry;
+
         @SerializedName("name")
         public String name;
 
@@ -52,6 +55,21 @@ public class PlaceDetailsResponse implements Serializable{
         @SerializedName("reviews")
         public Review[] reviews;
 
+    }
+
+    public class Location implements Serializable {
+
+        @SerializedName("lat")
+        public double latitude;
+
+        @SerializedName("lng")
+        public double longitude;
+    }
+
+    public class Geometry implements Serializable {
+
+        @SerializedName("location")
+        public Location location;
     }
 
     @SerializedName("result")

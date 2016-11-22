@@ -94,4 +94,7 @@ public class PlaceTypesGridAdapter extends RecyclerView.Adapter<PlaceTypesGridAd
 
     }
 
+    public void setPlaceTypes(List<String> placeTypes) {
+        this.placeTypes = placeTypes;
+    }
 }
