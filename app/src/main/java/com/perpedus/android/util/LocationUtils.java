@@ -34,10 +34,7 @@ public class LocationUtils {
      * @return
      */
     public static Location getFrontLocation(Location myLocation, float sensorX) {
-        float bearing = sensorX + 90f;
-        if (bearing > 360f) {
-            bearing -= 360f;
-        }
+        double bearing = Math.toRadians(sensorX);
         double distance = 0.05d / 6371d;
         double myLatitude = Math.toRadians(myLocation.getLatitude());
         double myLongitude = Math.toRadians(myLocation.getLongitude());

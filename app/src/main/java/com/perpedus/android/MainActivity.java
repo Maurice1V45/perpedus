@@ -24,6 +24,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -414,11 +415,33 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private void initCameraPreview() {
 
         // Create an instance of Camera
-        camera = Camera.open();
-        camera.setDisplayOrientation(0);
+        camera = Camera.open(Camera.CameraInfo.CAMERA_FACING_BACK);
+        setCameraDisplayOrientation(Camera.CameraInfo.CAMERA_FACING_BACK, camera);
 
         cameraPreview = new CameraPreview(this, camera);
         screenLayout.addView(cameraPreview, 0);
+    }
+
+    private void setCameraDisplayOrientation(int cameraId, android.hardware.Camera camera) {
+        Camera.CameraInfo info = new android.hardware.Camera.CameraInfo();
+        Camera.getCameraInfo(cameraId, info);
+        int rotation = getWindowManager().getDefaultDisplay().getRotation();
+        int degrees = 0;
+        switch (rotation) {
+            case Surface.ROTATION_0: degrees = 0; break;
+            case Surface.ROTATION_90: degrees = 90; break;
+            case Surface.ROTATION_180: degrees = 180; break;
+            case Surface.ROTATION_270: degrees = 270; break;
+        }
+
+        int result;
+        if (info.facing == Camera.CameraInfo.CAMERA_FACING_FRONT) {
+            result = (info.orientation + degrees) % 360;
+            result = (360 - result) % 360;  // compensate the mirror
+        } else {  // back-facing
+            result = (info.orientation - degrees + 360) % 360;
+        }
+        camera.setDisplayOrientation(result);
     }
 
     /**
@@ -548,10 +571,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
         // Create an instance of Camera
         if (camera == null) {
-            camera = Camera.open();
-            camera.setDisplayOrientation(0);
-            cameraPreview = new CameraPreview(this, camera);
-            screenLayout.addView(cameraPreview, 0);
+            initCameraPreview();
         }
     }
 
